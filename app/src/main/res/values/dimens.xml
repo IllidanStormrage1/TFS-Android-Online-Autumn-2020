@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_default_space">16dp</dimen>
+    <dimen name="margin_in_rc">8dp</dimen>
+    <dimen name="padding_rc">96dp</dimen>
+    <dimen name="padding_card">6dp</dimen>
+    <dimen name="radius_card">8dp</dimen>
+</resources>

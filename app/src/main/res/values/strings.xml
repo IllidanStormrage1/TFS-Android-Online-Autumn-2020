@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">HomeWork15.09.20</string>
+    <string name="main_description_button">Открыть вторую активити</string>
+    <string name="second_start_service">Запустить сервис</string>
+</resources>
