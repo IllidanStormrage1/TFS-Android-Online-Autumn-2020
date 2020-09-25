@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="com.example.homework2.view.SocialPostLayout">
+
+    <ImageView
+        android:id="@+id/avatar_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:layout_marginEnd="@dimen/default_margin"
+        android:id="@+id/group_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="Mobius fghfg fghfhf"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <TextView
+        android:id="@+id/post_creation_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="вчера в 18:32"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:text="Пока интернет-соединения не стали идеальными, для приложений остается актуален офлайн-режим. Как сделать так, чтобы его реализация была простой и эффективной?
+
+Алексей Быков (Revolut) расскажет на Mobius, как за пару вечеров написать свою собственную абстракцию для эффективной работы с источником данных и в дальнейшем реализовать runtime/database-кеширование всего в несколько строк кода.
+
+Подробности и билеты — на сайте конференции."
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle" />
+
+    <ImageView
+        android:layout_marginTop="8dp"
+        android:id="@+id/content_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/content_iv" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/like_btn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="470"
+        app:icon="@drawable/ic_heart" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/comment_btn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="70"
+        app:icon="@drawable/ic_chat" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/share_btn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        app:icon="@drawable/ic_next" />
+
+</merge>
