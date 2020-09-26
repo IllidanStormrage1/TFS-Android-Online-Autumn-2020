@@ -5,12 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import androidx.core.view.*
+import androidx.core.view.marginEnd
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
 import com.example.homework2.R
 import kotlinx.android.synthetic.main.item_post.view.*
-import kotlin.math.max
-
-const val IMAGE_VIEW_HEIGHT = 360
 
 class SocialPostLayout @JvmOverloads constructor(
     context: Context,
@@ -30,7 +30,7 @@ class SocialPostLayout @JvmOverloads constructor(
         width += avatar_iv.measuredWidth
 
         measureChildWithMargins(group_name_tv, widthMeasureSpec, width, heightMeasureSpec, height)
-        height += group_name_tv.measuredHeight
+        height += group_name_tv.measuredHeight + group_name_tv.marginTop
 
         measureChildWithMargins(
             post_creation_date_tv,
@@ -39,20 +39,19 @@ class SocialPostLayout @JvmOverloads constructor(
             heightMeasureSpec,
             height
         )
-        height += post_creation_date_tv.measuredHeight
+        height =
+            avatar_iv.measuredHeight.coerceAtLeast(group_name_tv.measuredHeight + group_name_tv.marginTop + post_creation_date_tv.measuredHeight)
         width = 0
 
         measureChildWithMargins(content_tv, widthMeasureSpec, width, heightMeasureSpec, height)
-        height += content_tv.measuredHeight
+        height += content_tv.measuredHeight + content_tv.marginTop
 
-        val contentImageViewSpec =
-            MeasureSpec.makeMeasureSpec(IMAGE_VIEW_HEIGHT.dp, MeasureSpec.EXACTLY)
-        measureChildWithMargins(content_iv, widthMeasureSpec, width, contentImageViewSpec, height)
-        height += content_iv.measuredHeight
+        measureChildWithMargins(content_iv, widthMeasureSpec, width, heightMeasureSpec, height)
+        height += content_iv.measuredHeight + content_iv.marginTop
 
         measureChildWithMargins(like_btn, widthMeasureSpec, width, heightMeasureSpec, height)
         width += like_btn.measuredWidth
-        height += like_btn.measuredHeight
+        height += like_btn.measuredHeight + like_btn.marginTop
 
         measureChildWithMargins(comment_btn, widthMeasureSpec, width, heightMeasureSpec, height)
         width += comment_btn.measuredWidth
@@ -66,16 +65,14 @@ class SocialPostLayout @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var currentStart = l + paddingStart + marginLeft
         var currentTop = l + paddingTop + marginTop
-        var subCurrentTop = 0
 
         avatar_iv.layout(
             currentStart + avatar_iv.marginStart,
             currentTop + avatar_iv.marginTop,
-            avatar_iv.measuredWidth - avatar_iv.marginEnd,
+            avatar_iv.measuredWidth + avatar_iv.marginEnd,
             currentTop + avatar_iv.measuredHeight
         )
-        currentStart += avatar_iv.measuredWidth + avatar_iv.marginStart
-        subCurrentTop += avatar_iv.measuredWidth + avatar_iv.marginStart
+        currentStart += avatar_iv.measuredWidth
 
         group_name_tv.layout(
             currentStart + group_name_tv.marginStart,
@@ -88,17 +85,18 @@ class SocialPostLayout @JvmOverloads constructor(
         post_creation_date_tv.layout(
             currentStart + post_creation_date_tv.marginStart,
             currentTop + post_creation_date_tv.marginTop,
-            measuredWidth - post_creation_date_tv.marginEnd,
+            currentStart + post_creation_date_tv.measuredWidth + post_creation_date_tv.marginStart,
             currentTop + post_creation_date_tv.measuredHeight
         )
-        currentTop += post_creation_date_tv.measuredHeight + post_creation_date_tv.marginTop
+        currentTop =
+            avatar_iv.measuredHeight.coerceAtLeast(group_name_tv.measuredHeight + group_name_tv.marginTop + post_creation_date_tv.measuredHeight)
         currentStart = 0
 
         content_tv.layout(
             currentStart + content_tv.marginStart,
-            max(currentTop, subCurrentTop) + content_tv.marginTop,
+            currentTop + content_tv.marginTop,
             measuredWidth - content_tv.marginEnd,
-            max(currentTop, subCurrentTop) + content_tv.measuredHeight + content_tv.marginTop
+            currentTop + content_tv.measuredHeight + content_tv.marginTop
         )
         currentTop += content_tv.measuredHeight + content_tv.marginTop
 
@@ -106,7 +104,7 @@ class SocialPostLayout @JvmOverloads constructor(
             currentStart + content_iv.marginStart,
             currentTop + content_iv.marginTop,
             measuredWidth - content_iv.marginEnd,
-            currentTop + content_iv.measuredHeight
+            currentTop + content_iv.measuredHeight + content_iv.marginTop
         )
         currentTop += content_iv.measuredHeight + content_iv.marginTop
 
@@ -140,11 +138,4 @@ class SocialPostLayout @JvmOverloads constructor(
 
     override fun generateDefaultLayoutParams(): LayoutParams =
         MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-
-    private val Int.dp: Int
-        get() {
-            val scale = context.resources.displayMetrics.density
-            return (this * scale + 0.5f).toInt()
-        }
-
 }
