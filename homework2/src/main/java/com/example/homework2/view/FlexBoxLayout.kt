@@ -7,8 +7,8 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.children
 import androidx.core.view.marginLeft
 import androidx.core.view.marginTop
-import kotlin.math.max
 
+@Suppress("unused")
 class FlexBoxLayout @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
@@ -21,42 +21,50 @@ class FlexBoxLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desiredWidth = MeasureSpec.getSize(widthMeasureSpec)
-        var currentWidth = 0
-        var currentHeight = 0
+        var measuredHeight = 0
+        var lineWidth = 0
+        var lineHeight = 0
 
         children.forEach { child ->
-            measureChildWithMargins(child, widthMeasureSpec, currentWidth, heightMeasureSpec, currentHeight)
-            currentWidth += child.measuredWidth
+            measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, measuredHeight)
 
-            if (currentWidth > desiredWidth) {
-                currentWidth = 0
-                currentHeight += child.measuredHeight
-            } else {
-                currentHeight = max(currentHeight, child.measuredHeight)
+            if (lineWidth + child.measuredWidth > desiredWidth) {
+                measuredHeight += lineHeight
+                lineHeight = 0
+                lineWidth = 0
             }
+            lineHeight = maxOf(lineHeight, child.measuredHeight)
+            lineWidth += child.measuredWidth
         }
 
-        setMeasuredDimension(desiredWidth, resolveSize(currentHeight, heightMeasureSpec))
+        if (lineHeight != 0) measuredHeight += lineHeight
+
+        setMeasuredDimension(desiredWidth, measuredHeight)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var currentLeft = l + paddingLeft + marginLeft
-        var currentTop = t + paddingTop + marginTop
+        var currentTop = t + paddingLeft + marginTop
+        var lineHeight = 0
 
         children.forEach { child ->
-            val width = currentLeft + child.measuredWidth
-            if (width > measuredWidth) {
-                currentTop += child.measuredHeight
-                currentLeft = paddingLeft + marginLeft + l
+            if (currentLeft + child.measuredWidth > measuredWidth) {
+                currentTop += lineHeight
+                currentLeft = 0
+                lineHeight = 0
             }
-            child.layout(currentLeft, currentTop, width, currentTop + child.measuredHeight)
+            child.layout(
+                currentLeft,
+                currentTop,
+                currentLeft + child.measuredWidth,
+                currentTop + child.measuredHeight
+            )
+            lineHeight = maxOf(lineHeight, child.measuredHeight)
             currentLeft += child.measuredWidth
         }
     }
 
-    override fun generateLayoutParams(attrs: AttributeSet): LayoutParams =
-        MarginLayoutParams(context, attrs)
+    override fun generateLayoutParams(attrs: AttributeSet) = MarginLayoutParams(context, attrs)
 
-    override fun generateDefaultLayoutParams(): LayoutParams =
-        MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+    override fun generateDefaultLayoutParams() = MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT)
 }

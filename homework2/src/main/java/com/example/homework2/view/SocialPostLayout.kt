@@ -12,6 +12,7 @@ import androidx.core.view.marginTop
 import com.example.homework2.R
 import kotlinx.android.synthetic.main.item_post.view.*
 
+@Suppress("unused")
 class SocialPostLayout @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
@@ -39,8 +40,9 @@ class SocialPostLayout @JvmOverloads constructor(
             heightMeasureSpec,
             height
         )
-        height =
-            avatar_iv.measuredHeight.coerceAtLeast(group_name_tv.measuredHeight + group_name_tv.marginTop + post_creation_date_tv.measuredHeight)
+        height = avatar_iv.measuredHeight.coerceAtLeast(
+            group_name_tv.measuredHeight + group_name_tv.marginTop + post_creation_date_tv.measuredHeight
+        )
         width = 0
 
         measureChildWithMargins(content_tv, widthMeasureSpec, width, heightMeasureSpec, height)
@@ -50,7 +52,7 @@ class SocialPostLayout @JvmOverloads constructor(
         height += content_iv.measuredHeight + content_iv.marginTop
 
         measureChildWithMargins(like_btn, widthMeasureSpec, width, heightMeasureSpec, height)
-        width += like_btn.measuredWidth
+        width += like_btn.measuredWidth + like_btn.marginStart
         height += like_btn.measuredHeight + like_btn.marginTop
 
         measureChildWithMargins(comment_btn, widthMeasureSpec, width, heightMeasureSpec, height)
@@ -88,8 +90,9 @@ class SocialPostLayout @JvmOverloads constructor(
             currentStart + post_creation_date_tv.measuredWidth + post_creation_date_tv.marginStart,
             currentTop + post_creation_date_tv.measuredHeight
         )
-        currentTop =
-            avatar_iv.measuredHeight.coerceAtLeast(group_name_tv.measuredHeight + group_name_tv.marginTop + post_creation_date_tv.measuredHeight)
+        currentTop = avatar_iv.measuredHeight.coerceAtLeast(
+            group_name_tv.measuredHeight + group_name_tv.marginTop + post_creation_date_tv.measuredHeight
+        )
         currentStart = 0
 
         content_tv.layout(
@@ -117,7 +120,7 @@ class SocialPostLayout @JvmOverloads constructor(
         currentStart += like_btn.measuredWidth
 
         comment_btn.layout(
-            currentStart,
+            currentStart + like_btn.marginStart,
             currentTop,
             currentStart + comment_btn.measuredWidth,
             currentTop + comment_btn.measuredHeight
@@ -125,7 +128,7 @@ class SocialPostLayout @JvmOverloads constructor(
         currentStart += comment_btn.measuredWidth
 
         share_btn.layout(
-            currentStart,
+            currentStart + like_btn.marginStart,
             currentTop,
             currentStart + share_btn.measuredWidth,
             currentTop + share_btn.measuredHeight

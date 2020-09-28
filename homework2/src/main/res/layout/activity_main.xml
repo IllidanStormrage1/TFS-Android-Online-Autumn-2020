@@ -1,104 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <com.example.homework2.view.FlexBoxLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="32sp"
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="48sp"
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="32sp"
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
             android:textSize="24sp"
-            android:textStyle="bold" />
-
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="12sp"
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="32sp"
+            tools:text="hello" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="345"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="32sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="48sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="48sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="48sp"
+            tools:text="hello" />
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            tools:ignore="ContentDescription"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="72sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="32sp"
+            tools:text="hello1111111ала" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="42sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="122sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="86sp"
+            tools:text="hello" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            tools:text="hello" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="12sp"
+            tools:text="hello" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="64sp"
+            tools:text="hello" />
 
-
-
-
-
-
-
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimary"
+            android:textColor="?colorSurface"
+            android:textSize="32sp"
+            tools:text="hello" />
 
     </com.example.homework2.view.FlexBoxLayout>
 
 </FrameLayout>
-

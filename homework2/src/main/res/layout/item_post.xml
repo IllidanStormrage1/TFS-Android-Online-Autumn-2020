@@ -21,7 +21,7 @@
         android:id="@+id/group_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/default_margin_small"
         android:layout_marginTop="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
         android:ellipsize="end"
@@ -33,7 +33,7 @@
         android:id="@+id/post_creation_date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/default_margin_small"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         tools:text="23 сен в 18:08" />
 
@@ -42,22 +42,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/default_margin_small"
         android:layout_marginEnd="@dimen/default_margin"
+        android:autoLink="all"
         android:ellipsize="end"
-        android:lines="10"
+        android:linksClickable="true"
+        android:maxLines="10"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-        tools:text="Пока интернет-соединения не стали идеальными, для приложений остается актуален офлайн-режим. Как сделать так, чтобы его реализация была простой и эффективной?
-
-Алексей Быков (Revolut) расскажет на Mobius, как за пару вечеров написать свою собственную абстракцию для эффективной работы с источником данных и в дальнейшем реализовать runtime/database-кеширование всего в несколько строк кода.
-
-Подробности и билеты — на сайте конференции." />
+        android:textColorLink="?colorAccent"
+        tools:text="@string/tools_sample_text" />
 
     <ImageView
         android:id="@+id/content_iv"
         android:layout_width="match_parent"
         android:layout_height="228dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/default_margin_small"
         android:contentDescription="@string/content_description"
         android:scaleType="centerCrop"
         tools:src="@mipmap/ic_launcher" />
@@ -67,6 +66,7 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_heart"
         app:iconTint="?colorPrimary"
