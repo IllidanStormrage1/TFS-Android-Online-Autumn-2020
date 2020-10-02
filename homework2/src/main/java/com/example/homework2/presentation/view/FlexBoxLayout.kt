@@ -1,4 +1,4 @@
-package com.example.homework2.view
+package com.example.homework2.presentation.view
 
 import android.content.Context
 import android.util.AttributeSet

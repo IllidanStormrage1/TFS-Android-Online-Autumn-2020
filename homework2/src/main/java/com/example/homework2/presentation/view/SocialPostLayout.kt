@@ -1,4 +1,4 @@
-package com.example.homework2.view
+package com.example.homework2.presentation.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.item_post.view.*
 
 @Suppress("unused")
 class SocialPostLayout @JvmOverloads constructor(
+    private val isImage: Boolean = true,
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttrs: Int = 0
@@ -21,6 +22,7 @@ class SocialPostLayout @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.item_post, this, true)
+        setBackgroundColor(resources.getColor(R.color.colorWhile))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -48,8 +50,10 @@ class SocialPostLayout @JvmOverloads constructor(
         measureChildWithMargins(content_tv, widthMeasureSpec, width, heightMeasureSpec, height)
         height += content_tv.measuredHeight + content_tv.marginTop
 
-        measureChildWithMargins(content_iv, widthMeasureSpec, width, heightMeasureSpec, height)
-        height += content_iv.measuredHeight + content_iv.marginTop
+        if (isImage) {
+            measureChildWithMargins(content_iv, widthMeasureSpec, width, heightMeasureSpec, height)
+            height += content_iv.measuredHeight + content_iv.marginTop
+        }
 
         measureChildWithMargins(like_btn, widthMeasureSpec, width, heightMeasureSpec, height)
         width += like_btn.measuredWidth + like_btn.marginStart
@@ -103,34 +107,36 @@ class SocialPostLayout @JvmOverloads constructor(
         )
         currentTop += content_tv.measuredHeight + content_tv.marginTop
 
-        content_iv.layout(
-            currentStart + content_iv.marginStart,
-            currentTop + content_iv.marginTop,
-            measuredWidth - content_iv.marginEnd,
-            currentTop + content_iv.measuredHeight + content_iv.marginTop
-        )
-        currentTop += content_iv.measuredHeight + content_iv.marginTop
+        if (isImage) {
+            content_iv.layout(
+                currentStart + content_iv.marginStart,
+                currentTop + content_iv.marginTop,
+                measuredWidth - content_iv.marginEnd,
+                currentTop + content_iv.measuredHeight + content_iv.marginTop
+            )
+            currentTop += content_iv.measuredHeight + content_iv.marginTop
+        }
 
         like_btn.layout(
             currentStart + like_btn.marginStart,
             currentTop + like_btn.marginTop,
-            like_btn.measuredWidth - like_btn.marginEnd,
+            like_btn.measuredWidth + like_btn.marginStart,
             currentTop + like_btn.measuredHeight
         )
         currentStart += like_btn.measuredWidth
 
         comment_btn.layout(
             currentStart + like_btn.marginStart,
-            currentTop,
-            currentStart + comment_btn.measuredWidth,
+            currentTop + like_btn.marginTop,
+            currentStart + comment_btn.measuredWidth + like_btn.marginStart,
             currentTop + comment_btn.measuredHeight
         )
         currentStart += comment_btn.measuredWidth
 
         share_btn.layout(
             currentStart + like_btn.marginStart,
-            currentTop,
-            currentStart + share_btn.measuredWidth,
+            currentTop + like_btn.marginTop,
+            currentStart + share_btn.measuredWidth + like_btn.marginStart,
             currentTop + share_btn.measuredHeight
         )
         currentStart += share_btn.measuredWidth
@@ -140,5 +146,5 @@ class SocialPostLayout @JvmOverloads constructor(
         MarginLayoutParams(context, attrs)
 
     override fun generateDefaultLayoutParams(): LayoutParams =
-        MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 }

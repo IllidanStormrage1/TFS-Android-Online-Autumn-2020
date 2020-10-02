@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="com.example.homework2.view.SocialPostLayout">
+    tools:parentTag="com.example.homework2.presentation.view.SocialPostLayout">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatar_iv"
@@ -55,10 +55,9 @@
     <ImageView
         android:id="@+id/content_iv"
         android:layout_width="match_parent"
-        android:layout_height="228dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin_small"
         android:contentDescription="@string/content_description"
-        android:scaleType="centerCrop"
         tools:src="@mipmap/ic_launcher" />
 
     <com.google.android.material.button.MaterialButton
@@ -70,7 +69,6 @@
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_heart"
         app:iconTint="?colorPrimary"
-        app:rippleColor="@null"
         tools:text="470" />
 
     <com.google.android.material.button.MaterialButton
@@ -81,7 +79,6 @@
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_chat"
         app:iconTint="?colorPrimary"
-        app:rippleColor="@null"
         tools:text="70" />
 
     <com.google.android.material.button.MaterialButton
@@ -92,7 +89,6 @@
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_next"
         app:iconTint="?colorPrimary"
-        app:rippleColor="@null"
         tools:text="12" />
 
 </merge>
