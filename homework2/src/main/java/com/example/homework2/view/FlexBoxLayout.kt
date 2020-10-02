@@ -20,6 +20,7 @@ class FlexBoxLayout @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val desiredWidth = MeasureSpec.getSize(widthMeasureSpec)
         var measuredHeight = 0
         var lineWidth = 0
