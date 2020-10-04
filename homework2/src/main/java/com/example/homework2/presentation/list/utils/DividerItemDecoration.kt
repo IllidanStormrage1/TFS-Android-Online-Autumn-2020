@@ -7,19 +7,20 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
 import androidx.core.view.children
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
+import com.example.homework2.domain.Post
+import com.example.homework2.domain.utils.prepareDateString
 
-interface DividerAdapterCallback {
-    fun getData(position: Int): Int
-}
-
-class DividerIItemDecoration(
+class DividerItemDecoration(
     @DimenRes private val verticalSpace: Int,
     @Dimension private val headerTextSize: Float,
     private val textColor: Int,
-    private val callback: DividerAdapterCallback
+    private val callback: DividerAdapterCallback,
 ) : RecyclerView.ItemDecoration() {
+
+    interface DividerAdapterCallback {
+        fun getData(): List<Post>
+    }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = textColor
@@ -28,16 +29,19 @@ class DividerIItemDecoration(
     }
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        super.onDraw(canvas, parent, state)
+        val items = callback.getData()
+        val groupedItems = groupList(items)
         parent.children.forEach { child ->
             val childPosition = parent.getChildAdapterPosition(child)
-            val isHeader = isHeader(childPosition)
-            if (childPosition == 0 || isHeader) {
+            if (childPosition < 0) return@forEach
+            val item = items[childPosition]
+            if (childPosition == 0 || isHeader(groupedItems, item)) {
                 val fontMetrics = textPaint.fontMetrics
-                val baseline = (child.top - verticalSpace + child.top - fontMetrics.bottom - fontMetrics.top) / 2
+                val baseline =
+                    (child.top - verticalSpace + child.top - fontMetrics.bottom - fontMetrics.top) / 2
                 canvas.drawText(
-                    callback.getData(childPosition).toString(),
-                    (child.width/2).toFloat(),
+                    getKey(groupedItems, item),
+                    (child.width / 2).toFloat(),
                     baseline,
                     textPaint
                 )
@@ -49,15 +53,16 @@ class DividerIItemDecoration(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         outRect.top = verticalSpace
     }
 
-    private fun isHeader(position: Int): Boolean =
-//            val preData = callback.getData(position - 1)
-//            val data = callback.getData(position)
-//            preData != data
-            false
+    private fun isHeader(groupedItems: Map<String, List<Post>>, item: Post) =
+        groupedItems.values.any { it[0] == item }
 
+    private fun groupList(data: List<Post>) = data.groupBy { prepareDateString(it.dateInMills) }
+
+    private fun getKey(groupedItems: Map<String, List<Post>>, item: Post) =
+        groupedItems.keys.find { (groupedItems[it] ?: error("")).contains(item) } ?: ""
 }

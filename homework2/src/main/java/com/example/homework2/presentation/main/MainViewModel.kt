@@ -23,4 +23,8 @@ class MainViewModel : ViewModel() {
         _postsLiveData.value = UIState.Loading(false)
         _postsLiveData.value = UIState.Success(data)
     }
+
+    fun like(id: Int) {
+        repositoryImpl.likePost(id)
+    }
 }

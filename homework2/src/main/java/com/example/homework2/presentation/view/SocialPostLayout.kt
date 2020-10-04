@@ -1,10 +1,9 @@
 package com.example.homework2.presentation.view
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.core.view.marginEnd
 import androidx.core.view.marginLeft
 import androidx.core.view.marginStart
@@ -12,17 +11,19 @@ import androidx.core.view.marginTop
 import com.example.homework2.R
 import kotlinx.android.synthetic.main.item_post.view.*
 
-@Suppress("unused")
 class SocialPostLayout @JvmOverloads constructor(
     private val isImage: Boolean = true,
     context: Context,
     attributeSet: AttributeSet? = null,
-    defStyleAttrs: Int = 0
+    defStyleAttrs: Int = 0,
 ) : ViewGroup(context, attributeSet, defStyleAttrs) {
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.item_post, this, true)
-        setBackgroundColor(resources.getColor(R.color.colorWhile))
+        setWillNotDraw(true)
+        inflate(context, R.layout.item_post, this)
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        setBackgroundColor(Color.WHITE)
+        elevation = resources.getDimension(R.dimen.elevation_card)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -47,8 +48,10 @@ class SocialPostLayout @JvmOverloads constructor(
         )
         width = 0
 
-        measureChildWithMargins(content_tv, widthMeasureSpec, width, heightMeasureSpec, height)
-        height += content_tv.measuredHeight + content_tv.marginTop
+        if (content_tv.text.isNotBlank()) {
+            measureChildWithMargins(content_tv, widthMeasureSpec, width, heightMeasureSpec, height)
+            height += content_tv.measuredHeight + content_tv.marginTop
+        }
 
         if (isImage) {
             measureChildWithMargins(content_iv, widthMeasureSpec, width, heightMeasureSpec, height)
@@ -99,13 +102,15 @@ class SocialPostLayout @JvmOverloads constructor(
         )
         currentStart = 0
 
-        content_tv.layout(
-            currentStart + content_tv.marginStart,
-            currentTop + content_tv.marginTop,
-            measuredWidth - content_tv.marginEnd,
-            currentTop + content_tv.measuredHeight + content_tv.marginTop
-        )
-        currentTop += content_tv.measuredHeight + content_tv.marginTop
+        if (content_tv.text.isNotBlank()) {
+            content_tv.layout(
+                currentStart + content_tv.marginStart,
+                currentTop + content_tv.marginTop,
+                measuredWidth - content_tv.marginEnd,
+                currentTop + content_tv.measuredHeight + content_tv.marginTop
+            )
+            currentTop += content_tv.measuredHeight + content_tv.marginTop
+        }
 
         if (isImage) {
             content_iv.layout(

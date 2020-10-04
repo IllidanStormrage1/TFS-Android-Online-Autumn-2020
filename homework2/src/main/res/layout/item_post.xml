@@ -47,7 +47,7 @@
         android:autoLink="all"
         android:ellipsize="end"
         android:linksClickable="true"
-        android:maxLines="10"
+        android:maxLines="15"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
         android:textColorLink="?colorAccent"
         tools:text="@string/tools_sample_text" />
@@ -55,7 +55,7 @@
     <ImageView
         android:id="@+id/content_iv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="320dp"
         android:layout_marginTop="@dimen/default_margin_small"
         android:contentDescription="@string/content_description"
         tools:src="@mipmap/ic_launcher" />
@@ -68,7 +68,8 @@
         android:layout_marginStart="@dimen/default_margin_small"
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_heart"
-        app:iconTint="?colorPrimary"
+        app:iconTint="@null"
+        app:rippleColor="@null"
         tools:text="470" />
 
     <com.google.android.material.button.MaterialButton
@@ -77,8 +78,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?colorPrimaryDark"
-        app:icon="@drawable/ic_chat"
-        app:iconTint="?colorPrimary"
+        app:icon="@drawable/ic_comment"
+        app:iconTint="@null"
+        app:rippleColor="@null"
         tools:text="70" />
 
     <com.google.android.material.button.MaterialButton
@@ -87,8 +89,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?colorPrimaryDark"
-        app:icon="@drawable/ic_next"
-        app:iconTint="?colorPrimary"
+        app:icon="@drawable/ic_share"
+        app:iconTint="@null"
+        app:rippleColor="@null"
         tools:text="12" />
 
 </merge>
