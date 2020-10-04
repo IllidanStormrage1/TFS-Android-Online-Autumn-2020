@@ -70,7 +70,7 @@
         app:icon="@drawable/ic_heart"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="470" />
+        tools:text="47sf0" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/comment_btn"
@@ -81,7 +81,7 @@
         app:icon="@drawable/ic_comment"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="70" />
+        tools:text="75550" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/share_btn"
@@ -92,6 +92,6 @@
         app:icon="@drawable/ic_share"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="12" />
+        tools:text="1352" />
 
 </merge>

@@ -23,6 +23,7 @@ class DividerItemDecoration(
     }
 
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        isFakeBoldText = true
         color = textColor
         textSize = headerTextSize
         textAlign = Paint.Align.CENTER

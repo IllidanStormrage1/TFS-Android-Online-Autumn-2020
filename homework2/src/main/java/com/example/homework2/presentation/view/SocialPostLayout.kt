@@ -60,13 +60,13 @@ class SocialPostLayout @JvmOverloads constructor(
 
         measureChildWithMargins(like_btn, widthMeasureSpec, width, heightMeasureSpec, height)
         width += like_btn.measuredWidth + like_btn.marginStart
-        height += like_btn.measuredHeight + like_btn.marginTop
 
         measureChildWithMargins(comment_btn, widthMeasureSpec, width, heightMeasureSpec, height)
         width += comment_btn.measuredWidth
 
         measureChildWithMargins(share_btn, widthMeasureSpec, width, heightMeasureSpec, height)
         width += share_btn.measuredWidth
+        height += like_btn.measuredHeight + like_btn.marginTop
 
         setMeasuredDimension(resolveSize(width, widthMeasureSpec), height)
     }
@@ -125,7 +125,7 @@ class SocialPostLayout @JvmOverloads constructor(
         like_btn.layout(
             currentStart + like_btn.marginStart,
             currentTop + like_btn.marginTop,
-            like_btn.measuredWidth + like_btn.marginStart,
+            like_btn.measuredWidth + like_btn.marginStart + currentStart,
             currentTop + like_btn.measuredHeight
         )
         currentStart += like_btn.measuredWidth
@@ -133,7 +133,7 @@ class SocialPostLayout @JvmOverloads constructor(
         comment_btn.layout(
             currentStart + like_btn.marginStart,
             currentTop + like_btn.marginTop,
-            currentStart + comment_btn.measuredWidth + like_btn.marginStart,
+            comment_btn.measuredWidth + like_btn.marginStart + currentStart,
             currentTop + comment_btn.measuredHeight
         )
         currentStart += comment_btn.measuredWidth
@@ -141,7 +141,7 @@ class SocialPostLayout @JvmOverloads constructor(
         share_btn.layout(
             currentStart + like_btn.marginStart,
             currentTop + like_btn.marginTop,
-            currentStart + share_btn.measuredWidth + like_btn.marginStart,
+            share_btn.measuredWidth + like_btn.marginStart + currentStart,
             currentTop + share_btn.measuredHeight
         )
         currentStart += share_btn.measuredWidth
