@@ -1,7 +1,6 @@
 package com.example.homework2.presentation.view
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.view.marginEnd
@@ -9,21 +8,20 @@ import androidx.core.view.marginLeft
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import com.example.homework2.R
-import kotlinx.android.synthetic.main.item_post.view.*
+import kotlinx.android.synthetic.main.merge_item_post.view.*
+import kotlin.properties.Delegates
 
 class SocialPostLayout @JvmOverloads constructor(
-    private val isImage: Boolean = true,
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttrs: Int = 0,
 ) : ViewGroup(context, attributeSet, defStyleAttrs) {
 
+    var isImage: Boolean by Delegates.notNull()
+
     init {
         setWillNotDraw(true)
-        inflate(context, R.layout.item_post, this)
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        setBackgroundColor(Color.WHITE)
-        elevation = resources.getDimension(R.dimen.elevation_card)
+        inflate(context, R.layout.merge_item_post, this)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

@@ -37,14 +37,13 @@ class MainActivity : AppCompatActivity() {
         main_posts_rv.adapter = adapter
         main_posts_rv.addItemDecoration(
             DividerItemDecoration(
-                resources.getDimensionPixelSize(R.dimen.default_margin),
-                resources.getDimension(R.dimen.header_text_size),
-                ContextCompat.getColor(this, R.color.colorLightBlue),
+                verticalSpace = resources.getDimensionPixelSize(R.dimen.default_margin),
+                headerTextSize = resources.getDimension(R.dimen.header_text_size),
+                textColor = ContextCompat.getColor(this, R.color.colorLightBlue),
                 adapter
             )
         )
-        val ith = ItemTouchHelper(MainItemTouchHelper(adapter))
-        ith.attachToRecyclerView(main_posts_rv)
+        ItemTouchHelper(MainItemTouchHelper(adapter)).also { it.attachToRecyclerView(main_posts_rv) }
         main_posts_srl.setOnRefreshListener { mainViewModel.onRefresh() }
     }
 }

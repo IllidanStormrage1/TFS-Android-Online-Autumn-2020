@@ -4,12 +4,17 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homework2.R
 import com.example.homework2.domain.Post
+import com.example.homework2.presentation.view.SocialPostLayout
 import com.example.homework2.presentation.view.loadFromUrl
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_post.*
+import kotlinx.android.synthetic.main.merge_item_post.*
 
-class TextViewHolder(override val containerView: View) :
+class TextViewHolder(override val containerView: View, isImage: Boolean) :
     RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+    init {
+        (itemView as SocialPostLayout).isImage = isImage
+    }
 
     fun bind(item: Post) {
         item.run {

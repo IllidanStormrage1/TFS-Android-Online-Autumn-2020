@@ -1,12 +1,13 @@
 package com.example.homework2.domain.utils
 
 import android.text.format.DateUtils
-import android.util.TimeUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val DATE_FORMAT = "d MMMM h:mm"
+
 fun dateStringFromTimeInMillis(timeInMillis: Long): String =
-    SimpleDateFormat("d MMMM h:mm", Locale.ROOT).format(timeInMillis)
+    SimpleDateFormat(DATE_FORMAT, Locale.ROOT).format(timeInMillis)
 
 fun prepareDateString(timeInMilliseconds: Long) = when {
     DateUtils.isToday(timeInMilliseconds) -> "Сегодня"

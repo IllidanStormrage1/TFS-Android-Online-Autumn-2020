@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
 import androidx.core.view.children
@@ -14,7 +15,7 @@ import com.example.homework2.domain.utils.prepareDateString
 class DividerItemDecoration(
     @DimenRes private val verticalSpace: Int,
     @Dimension private val headerTextSize: Float,
-    private val textColor: Int,
+    @ColorInt private val textColor: Int,
     private val callback: DividerAdapterCallback,
 ) : RecyclerView.ItemDecoration() {
 
@@ -34,7 +35,7 @@ class DividerItemDecoration(
         val groupedItems = groupList(items)
         parent.children.forEach { child ->
             val childPosition = parent.getChildAdapterPosition(child)
-            if (childPosition < 0) return@forEach
+            if (childPosition == RecyclerView.NO_POSITION) return@forEach
             val item = items[childPosition]
             if (childPosition == 0 || isHeader(groupedItems, item)) {
                 val fontMetrics = textPaint.fontMetrics

@@ -3,13 +3,14 @@ package com.example.homework2.presentation.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.homework2.R
 import com.example.homework2.domain.Post
 import com.example.homework2.presentation.list.holder.TextImageViewHolder
 import com.example.homework2.presentation.list.holder.TextViewHolder
 import com.example.homework2.presentation.list.utils.DiffCallback
 import com.example.homework2.presentation.list.utils.DividerItemDecoration
 import com.example.homework2.presentation.list.utils.MainItemTouchHelper
-import com.example.homework2.presentation.view.SocialPostLayout
+import com.example.homework2.presentation.view.inflate
 
 const val TEXT_HOLDER_TYPE = 0
 const val TEXT_IMAGE_HOLDER_TYPE = 1
@@ -30,20 +31,8 @@ class PostsAdapter(private val callback: (id: Int) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            TEXT_IMAGE_HOLDER_TYPE ->
-                TextImageViewHolder(
-                    SocialPostLayout(
-                        isImage = true,
-                        context = parent.context,
-                    )
-                )
-            TEXT_HOLDER_TYPE ->
-                TextViewHolder(
-                    SocialPostLayout(
-                        isImage = false,
-                        context = parent.context
-                    )
-                )
+            TEXT_IMAGE_HOLDER_TYPE -> TextImageViewHolder(parent.inflate(R.layout.item_post), isImage = true)
+            TEXT_HOLDER_TYPE -> TextViewHolder(parent.inflate(R.layout.item_post), isImage = false)
             else -> throw IllegalStateException()
         }
 
