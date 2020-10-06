@@ -21,8 +21,8 @@ class MainItemTouchHelper(private val adapter: ItemTouchHelperAdapter) :
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         when (direction) {
-            START -> adapter.onItemSwipedStart(viewHolder.adapterPosition)
-            END -> adapter.onItemSwipedEnd(viewHolder.adapterPosition)
+            START -> adapter.onItemSwipedStart(viewHolder.absoluteAdapterPosition)
+            END -> adapter.onItemSwipedEnd(viewHolder.absoluteAdapterPosition)
         }
     }
 }

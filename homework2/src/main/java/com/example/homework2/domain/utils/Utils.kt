@@ -13,3 +13,8 @@ fun prepareDateString(timeInMilliseconds: Long) = when {
     DateUtils.isToday(timeInMilliseconds) -> "Сегодня"
     else -> DateUtils.getRelativeTimeSpanString(timeInMilliseconds).toString()
 }
+
+fun <T> MutableCollection<T>.clearAndAddAll(collection: Collection<T>) {
+    clear()
+    addAll(collection)
+}

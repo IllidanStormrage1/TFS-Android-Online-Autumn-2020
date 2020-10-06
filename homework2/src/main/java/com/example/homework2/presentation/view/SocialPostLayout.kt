@@ -3,13 +3,13 @@ package com.example.homework2.presentation.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
+import androidx.core.content.withStyledAttributes
 import androidx.core.view.marginEnd
 import androidx.core.view.marginLeft
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
 import com.example.homework2.R
 import kotlinx.android.synthetic.main.merge_item_post.view.*
-import kotlin.properties.Delegates
 
 class SocialPostLayout @JvmOverloads constructor(
     context: Context,
@@ -17,11 +17,15 @@ class SocialPostLayout @JvmOverloads constructor(
     defStyleAttrs: Int = 0,
 ) : ViewGroup(context, attributeSet, defStyleAttrs) {
 
-    var isImage: Boolean by Delegates.notNull()
+    var isImage = false
 
     init {
         setWillNotDraw(true)
         inflate(context, R.layout.merge_item_post, this)
+        context.withStyledAttributes(attributeSet, R.styleable.SocialPostLayout, defStyleAttrs) {
+            isImage = getBoolean(R.styleable.SocialPostLayout_isImage, false)
+            content_tv.maxLines = getInteger(R.styleable.SocialPostLayout_textMaxLines, 15)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

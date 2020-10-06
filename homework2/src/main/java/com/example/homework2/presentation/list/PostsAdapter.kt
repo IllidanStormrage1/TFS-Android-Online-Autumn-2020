@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homework2.R
 import com.example.homework2.domain.Post
+import com.example.homework2.domain.utils.clearAndAddAll
 import com.example.homework2.presentation.list.holder.TextImageViewHolder
 import com.example.homework2.presentation.list.holder.TextViewHolder
 import com.example.homework2.presentation.list.utils.DiffCallback
@@ -15,23 +16,28 @@ import com.example.homework2.presentation.view.inflate
 const val TEXT_HOLDER_TYPE = 0
 const val TEXT_IMAGE_HOLDER_TYPE = 1
 
-class PostsAdapter(private val callback: (id: Int) -> Unit) :
+class PostsAdapter(private val callback: AdapterCallback) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     MainItemTouchHelper.ItemTouchHelperAdapter, DividerItemDecoration.DividerAdapterCallback {
+
+    interface AdapterCallback {
+        fun like(id: Int)
+        fun onClick(item: Post)
+    }
 
     private val currentList = mutableListOf<Post>()
 
     fun submitList(newItems: List<Post>) {
         val diffCallback = DiffCallback(currentList, newItems)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        currentList.clear()
-        currentList.addAll(newItems)
+        currentList.clearAndAddAll(newItems)
         diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            TEXT_IMAGE_HOLDER_TYPE -> TextImageViewHolder(parent.inflate(R.layout.item_post), isImage = true)
+            TEXT_IMAGE_HOLDER_TYPE -> TextImageViewHolder(parent.inflate(R.layout.item_post),
+                isImage = true)
             TEXT_HOLDER_TYPE -> TextViewHolder(parent.inflate(R.layout.item_post), isImage = false)
             else -> throw IllegalStateException()
         }
@@ -54,9 +60,19 @@ class PostsAdapter(private val callback: (id: Int) -> Unit) :
     }
 
     override fun onItemSwipedEnd(position: Int) {
-        callback(currentList[position].id)
+        callback.like(currentList[position].id)
         notifyItemChanged(position)
     }
 
     override fun getData(): List<Post> = currentList
+
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.itemView.setOnClickListener { callback.onClick(currentList[holder.absoluteAdapterPosition]) }
+    }
+
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.setOnClickListener(null)
+    }
 }

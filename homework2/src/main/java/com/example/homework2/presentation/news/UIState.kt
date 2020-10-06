@@ -1,4 +1,4 @@
-package com.example.homework2.presentation.main
+package com.example.homework2.presentation.news
 
 import com.example.homework2.domain.Post
 

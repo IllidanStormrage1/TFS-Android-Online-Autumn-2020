@@ -1,5 +1,9 @@
 package com.example.homework2.domain
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Post(
     val avatarUrl: String?,
     val displayName: String,
@@ -14,4 +18,4 @@ data class Post(
     val repostsCount: Int,
     var isFavorite: Boolean,
     var likesCount: Int,
-)
+) : Parcelable

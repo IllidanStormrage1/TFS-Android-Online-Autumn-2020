@@ -44,10 +44,7 @@
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginTop="@dimen/default_margin_small"
         android:layout_marginEnd="@dimen/default_margin"
-        android:autoLink="all"
         android:ellipsize="end"
-        android:linksClickable="true"
-        android:maxLines="15"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
         android:textColorLink="?colorAccent"
         tools:text="@string/tools_sample_text" />
