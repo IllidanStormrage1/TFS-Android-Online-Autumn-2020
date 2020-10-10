@@ -1,4 +1,4 @@
-package com.example.homework2.presentation
+package com.example.homework2.presentation.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -11,8 +11,8 @@ class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
 
     private val fragments = mutableListOf<Fragment>()
 
-    fun submitFragments(fragments: List<Fragment>) {
-        this.fragments.clearAndAddAll(fragments)
+    fun submitFragments(newFragments: List<Fragment>) {
+        fragments.clearAndAddAll(newFragments)
         notifyDataSetChanged()
     }
 

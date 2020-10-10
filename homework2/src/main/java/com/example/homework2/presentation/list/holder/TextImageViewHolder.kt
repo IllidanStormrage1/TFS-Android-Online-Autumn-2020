@@ -3,7 +3,7 @@ package com.example.homework2.presentation.list.holder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homework2.R
-import com.example.homework2.domain.Post
+import com.example.homework2.domain.model.Post
 import com.example.homework2.presentation.view.SocialPostLayout
 import com.example.homework2.presentation.view.loadFromUrl
 import kotlinx.android.extensions.LayoutContainer

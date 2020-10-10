@@ -9,7 +9,7 @@ import androidx.annotation.DimenRes
 import androidx.annotation.Dimension
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import com.example.homework2.domain.Post
+import com.example.homework2.domain.model.Post
 import com.example.homework2.domain.utils.prepareDateString
 
 class DividerItemDecoration(

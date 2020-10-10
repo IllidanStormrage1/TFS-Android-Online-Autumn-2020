@@ -8,7 +8,6 @@
     tools:context=".presentation.detail.DetailFragment">
 
     <com.example.homework2.presentation.view.SocialPostLayout
-        android:id="@+id/social_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textMaxLines="1000"

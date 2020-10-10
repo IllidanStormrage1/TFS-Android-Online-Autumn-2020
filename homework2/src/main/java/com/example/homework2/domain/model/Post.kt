@@ -1,4 +1,4 @@
-package com.example.homework2.domain
+package com.example.homework2.domain.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

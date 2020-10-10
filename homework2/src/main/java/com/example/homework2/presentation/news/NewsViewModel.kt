@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.homework2.data.RepositoryImpl
 import com.example.homework2.domain.MainRepository
+import com.example.homework2.domain.model.Post
 
 class NewsViewModel : ViewModel() {
-    private val repositoryImpl: MainRepository = RepositoryImpl()
+    private val repositoryImpl: MainRepository = RepositoryImpl
 
     private val _postsLiveData: MutableLiveData<UIState> = MutableLiveData()
     val postsLiveData: LiveData<UIState> get() = _postsLiveData
@@ -23,11 +24,7 @@ class NewsViewModel : ViewModel() {
         _postsLiveData.value = UIState.Success(data)
     }
 
-    fun hide() {
-
-    }
-
-    fun like(id: Int) {
-        repositoryImpl.likePost(id)
+    fun like(item: Post) {
+        repositoryImpl.likePost(item)
     }
 }

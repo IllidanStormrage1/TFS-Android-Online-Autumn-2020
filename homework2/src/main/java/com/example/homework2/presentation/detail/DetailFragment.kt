@@ -7,7 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.homework2.R
-import com.example.homework2.domain.Post
+import com.example.homework2.domain.model.Post
 import com.example.homework2.presentation.view.loadFromUrl
 import kotlinx.android.synthetic.main.merge_item_post.*
 
@@ -15,7 +15,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<Post>("item")?.let(::initView)
+        arguments?.getParcelable<Post>(KEY_ITEM)?.let(::initView)
     }
 
     private fun initView(item: Post) {
@@ -44,8 +44,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     companion object {
 
+        const val KEY_ITEM = "item"
+
         fun newInstance(item: Post) = DetailFragment().apply {
-            arguments = bundleOf("item" to item)
+            arguments = bundleOf(KEY_ITEM to item)
         }
     }
 }

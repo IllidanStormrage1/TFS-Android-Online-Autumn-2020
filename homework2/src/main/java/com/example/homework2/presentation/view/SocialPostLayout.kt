@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.content.withStyledAttributes
-import androidx.core.view.marginEnd
-import androidx.core.view.marginLeft
-import androidx.core.view.marginStart
-import androidx.core.view.marginTop
+import androidx.core.view.*
 import com.example.homework2.R
 import kotlinx.android.synthetic.main.merge_item_post.view.*
 
@@ -55,7 +52,7 @@ class SocialPostLayout @JvmOverloads constructor(
             height += content_tv.measuredHeight + content_tv.marginTop
         }
 
-        if (isImage) {
+        if (isImage && content_iv.isVisible) {
             measureChildWithMargins(content_iv, widthMeasureSpec, width, heightMeasureSpec, height)
             height += content_iv.measuredHeight + content_iv.marginTop
         }

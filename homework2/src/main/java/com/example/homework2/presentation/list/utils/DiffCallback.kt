@@ -1,7 +1,7 @@
 package com.example.homework2.presentation.list.utils
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.homework2.domain.Post
+import com.example.homework2.domain.model.Post
 
 class DiffCallback(private val oldList: List<Post>, private val newList: List<Post>) :
     DiffUtil.Callback() {

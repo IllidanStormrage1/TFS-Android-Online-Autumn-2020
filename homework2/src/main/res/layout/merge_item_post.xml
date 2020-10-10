@@ -55,6 +55,7 @@
         android:layout_height="320dp"
         android:layout_marginTop="@dimen/default_margin_small"
         android:contentDescription="@string/content_description"
+        android:transitionName="content"
         tools:src="@mipmap/ic_launcher" />
 
     <com.google.android.material.button.MaterialButton

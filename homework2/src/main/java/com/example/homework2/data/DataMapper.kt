@@ -1,7 +1,7 @@
 package com.example.homework2.data
 
 import com.example.homework2.data.dto.Response
-import com.example.homework2.domain.Post
+import com.example.homework2.domain.model.Post
 import com.example.homework2.domain.utils.dateStringFromTimeInMillis
 
 fun Response.asDomainModel(): MutableList<Post> = items.map { item ->

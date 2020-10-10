@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homework2.R
-import com.example.homework2.domain.Post
+import com.example.homework2.domain.model.Post
 import com.example.homework2.domain.utils.clearAndAddAll
 import com.example.homework2.presentation.list.holder.TextImageViewHolder
 import com.example.homework2.presentation.list.holder.TextViewHolder
@@ -16,14 +16,11 @@ import com.example.homework2.presentation.view.inflate
 const val TEXT_HOLDER_TYPE = 0
 const val TEXT_IMAGE_HOLDER_TYPE = 1
 
-class PostsAdapter(private val callback: AdapterCallback) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class PostsAdapter(
+    private val likeCallback: ((item: Post) -> Unit)? = null,
+    private val clickCallback: ((item: Post) -> Unit)? = null,
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     MainItemTouchHelper.ItemTouchHelperAdapter, DividerItemDecoration.DividerAdapterCallback {
-
-    interface AdapterCallback {
-        fun like(id: Int)
-        fun onClick(item: Post)
-    }
 
     private val currentList = mutableListOf<Post>()
 
@@ -60,7 +57,7 @@ class PostsAdapter(private val callback: AdapterCallback) :
     }
 
     override fun onItemSwipedEnd(position: Int) {
-        callback.like(currentList[position].id)
+        likeCallback?.invoke(currentList[position])
         notifyItemChanged(position)
     }
 
@@ -68,7 +65,7 @@ class PostsAdapter(private val callback: AdapterCallback) :
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.itemView.setOnClickListener { callback.onClick(currentList[holder.absoluteAdapterPosition]) }
+        holder.itemView.setOnClickListener { clickCallback?.invoke(currentList[holder.absoluteAdapterPosition]) }
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {

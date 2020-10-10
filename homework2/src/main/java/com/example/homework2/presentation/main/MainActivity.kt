@@ -1,25 +1,29 @@
-package com.example.homework2.presentation
+package com.example.homework2.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.homework2.R
+import com.example.homework2.domain.model.Post
+import com.example.homework2.presentation.detail.DetailFragment
 import com.example.homework2.presentation.favorites.FavoritesFragment
 import com.example.homework2.presentation.news.NewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentNavigationCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val fragments = listOf(NewsFragment.newInstance(), FavoritesFragment.newInstance())
+        initViewPager(fragments)
         initBottomNavigation()
-        initAdapter()
     }
 
-    private fun initAdapter() {
+    private fun initViewPager(fragments: List<Fragment>) {
         val adapter = MainViewPagerAdapter(supportFragmentManager, lifecycle)
-        adapter.submitFragments(listOf(NewsFragment.newInstance(), FavoritesFragment.newInstance()))
+        adapter.submitFragments(fragments)
         main_view_pager.isUserInputEnabled = false
         main_view_pager.adapter = adapter
     }
@@ -32,5 +36,13 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnNavigationItemSelectedListener true
         }
+    }
+
+    override fun navigateToDetail(item: Post) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter, R.anim.exit)
+            .add(android.R.id.content, DetailFragment.newInstance(item))
+            .addToBackStack(null)
+            .commit()
     }
 }

@@ -1,5 +1,6 @@
 package com.example.homework2.presentation.news
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -8,23 +9,27 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.example.homework2.R
-import com.example.homework2.domain.Post
-import com.example.homework2.presentation.detail.DetailFragment
 import com.example.homework2.presentation.list.PostsAdapter
 import com.example.homework2.presentation.list.utils.DividerItemDecoration
 import com.example.homework2.presentation.list.utils.MainItemTouchHelper
+import com.example.homework2.presentation.main.FragmentNavigationCallback
 import kotlinx.android.synthetic.main.fragment_news.*
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
+    private var activityCallback: FragmentNavigationCallback? = null
     private val viewModel: NewsViewModel by viewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentNavigationCallback) activityCallback = context
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PostsAdapter(object : PostsAdapter.AdapterCallback {
-            override fun like(id: Int) = viewModel.like(id)
-            override fun onClick(item: Post) = navigateToDetail(item)
-        })
+        val adapter = PostsAdapter(
+            likeCallback = { viewModel.like(it) },
+            clickCallback = { activityCallback?.navigateToDetail(it) })
         initRecyclerView(adapter)
         observeViewModel(adapter)
     }
@@ -51,13 +56,6 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         )
         ItemTouchHelper(MainItemTouchHelper(adapter)).also { it.attachToRecyclerView(news_posts_rv) }
         news_posts_srl.setOnRefreshListener { viewModel.onRefresh() }
-    }
-
-    private fun navigateToDetail(item: Post) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .add(android.R.id.content, DetailFragment.newInstance(item))
-            .addToBackStack(null)
-            .commit()
     }
 
     companion object {
