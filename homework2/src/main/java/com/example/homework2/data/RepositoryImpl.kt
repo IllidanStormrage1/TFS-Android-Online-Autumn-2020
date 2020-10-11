@@ -14,7 +14,7 @@ object RepositoryImpl : MainRepository {
 
     override fun getAllPosts(): List<Post> = cachedPosts
 
-    override fun likePost(item: Post) {
+    override fun likePost(item: Post): Boolean {
         val cachedItem = cachedPosts[cachedPosts.indexOf(item)]
         cachedItem.let {
             if (item.isFavorite)
@@ -23,6 +23,7 @@ object RepositoryImpl : MainRepository {
                 item.likesCount++
             item.isFavorite = item.isFavorite.not()
         }
+        return cachedPosts.any { it.isFavorite }
     }
 }
 

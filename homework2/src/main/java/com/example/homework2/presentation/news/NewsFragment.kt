@@ -41,6 +41,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
                 is UIState.Success -> adapter.submitList(it.payload)
             }
         }
+        viewModel.favoritesLiveData.observe(viewLifecycleOwner) { changeNavigationItem(it) }
     }
 
     private fun initRecyclerView(adapter: PostsAdapter) {
@@ -56,6 +57,10 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         )
         ItemTouchHelper(MainItemTouchHelper(adapter)).also { it.attachToRecyclerView(news_posts_rv) }
         news_posts_srl.setOnRefreshListener { viewModel.onRefresh() }
+    }
+
+    private fun changeNavigationItem(isVisible: Boolean) {
+        activityCallback?.setVisibleFavoritesItem(isVisible)
     }
 
     companion object {

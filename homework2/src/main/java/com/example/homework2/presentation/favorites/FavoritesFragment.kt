@@ -12,9 +12,9 @@ import com.example.homework2.presentation.list.PostsAdapter
 import com.example.homework2.presentation.list.utils.DividerItemDecoration
 import com.example.homework2.presentation.main.FragmentNavigationCallback
 import com.example.homework2.presentation.news.UIState
-import kotlinx.android.synthetic.main.fragment_favorites.*
+import kotlinx.android.synthetic.main.fragment_news.*
 
-class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
+class FavoritesFragment : Fragment(R.layout.fragment_news) {
 
     private var activityCallback: FragmentNavigationCallback? = null
     private val viewModel: FavoritesViewModel by viewModels()
@@ -40,17 +40,17 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     private fun observeViewModel(adapter: PostsAdapter) {
         viewModel.postsLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is UIState.Loading -> favorites_posts_srl.isRefreshing = it.isLoad
+                is UIState.Loading -> news_posts_srl.isRefreshing = it.isLoad
                 is UIState.Success -> adapter.submitList(it.payload)
             }
         }
     }
 
     private fun initRecyclerView(adapter: PostsAdapter) {
-        favorites_posts_rv.adapter = adapter
+        news_posts_rv.adapter = adapter
         adapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        favorites_posts_rv.addItemDecoration(
+        news_posts_rv.addItemDecoration(
             DividerItemDecoration(
                 verticalSpace = resources.getDimensionPixelSize(R.dimen.default_margin),
                 headerTextSize = resources.getDimension(R.dimen.header_text_size),
@@ -58,7 +58,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                 adapter
             )
         )
-        favorites_posts_srl.setOnRefreshListener { viewModel.onRefresh() }
+        news_posts_srl.setOnRefreshListener { viewModel.onRefresh() }
     }
 
     companion object {

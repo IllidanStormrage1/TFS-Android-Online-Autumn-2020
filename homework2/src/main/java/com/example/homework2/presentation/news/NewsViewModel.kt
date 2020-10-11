@@ -13,6 +13,9 @@ class NewsViewModel : ViewModel() {
     private val _postsLiveData: MutableLiveData<UIState> = MutableLiveData()
     val postsLiveData: LiveData<UIState> get() = _postsLiveData
 
+    private val _favoritesLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val favoritesLiveData: LiveData<Boolean> get() = _favoritesLiveData
+
     init {
         onRefresh()
     }
@@ -21,10 +24,11 @@ class NewsViewModel : ViewModel() {
         _postsLiveData.value = UIState.Loading(true)
         val data = repositoryImpl.getAllPosts()
         _postsLiveData.value = UIState.Loading(false)
+        _favoritesLiveData.value = data.any { it.isFavorite }
         _postsLiveData.value = UIState.Success(data)
     }
 
     fun like(item: Post) {
-        repositoryImpl.likePost(item)
+        _favoritesLiveData.value = repositoryImpl.likePost(item)
     }
 }

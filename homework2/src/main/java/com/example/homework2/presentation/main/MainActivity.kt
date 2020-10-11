@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity(), FragmentNavigationCallback {
 
     private fun initViewPager(fragments: List<Fragment>) {
         val adapter = MainViewPagerAdapter(supportFragmentManager, lifecycle)
+        main_view_pager.adapter = adapter
         adapter.submitFragments(fragments)
         main_view_pager.isUserInputEnabled = false
-        main_view_pager.adapter = adapter
     }
 
     private fun initBottomNavigation() {
@@ -44,5 +44,9 @@ class MainActivity : AppCompatActivity(), FragmentNavigationCallback {
             .add(android.R.id.content, DetailFragment.newInstance(item))
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun setVisibleFavoritesItem(isVisible: Boolean) {
+        main_navigation.menu.findItem(R.id.menu_favorites).isVisible = isVisible
     }
 }
