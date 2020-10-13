@@ -13,8 +13,8 @@ import com.example.homework2.presentation.list.utils.DividerItemDecoration
 import com.example.homework2.presentation.list.utils.MainItemTouchHelper
 import com.example.homework2.presentation.view.inflate
 
-const val TEXT_HOLDER_TYPE = 0
-const val TEXT_IMAGE_HOLDER_TYPE = 1
+private const val TEXT_HOLDER_TYPE = 0
+private const val TEXT_IMAGE_HOLDER_TYPE = 1
 
 class PostsAdapter(
     private val likeCallback: ((item: Post) -> Unit)? = null,

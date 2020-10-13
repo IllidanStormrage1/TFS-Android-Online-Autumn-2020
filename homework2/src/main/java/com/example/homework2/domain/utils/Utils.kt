@@ -4,7 +4,7 @@ import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val DATE_FORMAT = "d MMMM h:mm"
+private const val DATE_FORMAT = "d MMMM h:mm"
 
 fun dateStringFromTimeInMillis(timeInMillis: Long): String =
     SimpleDateFormat(DATE_FORMAT, Locale.ROOT).format(timeInMillis)
