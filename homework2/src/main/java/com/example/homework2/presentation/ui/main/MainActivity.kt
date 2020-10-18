@@ -1,13 +1,14 @@
-package com.example.homework2.presentation.main
+package com.example.homework2.presentation.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.homework2.R
 import com.example.homework2.domain.model.Post
-import com.example.homework2.presentation.detail.DetailFragment
-import com.example.homework2.presentation.favorites.FavoritesFragment
-import com.example.homework2.presentation.news.NewsFragment
+import com.example.homework2.presentation.ui.detail.DetailFragment
+import com.example.homework2.presentation.ui.dialog.ErrorDialogFragment
+import com.example.homework2.presentation.ui.favorites.FavoritesFragment
+import com.example.homework2.presentation.ui.news.NewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), FragmentNavigationCallback {
@@ -48,5 +49,9 @@ class MainActivity : AppCompatActivity(), FragmentNavigationCallback {
 
     override fun setVisibleFavoritesItem(isVisible: Boolean) {
         main_navigation.menu.findItem(R.id.menu_favorites).isVisible = isVisible
+    }
+
+    override fun showErrorDialog(throwable: Throwable) {
+        ErrorDialogFragment.newInstance(throwable.message).show(supportFragmentManager, null)
     }
 }

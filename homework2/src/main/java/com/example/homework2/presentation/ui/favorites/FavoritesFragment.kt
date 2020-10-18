@@ -1,22 +1,26 @@
-package com.example.homework2.presentation.favorites
+package com.example.homework2.presentation.ui.favorites
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homework2.R
 import com.example.homework2.presentation.list.PostsAdapter
 import com.example.homework2.presentation.list.utils.DividerItemDecoration
-import com.example.homework2.presentation.main.FragmentNavigationCallback
-import com.example.homework2.presentation.news.UIState
+import com.example.homework2.presentation.ui.main.FragmentNavigationCallback
+import com.example.homework2.presentation.ui.news.UIState
+import com.example.homework2.presentation.view.isStarting
 import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.android.synthetic.main.placeholder_empty_list.*
+import kotlinx.android.synthetic.main.placeholder_shimmer_rc.*
 
 class FavoritesFragment : Fragment(R.layout.fragment_news) {
 
-    private var activityCallback: FragmentNavigationCallback? = null
+    lateinit var activityCallback: FragmentNavigationCallback
     private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -26,8 +30,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_news) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val adapter = PostsAdapter(clickCallback = { activityCallback?.navigateToDetail(it) })
+        val adapter = PostsAdapter(clickCallback = { activityCallback.navigateToDetail(it) })
         initRecyclerView(adapter)
         observeViewModel(adapter)
     }
@@ -38,11 +41,8 @@ class FavoritesFragment : Fragment(R.layout.fragment_news) {
     }
 
     private fun observeViewModel(adapter: PostsAdapter) {
-        viewModel.postsLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is UIState.Loading -> news_posts_srl.isRefreshing = it.isLoad
-                is UIState.Success -> adapter.submitList(it.payload)
-            }
+        viewModel.postsLiveData.observe(viewLifecycleOwner) { state ->
+            applyViewState(state, adapter)
         }
     }
 
@@ -59,6 +59,32 @@ class FavoritesFragment : Fragment(R.layout.fragment_news) {
             )
         )
         news_posts_srl.setOnRefreshListener { viewModel.onRefresh() }
+    }
+
+    private fun applyViewState(state: UIState, adapter: PostsAdapter) {
+        when (state) {
+            is UIState.Loading -> {
+                if (news_posts_srl.isRefreshing)
+                    news_posts_srl.isRefreshing = state.isLoad
+                else
+                    news_shimmer.isStarting = state.isLoad
+            }
+            is UIState.Success -> {
+                news_shimmer.isStarting = false
+                news_posts_srl.isRefreshing = false
+                placeholder_list.isVisible = false
+                adapter.submitList(state.payload)
+            }
+            is UIState.Failure -> {
+                if (news_posts_srl.isRefreshing) {
+                    news_posts_srl.isRefreshing = false
+                    activityCallback.showErrorDialog(state.throwable)
+                } else {
+                    news_shimmer.isStarting = false
+                    placeholder_list.isVisible = true
+                }
+            }
+        }
     }
 
     companion object {

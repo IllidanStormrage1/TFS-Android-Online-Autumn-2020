@@ -1,9 +1,10 @@
-package com.example.homework2.presentation.news
+package com.example.homework2.presentation.ui.news
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -12,12 +13,15 @@ import com.example.homework2.R
 import com.example.homework2.presentation.list.PostsAdapter
 import com.example.homework2.presentation.list.utils.DividerItemDecoration
 import com.example.homework2.presentation.list.utils.MainItemTouchHelper
-import com.example.homework2.presentation.main.FragmentNavigationCallback
+import com.example.homework2.presentation.ui.main.FragmentNavigationCallback
+import com.example.homework2.presentation.view.isStarting
 import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.android.synthetic.main.placeholder_empty_list.*
+import kotlinx.android.synthetic.main.placeholder_shimmer_rc.*
 
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
-    private var activityCallback: FragmentNavigationCallback? = null
+    lateinit var activityCallback: FragmentNavigationCallback
     private val viewModel: NewsViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -29,17 +33,14 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = PostsAdapter(
             likeCallback = { viewModel.like(it) },
-            clickCallback = { activityCallback?.navigateToDetail(it) })
+            clickCallback = { activityCallback.navigateToDetail(it) })
         initRecyclerView(adapter)
         observeViewModel(adapter)
     }
 
     private fun observeViewModel(adapter: PostsAdapter) {
-        viewModel.postsLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is UIState.Loading -> news_posts_srl.isRefreshing = it.isLoad
-                is UIState.Success -> adapter.submitList(it.payload)
-            }
+        viewModel.contentLiveData.observe(viewLifecycleOwner) { state ->
+            applyViewState(state, adapter)
         }
         viewModel.favoritesLiveData.observe(viewLifecycleOwner) { changeNavigationItem(it) }
     }
@@ -56,11 +57,37 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
             )
         )
         ItemTouchHelper(MainItemTouchHelper(adapter)).also { it.attachToRecyclerView(news_posts_rv) }
-        news_posts_srl.setOnRefreshListener { viewModel.onRefresh() }
+        news_posts_srl.setOnRefreshListener { viewModel.loadData() }
+    }
+
+    private fun applyViewState(state: UIState, adapter: PostsAdapter) {
+        when (state) {
+            is UIState.Loading -> {
+                if (news_posts_srl.isRefreshing)
+                    news_posts_srl.isRefreshing = state.isLoad
+                else
+                    news_shimmer.isStarting = state.isLoad
+            }
+            is UIState.Success -> {
+                news_shimmer.isStarting = false
+                news_posts_srl.isRefreshing = false
+                placeholder_list.isVisible = false
+                adapter.submitList(state.payload)
+            }
+            is UIState.Failure -> {
+                if (news_posts_srl.isRefreshing) {
+                    news_posts_srl.isRefreshing = false
+                    activityCallback.showErrorDialog(state.throwable)
+                } else {
+                    news_shimmer.isStarting = false
+                    placeholder_list.isVisible = true
+                }
+            }
+        }
     }
 
     private fun changeNavigationItem(isVisible: Boolean) {
-        activityCallback?.setVisibleFavoritesItem(isVisible)
+        activityCallback.setVisibleFavoritesItem(isVisible)
     }
 
     companion object {

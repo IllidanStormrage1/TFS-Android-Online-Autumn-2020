@@ -1,4 +1,4 @@
-package com.example.homework2.presentation.detail
+package com.example.homework2.presentation.ui.detail
 
 import android.os.Bundle
 import android.text.util.Linkify
@@ -34,7 +34,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 content_iv.isVisible = false
             else content_iv.loadFromUrl(
                 photoUrl,
-                R.drawable.image_placeholder)
+                R.drawable.rounded_background_placeholder)
             if (isFavorite)
                 like_btn.setIconResource(R.drawable.ic_heart_selected)
             else

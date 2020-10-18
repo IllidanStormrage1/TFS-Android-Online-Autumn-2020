@@ -24,7 +24,7 @@ class TextImageViewHolder(override val containerView: View, isImage: Boolean) :
             like_btn.text = likesCount.toString()
             comment_btn.text = commentsCount.toString()
             share_btn.text = repostsCount.toString()
-            content_iv.loadFromUrl(photoUrl, R.drawable.image_placeholder)
+            content_iv.loadFromUrl(photoUrl, R.drawable.rounded_background_placeholder)
             avatar_iv.loadFromUrl(avatarUrl, R.drawable.avatar_placeholder)
             if (isFavorite)
                 like_btn.setIconResource(R.drawable.ic_heart_selected)

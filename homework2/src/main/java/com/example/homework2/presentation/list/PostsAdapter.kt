@@ -1,5 +1,8 @@
 package com.example.homework2.presentation.list
 
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +15,7 @@ import com.example.homework2.presentation.list.utils.DiffCallback
 import com.example.homework2.presentation.list.utils.DividerItemDecoration
 import com.example.homework2.presentation.list.utils.MainItemTouchHelper
 import com.example.homework2.presentation.view.inflate
+import java.util.concurrent.Executors
 
 private const val TEXT_HOLDER_TYPE = 0
 private const val TEXT_IMAGE_HOLDER_TYPE = 1
@@ -24,11 +28,20 @@ class PostsAdapter(
 
     private val currentList = mutableListOf<Post>()
 
+    private val executorService = Executors.newSingleThreadExecutor()
+    private val handler = Handler(Looper.getMainLooper()) {
+        val messageObject = it.obj as Pair<DiffUtil.DiffResult, List<Post>>
+        currentList.clearAndAddAll(messageObject.second)
+        messageObject.first.dispatchUpdatesTo(this)
+        return@Handler true
+    }
+
     fun submitList(newItems: List<Post>) {
-        val diffCallback = DiffCallback(currentList, newItems)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        currentList.clearAndAddAll(newItems)
-        diffResult.dispatchUpdatesTo(this)
+        executorService.execute {
+            val diffCallback = DiffCallback(currentList, newItems)
+            val diffResult = DiffUtil.calculateDiff(diffCallback, false)
+            handler.sendMessage(Message().apply { obj = diffResult to newItems })
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =

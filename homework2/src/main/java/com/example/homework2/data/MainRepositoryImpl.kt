@@ -4,17 +4,26 @@ import com.example.homework2.data.dto.NewsResponse
 import com.example.homework2.domain.MainRepository
 import com.example.homework2.domain.model.Post
 import com.google.gson.Gson
+import io.reactivex.Single
+import kotlin.random.Random
 
 object RepositoryImpl : MainRepository {
 
-    private val cachedPosts: MutableList<Post> by lazy {
+    private val cachedPosts: List<Post> by lazy {
         Gson().fromJson(mockJson,
             NewsResponse::class.java).response.asDomainModel()
     }
 
-    override fun getAllPosts(): List<Post> = cachedPosts
+    override fun getAllPosts(): Single<List<Post>> =
+        Single.fromCallable {
+            if (Random.nextInt(5) == 0) {
+                Thread.sleep(1500)
+                throw RuntimeException(":(")
+            }
+            cachedPosts
+        }
 
-    override fun likePost(item: Post): Boolean {
+    override fun likePost(item: Post): Single<Boolean> {
         val cachedItem = cachedPosts[cachedPosts.indexOf(item)]
         cachedItem.let {
             if (item.isFavorite)
@@ -23,7 +32,7 @@ object RepositoryImpl : MainRepository {
                 item.likesCount++
             item.isFavorite = item.isFavorite.not()
         }
-        return cachedPosts.any { it.isFavorite }
+        return Single.just(cachedPosts.any { it.isFavorite })
     }
 }
 

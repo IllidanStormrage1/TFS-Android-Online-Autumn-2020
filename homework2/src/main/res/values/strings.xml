@@ -8,4 +8,9 @@
 https://vk.tinkoff.ru/analyst</string>
     <string name="menu_news">Новости</string>
     <string name="menu_favorites">Избранное</string>
+    <string name="title_error_dialog">Ошибка</string>
+    <string name="default_message_error_dialog">При обработке запроса произошла ошибка</string>
+    <string name="text_positive_button_error_dialog">OK</string>
+    <string name="titles_empty_list_placeholder">Не удалось загрузить данные, попробуйте еще раз</string>
+    <string name="emoji_empty_list">&#128575;</string>
 </resources>
