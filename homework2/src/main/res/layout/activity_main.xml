@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.main.MainActivity">
+    android:animateLayoutChanges="true"
+    tools:context=".presentation.MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/main_view_pager"
@@ -17,10 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:elevation="8dp"
+        android:background="?colorSurface"
+        app:elevation="4dp"
         app:itemIconTint="@color/menu_color_selector"
-        app:itemRippleColor="@color/colorLightYellow"
+        app:itemRippleColor="@color/cream_brulee"
         app:itemTextColor="@color/menu_color_selector"
         app:menu="@menu/main_bottom_navigation" />
+
+    <ProgressBar
+        android:id="@+id/main_progress_bar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:visibility="visible" />
 
 </FrameLayout>

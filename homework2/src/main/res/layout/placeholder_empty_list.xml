@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/placeholder_list"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginStart="@dimen/default_margin"
-    android:layout_marginEnd="@dimen/default_margin"
-    android:orientation="vertical"
-    android:visibility="gone"
-    tools:visibility="visible">
-
-    <androidx.emoji.widget.EmojiTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/emoji_empty_list"
-        android:textColor="?android:textColorPrimary"
-        android:textSize="64sp" />
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/placeholder_list_tv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:gravity="center"
+        android:text="@string/titles_empty_error_list_placeholder"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_dizzy_face"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/empty_placeholder_list_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
         android:gravity="center"
         android:text="@string/titles_empty_list_placeholder"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/ic_grimacing_face"
+        tools:visibility="gone" />
 
-</LinearLayout>
+</merge>

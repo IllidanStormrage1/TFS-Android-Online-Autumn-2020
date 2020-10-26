@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     tools:context=".presentation.ui.detail.DetailFragment">
 
-    <com.example.homework2.presentation.view.SocialPostLayout
+    <com.zkv.tfsfeed.presentation.view.SocialPostLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:textMaxLines="1000"

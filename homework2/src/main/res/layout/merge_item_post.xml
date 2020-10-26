@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="com.example.homework2.presentation.view.SocialPostLayout">
+    tools:parentTag="com.zkv.tfsfeed.presentation.view.SocialPostLayout">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avatar_iv"
@@ -13,7 +13,7 @@
         android:padding="1dp"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/circleImageView"
-        app:strokeColor="@android:color/secondary_text_dark"
+        app:strokeColor="@color/ghost"
         app:strokeWidth="1dp"
         tools:src="@mipmap/ic_launcher" />
 
@@ -55,7 +55,6 @@
         android:layout_height="320dp"
         android:layout_marginTop="@dimen/default_margin_small"
         android:contentDescription="@string/content_description"
-        android:transitionName="content"
         tools:src="@mipmap/ic_launcher" />
 
     <com.google.android.material.button.MaterialButton
@@ -63,33 +62,53 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/default_margin_small"
+        android:layout_marginStart="@dimen/default_margin"
+        android:padding="0dp"
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_heart"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="47sf0" />
+        tools:text="13" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/comment_btn"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="0dp"
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_comment"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="75550" />
+        tools:text="13526611117" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/share_btn"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="0dp"
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_share"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="1352" />
+        tools:text="1352667" />
+
+    <ImageView
+        android:id="@+id/views_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_eye"
+        app:tint="@color/ghost" />
+
+    <TextView
+        android:id="@+id/views_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/ghost"
+        tools:text="228" />
 
 </merge>

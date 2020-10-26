@@ -1,16 +1,15 @@
-<resources>
-    <string name="app_name">HomeWork2->3</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">TFS VK</string>
     <string name="content_description">contentDescription</string>
     <string name="tools_sample_text">️Одно из направлений Тинькофф Старта — это <a href="https://vk.tinkoff.ru/analyst">аналитика</a>, куда входят профили системной, бизнес-, веб- и риск-аналитики плюс управление проектами. Внутри каждого направления свои задачи, которые требуют разного набора скилов. Результаты любой задачи в рамках программы можно смело добавлять в портфолио.
-Что Лучших пр1111111111111111111111111111111111111111111111111111игласим н1111111111а всполь1111111зовать ваши навык1111111и с максималь11111111111111111111111111111111ной пользой.
-
- прием в самом разгаре. Заполнить анкету можно тут:
-https://vk.tinkoff.ru/analyst</string>
+Что Лучших пр1111111111111111111111111111111111111111111111111111игласим н1111111111а всполь1111111зовать ваши навык1111111и с максималь1111111https://vk.tinkoff.ru/analyst</string>
     <string name="menu_news">Новости</string>
     <string name="menu_favorites">Избранное</string>
     <string name="title_error_dialog">Ошибка</string>
     <string name="default_message_error_dialog">При обработке запроса произошла ошибка</string>
     <string name="text_positive_button_error_dialog">OK</string>
-    <string name="titles_empty_list_placeholder">Не удалось загрузить данные, попробуйте еще раз</string>
-    <string name="emoji_empty_list">&#128575;</string>
+    <string name="titles_empty_error_list_placeholder">Не удалось загрузить данные, попробуйте еще раз.</string>
+    <string name="titles_empty_list_placeholder">Похоже, здесь пока пусто.
+        Приходи позже.</string>
+    <integer name="com_vk_sdk_AppId" tools:ignore="UnusedResources">7636667</integer>
 </resources>
