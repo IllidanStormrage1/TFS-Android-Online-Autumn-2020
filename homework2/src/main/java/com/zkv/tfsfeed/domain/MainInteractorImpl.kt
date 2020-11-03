@@ -25,12 +25,22 @@ class MainInteractorImpl @Inject constructor(private val repository: MainReposit
         likesCount: Int,
     ): Completable =
         repository.likePost(itemId, ownerId, type, canLike)
-            .doOnComplete { repository.changeLikesInDatabase(itemId, canLike, likesCount) }
+            .doOnComplete { changeLikeInDatabase(itemId, canLike, likesCount) }
             .subscribeOn(Schedulers.io())
 
     override fun ignoreItem(itemId: Int, ownerId: Int, type: String): Completable =
         repository.ignoreItem(itemId, ownerId, type)
             .subscribeOn(Schedulers.io())
+
+    private fun changeLikeInDatabase(itemId: Int, canLike: Int, likesCount: Int) {
+        val currentCanLike = if (canLike == 0) 1 else 0
+        val currentLikesCount = if (currentCanLike == 1) {
+            likesCount - 1
+        } else {
+            likesCount + 1
+        }
+        repository.changeLikesInDatabase(itemId, currentCanLike, currentLikesCount)
+    }
 
     private fun syncNewsFeed(time: Long? = null): Single<List<NewsItem>> =
         repository.fetchAllPosts()

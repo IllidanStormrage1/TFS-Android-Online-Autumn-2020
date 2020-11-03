@@ -46,6 +46,7 @@ class MainRepositoryImpl @Inject constructor(
 
     override fun getRefreshTime(): Long = preferences.getLong("time", 0)
 
-    override fun changeLikesInDatabase(id: Int, canLike: Int, likesCount: Int) =
+    override fun changeLikesInDatabase(id: Int, canLike: Int, likesCount: Int) {
         newsFeedDAO.updateLikesPost(id, canLike, likesCount)
+    }
 }

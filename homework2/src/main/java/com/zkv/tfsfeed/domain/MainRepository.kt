@@ -11,5 +11,5 @@ interface MainRepository {
     fun ignoreItem(itemId: Int, ownerId: Int, type: String): Completable
     fun putCurrentTimeInPrefs(time: Long)
     fun getRefreshTime(): Long
-    fun changeLikesInDatabase(id: Int, canLike: Int, likesCount: Int): Completable
+    fun changeLikesInDatabase(id: Int, canLike: Int, likesCount: Int)
 }
