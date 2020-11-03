@@ -44,7 +44,7 @@ class DividerItemDecoration(
                     (child.top - verticalSpace + child.top - fontMetrics.bottom - fontMetrics.top) / 2
                 canvas.drawText(
                     getKey(groupedItems, item),
-                    (child.width / 2).toFloat(),
+                    parent.measuredWidth / 2f,
                     baseline,
                     textPaint
                 )
@@ -58,7 +58,11 @@ class DividerItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State,
     ) {
-        outRect.top = verticalSpace
+        with(outRect) {
+            top = verticalSpace
+            left = verticalSpace / 2
+            right = verticalSpace / 2
+        }
     }
 
     private fun isHeader(groupedItems: Map<String, List<NewsItem>>, item: NewsItem) =

@@ -7,8 +7,8 @@ import com.zkv.tfsfeed.di.module.StateMachineModule
 import com.zkv.tfsfeed.di.module.StorageModule
 import com.zkv.tfsfeed.di.module.viewmodel.ViewModelModule
 import com.zkv.tfsfeed.presentation.App
-import com.zkv.tfsfeed.presentation.MainActivity
 import com.zkv.tfsfeed.presentation.base.BaseFragment
+import com.zkv.tfsfeed.presentation.ui.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

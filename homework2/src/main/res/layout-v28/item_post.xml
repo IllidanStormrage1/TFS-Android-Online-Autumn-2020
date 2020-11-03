@@ -5,8 +5,10 @@
     android:layout_height="wrap_content"
     android:background="@drawable/corener_radius_background"
     android:clickable="true"
-    android:elevation="4dp"
+    android:elevation="8dp"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
+    android:outlineAmbientShadowColor="@color/silver"
     android:outlineProvider="background"
+    android:outlineSpotShadowColor="@color/silver"
     app:textMaxLines="15" />

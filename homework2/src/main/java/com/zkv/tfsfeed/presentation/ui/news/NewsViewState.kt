@@ -3,25 +3,32 @@ package com.zkv.tfsfeed.presentation.ui.news
 import com.zkv.tfsfeed.domain.model.NewsItem
 
 sealed class NewsViewState(
-    val news: List<NewsItem> = emptyList(),
+    val news: MutableList<NewsItem> = mutableListOf(),
     val showLoading: Boolean = false,
     val showEmptyLoading: Boolean = false,
     val showError: Boolean = false,
     val showEmptyError: Boolean = false,
     val errorMessage: String? = null,
     val showEmptyLoaded: Boolean = false,
+    var freshItemsAvailable: Boolean = false,
 )
 
-class Loading(news: List<NewsItem>) : NewsViewState(news = news, showLoading = true)
-class EmptyLoading : NewsViewState(showEmptyLoading = true)
+class Loading(news: List<NewsItem>) :
+    NewsViewState(news = news.toMutableList(), showLoading = true, freshItemsAvailable = false)
 
-class Loaded(news: List<NewsItem>, isEmpty: Boolean) : NewsViewState(news = news,
-    showLoading = false,
-    showEmptyLoading = false,
-    showEmptyError = false,
-    showEmptyLoaded = isEmpty)
+class EmptyLoading : NewsViewState(showEmptyLoading = true, freshItemsAvailable = false)
+
+class Loaded(news: List<NewsItem>, isEmpty: Boolean) :
+    NewsViewState(news = news.toMutableList(),
+        showLoading = false,
+        showEmptyLoading = false,
+        showEmptyError = false,
+        showEmptyLoaded = isEmpty)
 
 class Error(news: List<NewsItem>, message: String?) :
-    NewsViewState(news = news, showError = true, errorMessage = message)
+    NewsViewState(news = news.toMutableList(),
+        showError = true,
+        errorMessage = message,
+        freshItemsAvailable = false)
 
-object EmptyError : NewsViewState(showEmptyError = true)
+object EmptyError : NewsViewState(showEmptyError = true, freshItemsAvailable = false)

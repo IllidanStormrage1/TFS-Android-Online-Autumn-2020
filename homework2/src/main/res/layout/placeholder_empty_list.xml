@@ -29,6 +29,6 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:visibility="gone"
         app:drawableTopCompat="@drawable/ic_grimacing_face"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
 </merge>

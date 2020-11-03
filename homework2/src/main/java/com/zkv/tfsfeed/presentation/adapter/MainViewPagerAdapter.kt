@@ -18,5 +18,5 @@ class MainViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycl
 
     override fun getItemCount() = fragments.size
 
-    override fun createFragment(position: Int) = fragments[position]
+    override fun createFragment(position: Int): Fragment = fragments[position]
 }

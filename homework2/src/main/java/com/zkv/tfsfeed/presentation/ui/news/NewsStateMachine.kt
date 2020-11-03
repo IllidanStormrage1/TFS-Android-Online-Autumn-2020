@@ -21,7 +21,7 @@ class NewsStateMachine {
     }
 
     fun onLoaded(news: List<NewsItem>): NewsViewState {
-        state = Loaded(news, news.isEmpty())
+        state = Loaded(news.toList(), news.isEmpty())
         return state
     }
 
@@ -31,5 +31,13 @@ class NewsStateMachine {
         else
             EmptyError
         return state
+    }
+
+    fun updateFreshItemsAvailable(isFresh: Boolean) {
+        state.freshItemsAvailable = isFresh
+    }
+
+    fun removeItem(item: NewsItem) {
+        state.news.remove(item)
     }
 }

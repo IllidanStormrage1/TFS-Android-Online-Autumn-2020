@@ -4,22 +4,13 @@ import android.os.Bundle
 import androidx.recyclerview.widget.DiffUtil
 import com.zkv.tfsfeed.domain.model.NewsItem
 
-class DiffCallback(private val oldList: List<NewsItem>, private val newList: List<NewsItem>) :
-    DiffUtil.Callback() {
+class DiffCallback : DiffUtil.ItemCallback<NewsItem>() {
 
-    override fun getOldListSize() = oldList.size
+    override fun areItemsTheSame(oldItem: NewsItem, newItem: NewsItem) = oldItem.id == newItem.id
 
-    override fun getNewListSize() = newList.size
+    override fun areContentsTheSame(oldItem: NewsItem, newItem: NewsItem) = oldItem == newItem
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition].id == newList[newItemPosition].id
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-        oldList[oldItemPosition] == newList[newItemPosition]
-
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any {
-        val oldItem = oldList[oldItemPosition]
-        val newItem = newList[newItemPosition]
+    override fun getChangePayload(oldItem: NewsItem, newItem: NewsItem): Any {
         val diffBundle = Bundle()
         if (oldItem.likesCount != newItem.likesCount) diffBundle.putInt(KEY_LIKES_COUNT,
             newItem.likesCount)

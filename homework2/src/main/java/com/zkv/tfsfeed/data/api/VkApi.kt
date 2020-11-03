@@ -11,6 +11,13 @@ interface VkApi {
     @GET("newsfeed.get")
     fun getNewsFeed(@Query("filters") filter: String = "post,photo"): Single<BaseNewsFeedResponse>
 
+    @GET("newsfeed.ignoreItem")
+    fun ignoreItem(
+        @Query("item_id") itemId: Int,
+        @Query("owner_id") ownerId: Int,
+        @Query("type") type: String,
+    ): Completable
+
     @GET("likes.add")
     fun addItemInLikes(
         @Query("item_id") itemId: Int,

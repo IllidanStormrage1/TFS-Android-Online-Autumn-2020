@@ -1,6 +1,5 @@
 package com.zkv.tfsfeed.data.api
 
-import com.zkv.tfsfeed.data.AccessTokenHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

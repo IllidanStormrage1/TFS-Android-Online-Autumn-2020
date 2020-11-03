@@ -15,11 +15,13 @@ android {
         applicationId "com.zkv.tfsfeed"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.versionCode
+        versionName rootProject.applicationVersion
 
         buildConfigField "String", "API_BASE_URL", "\"https://api.vk.com/method/\""
-        buildConfigField "String", "PREF_FILE_NAME", "\"filename\""
+        buildConfigField "String", "PREF_FILE_NAME", "\"pref_name\""
+        buildConfigField "String", "ENC_PREF_FILE_NAME", "\"enc_pref_name\""
+        buildConfigField "String", "DATABASE_NAME", "\"newsdatabese\""
     }
 
     buildTypes {
@@ -72,10 +74,15 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
+
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     implementation "com.vk:androidsdk:$vkSdkVersion"
 
     implementation "androidx.security:security-crypto:$securityСryptoVersion"
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }

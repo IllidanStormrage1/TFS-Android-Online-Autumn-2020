@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/fresh_new_items_extended_fab" />
+
     <include layout="@layout/placeholder_shimmer_rc" />
 
     <include layout="@layout/placeholder_empty_list" />

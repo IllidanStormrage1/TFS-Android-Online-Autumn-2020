@@ -7,10 +7,30 @@
     android:background="@android:color/white"
     tools:context=".presentation.ui.detail.DetailFragment">
 
-    <com.zkv.tfsfeed.presentation.view.SocialPostLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:textMaxLines="1000"
-        app:isImage="true" />
+        android:orientation="vertical">
 
+        <com.zkv.tfsfeed.presentation.widget.SocialPostLayout
+            android:id="@+id/detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isImage="true"
+            app:textMaxLines="1000" />
+
+        <Button
+            android:id="@+id/detail_save_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/default_margin_small"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:text="@string/save_in_gallery"
+            android:textColor="?colorAccent"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </LinearLayout>
 </ScrollView>

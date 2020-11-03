@@ -1,15 +1,11 @@
 package com.zkv.tfsfeed.presentation.adapter
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
-import com.zkv.tfsfeed.domain.utils.clearAndAddAll
 import com.zkv.tfsfeed.presentation.adapter.holder.TextImageViewHolder
 import com.zkv.tfsfeed.presentation.adapter.holder.TextViewHolder
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback
@@ -20,35 +16,27 @@ import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_REP
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_VIEWS_COUNT
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
-import com.zkv.tfsfeed.presentation.inflate
+import com.zkv.tfsfeed.presentation.extensions.inflate
 import kotlinx.android.synthetic.main.merge_item_post.view.*
-import java.util.concurrent.Executors
 
 private const val TEXT_HOLDER_TYPE = 0
 private const val TEXT_IMAGE_HOLDER_TYPE = 1
 
+private typealias ItemHandler = ((item: NewsItem) -> Unit)?
+
 class PostsAdapter(
-    private inline val likeCallback: ((item: NewsItem) -> Unit)? = null,
-    private inline val clickCallback: ((item: NewsItem) -> Unit)? = null,
+    private inline val onIgnore: ItemHandler = null,
+    private inline val onLike: ItemHandler = null,
+    private inline val onClick: ItemHandler = null,
+    private inline val onShare: ItemHandler = null,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     MainItemTouchHelper.ItemTouchHelperAdapter, DividerItemDecoration.DividerAdapterCallback {
 
-    private val currentList = mutableListOf<NewsItem>()
-
-    private val executorService = Executors.newSingleThreadExecutor()
-    private val handler = Handler(Looper.getMainLooper()) {
-        val messageObject = it.obj as Pair<DiffUtil.DiffResult, List<NewsItem>>
-        messageObject.first.dispatchUpdatesTo(this)
-        currentList.clearAndAddAll(messageObject.second)
-        return@Handler true
-    }
+    private val differ = AsyncListDiffer(this, DiffCallback())
+    private val currentList: List<NewsItem> get() = differ.currentList
 
     fun submitList(newItems: List<NewsItem>) {
-        executorService.execute {
-            val diffCallback = DiffCallback(currentList, newItems)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
-            handler.sendMessage(Message().apply { obj = diffResult to newItems })
-        }
+        differ.submitList(newItems)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
@@ -90,7 +78,7 @@ class PostsAdapter(
                     KEY_REPOSTS_COUNT -> holder.itemView.share_btn.text =
                         diffBundle.getInt(it).toString()
                     KEY_VIEWS_COUNT -> holder.itemView.views_tv.text =
-                        diffBundle.getInt(it).toString()
+                        diffBundle.getString(it)
                 }
             }
         }
@@ -102,14 +90,18 @@ class PostsAdapter(
     override fun getItemCount(): Int = currentList.size
 
     override fun onItemSwipedStart(position: Int) {
-        currentList.removeAt(position)
-        notifyItemRemoved(position)
+        onIgnore?.invoke(currentList[position])
+        currentList.toMutableList().also {
+            it.removeAt(position)
+            submitList(it)
+        }
     }
 
     override fun onItemSwipedEnd(position: Int) {
-        val item = currentList[position]
-        likeCallback?.invoke(item)
-        item.onLike()
+        currentList[position].also {
+            onLike?.invoke(it)
+            it.onLike()
+        }
         notifyItemChanged(position)
     }
 
@@ -117,11 +109,13 @@ class PostsAdapter(
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.itemView.setOnClickListener { clickCallback?.invoke(currentList[holder.absoluteAdapterPosition]) }
+        holder.itemView.setOnClickListener { onClick?.invoke(currentList[holder.absoluteAdapterPosition]) }
+        holder.itemView.share_btn.setOnClickListener { onShare?.invoke(currentList[holder.absoluteAdapterPosition]) }
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.setOnClickListener(null)
+        holder.itemView.share_btn.setOnClickListener(null)
     }
 }

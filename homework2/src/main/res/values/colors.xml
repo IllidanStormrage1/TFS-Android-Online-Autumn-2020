@@ -2,11 +2,9 @@
 <resources>
     <color name="colorPrimary">#212730</color>
     <color name="colorPrimaryDark">#2E3643</color>
-    <color name="colorAccent">#FFD54F</color>
+    <color name="colorAccent">#428bf9</color>
 
-    <color name="steel_blue">#5181B8</color>
     <color name="athens_gray">#EDEEF0</color>
-    <color name="cream_brulee">#FFEAA7</color>
     <color name="silver">#C3C3C3</color>
     <color name="red">#FF0000</color>
     <color name="ghost">#C0C4CC</color>

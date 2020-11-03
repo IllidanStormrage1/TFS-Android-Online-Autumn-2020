@@ -11,5 +11,10 @@
     <string name="titles_empty_error_list_placeholder">Не удалось загрузить данные, попробуйте еще раз.</string>
     <string name="titles_empty_list_placeholder">Похоже, здесь пока пусто.
         Приходи позже.</string>
+    <string name="save_in_gallery">Сохранить в галерею</string>
+    <string name="toast_faild_load">Failed to load image</string>
+    <string name="toast_successfully_download">Download successfully</string>
     <integer name="com_vk_sdk_AppId" tools:ignore="UnusedResources">7636667</integer>
+    <string name="share_intent_title">Отправить</string>
+    <string name="label_fresh_items">Свежие записи</string>
 </resources>

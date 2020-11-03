@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.presentation.view
+package com.zkv.tfsfeed.presentation.widget
 
 import android.content.Context
 import android.util.AttributeSet
@@ -18,6 +18,7 @@ class SocialPostLayout @JvmOverloads constructor(
 
     init {
         setWillNotDraw(true)
+        clipToOutline = true
         inflate(context, R.layout.merge_item_post, this)
         context.withStyledAttributes(attributeSet, R.styleable.SocialPostLayout, defStyleAttrs) {
             isImage = getBoolean(R.styleable.SocialPostLayout_isImage, false)
@@ -74,8 +75,8 @@ class SocialPostLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        var currentStart = l + paddingStart + marginLeft
-        var currentTop = l + paddingTop + marginTop
+        var currentStart = paddingStart + marginLeft
+        var currentTop = paddingTop + marginTop
 
         avatar_iv.layout(
             currentStart + avatar_iv.marginStart,
@@ -91,6 +92,7 @@ class SocialPostLayout @JvmOverloads constructor(
             measuredWidth - group_name_tv.marginEnd,
             currentTop + group_name_tv.measuredHeight + group_name_tv.marginTop
         )
+
         currentTop += group_name_tv.measuredHeight + group_name_tv.marginTop
 
         post_creation_date_tv.layout(
@@ -151,18 +153,20 @@ class SocialPostLayout @JvmOverloads constructor(
 
         val partHeight = views_tv.measuredHeight / 2
         val baseLine = currentTop + share_btn.measuredHeight / 2
+        val topViews = baseLine - partHeight
+        val bottomViews = baseLine + partHeight
         views_tv.layout(
-            width - views_tv.measuredWidth - views_tv.marginEnd,
-            baseLine - partHeight,
-            width - views_tv.marginEnd,
-            baseLine + partHeight
+            measuredWidth - views_tv.measuredWidth - views_tv.marginEnd,
+            topViews,
+            measuredWidth - views_tv.marginEnd,
+            bottomViews
         )
 
         views_iv.layout(
-            width - views_tv.measuredWidth - views_tv.marginEnd - views_iv.measuredWidth - views_iv.marginEnd,
-            baseLine - partHeight,
-            width - views_iv.marginEnd - views_iv.measuredWidth - views_tv.measuredWidth,
-            baseLine + partHeight
+            views_tv.left - views_iv.marginEnd - views_iv.measuredWidth,
+            topViews,
+            views_tv.left - views_iv.marginEnd,
+            bottomViews
         )
     }
 
