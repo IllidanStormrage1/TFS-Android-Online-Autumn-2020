@@ -9,7 +9,11 @@ import retrofit2.http.Query
 interface VkApi {
 
     @GET("newsfeed.get")
-    fun getNewsFeed(@Query("filters") filter: String = "post,photo"): Single<BaseNewsFeedResponse>
+    fun getNewsFeed(
+        @Query("filters") filter: String = "post,photo",
+        @Query("count") count: Int = 5,
+        @Query("start_from") startStr: String? = null,
+    ): Single<BaseNewsFeedResponse>
 
     @GET("newsfeed.ignoreItem")
     fun ignoreItem(

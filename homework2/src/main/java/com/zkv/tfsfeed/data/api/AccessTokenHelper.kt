@@ -11,18 +11,21 @@ class AccessTokenHelper @Inject constructor(
 
     val accessToken: String by lazy { retrieveToken() }
 
+    fun isTokenExpired() = accessToken == TOKEN_HAS_EXPIRED
+
     fun saveToken(token: String) {
         sharedPreferences.edit { putString(TOKEN_KEY, token) }
     }
-
-    private fun retrieveToken() =
-        sharedPreferences.getString(TOKEN_KEY, null) ?: throw IllegalStateException()
 
     fun clearToken() {
         sharedPreferences.edit { remove(TOKEN_KEY) }
     }
 
+    private fun retrieveToken() =
+        sharedPreferences.getString(TOKEN_KEY, TOKEN_HAS_EXPIRED) ?: throw IllegalStateException()
+
     companion object {
         private const val TOKEN_KEY = "tokenKey"
+        private const val TOKEN_HAS_EXPIRED = "tokenExpired"
     }
 }

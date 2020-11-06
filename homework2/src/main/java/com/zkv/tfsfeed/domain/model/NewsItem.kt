@@ -19,15 +19,14 @@ data class NewsItem(
     var canLike: Int,
     var likesCount: Int,
     val viewsCount: String,
-) : Parcelable {
+) : Parcelable
 
-    fun onLike() {
-        canLike = if (canLike == 0) {
-            likesCount--
-            1
-        } else {
-            likesCount++
-            0
-        }
+fun NewsItem.like() {
+    canLike = if (canLike == 0) {
+        likesCount--
+        1
+    } else {
+        likesCount++
+        0
     }
 }

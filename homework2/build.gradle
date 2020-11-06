@@ -1,15 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
-
-    androidExtensions {
-        experimental = true
-    }
 
     defaultConfig {
         applicationId "com.zkv.tfsfeed"
@@ -47,14 +43,20 @@ android {
     }
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
 
+    implementation "com.github.moxy-community:moxy-androidx:$moxyVersion"
+    kapt "com.github.moxy-community:moxy-compiler:$moxyVersion"
+    implementation "com.github.moxy-community:moxy-ktx:$moxyVersion"
+
     implementation "androidx.core:core-ktx:$coreKtxVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentKtxVersion"
 
     implementation "com.google.android.material:material:$materialVersion"

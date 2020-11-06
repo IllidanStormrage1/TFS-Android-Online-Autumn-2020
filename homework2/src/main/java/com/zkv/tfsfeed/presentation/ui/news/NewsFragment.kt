@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.zkv.tfsfeed.R
+import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
-import com.zkv.tfsfeed.presentation.base.BaseFragment
 import com.zkv.tfsfeed.presentation.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
@@ -20,31 +19,64 @@ import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fresh_new_items_extended_fab.*
 import kotlinx.android.synthetic.main.placeholder_empty_list.*
 import kotlinx.android.synthetic.main.placeholder_shimmer_rc.*
+import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
+import kotlin.properties.Delegates
 
-class NewsFragment : BaseFragment(R.layout.fragment_news) {
+class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
-    private val viewModel: NewsViewModel by viewModels { viewModelFactory }
+    @Inject
+    lateinit var presenterProvider: Provider<NewsPresenter>
+    private val presenter by moxyPresenter { presenterProvider.get() }
+
     private var _activityCallback: MainActivityCallback? = null
     private val activityCallback: MainActivityCallback get() = _activityCallback!!
+
+    private var adapter: PostsAdapter by Delegates.notNull()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainActivityCallback) _activityCallback = context
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(fragment = this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PostsAdapter(
-            onIgnore = viewModel::ignoreItem,
-            onLike = viewModel::like,
+        adapter = PostsAdapter(
+            onIgnore = presenter::ignoreItem,
+            onLike = presenter::like,
             onClick = activityCallback::navigateToDetail,
             onShare = activityCallback::shareNewsItem)
         initViewState(adapter)
-        observeViewModel(adapter)
     }
 
-    private fun observeViewModel(adapter: PostsAdapter) {
-        viewModel.newsViewStateLiveData.observe(viewLifecycleOwner) { applyViewState(it, adapter) }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _activityCallback = null
+    }
+
+    override fun render(state: NewsViewState) {
+        with(state) {
+            news_posts_srl.isRefreshing = showLoading
+            news_shimmer.isVisible = showEmptyLoading
+            placeholder_list_tv.isVisible = showEmptyError
+            empty_placeholder_list_tv.isVisible = showEmptyLoaded
+            if (freshItemsAvailable)
+                news_fresh_fab.show()
+            else
+                news_fresh_fab.hide()
+            adapter.submitList(news)
+            if (showError)
+                ErrorDialogFragment.newInstance(errorMessage)
+                    .showIfNotVisible(requireActivity().supportFragmentManager,
+                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
+        }
     }
 
     private fun initViewState(adapter: PostsAdapter) {
@@ -73,32 +105,9 @@ class NewsFragment : BaseFragment(R.layout.fragment_news) {
         }
     }
 
-    private fun applyViewState(state: NewsViewState, adapter: PostsAdapter) {
-        with(state) {
-            news_posts_srl.isRefreshing = showLoading
-            news_shimmer.isVisible = showEmptyLoading
-            placeholder_list_tv.isVisible = showEmptyError
-            empty_placeholder_list_tv.isVisible = showEmptyLoaded
-            if (freshItemsAvailable)
-                news_fresh_fab.show()
-            else
-                news_fresh_fab.hide()
-            adapter.submitList(news)
-            if (showError)
-                ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(requireActivity().supportFragmentManager,
-                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
-        }
-    }
-
     private fun loadData(isRefresh: Boolean = true) {
         news_posts_srl.isRefreshing = true
-        viewModel.loadData(isRefresh, System.currentTimeMillis())
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _activityCallback = null
+        presenter.loadData(isRefresh, System.currentTimeMillis())
     }
 
     companion object {

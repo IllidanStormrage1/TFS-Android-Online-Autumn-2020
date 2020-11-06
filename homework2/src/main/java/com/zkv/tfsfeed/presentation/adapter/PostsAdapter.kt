@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
+import com.zkv.tfsfeed.domain.model.like
 import com.zkv.tfsfeed.presentation.adapter.holder.TextImageViewHolder
 import com.zkv.tfsfeed.presentation.adapter.holder.TextViewHolder
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback
@@ -22,11 +23,12 @@ import kotlinx.android.synthetic.main.merge_item_post.view.*
 private const val TEXT_HOLDER_TYPE = 0
 private const val TEXT_IMAGE_HOLDER_TYPE = 1
 
+// TODO: 06.11.2020  
 private typealias ItemHandler = ((item: NewsItem) -> Unit)?
 
 class PostsAdapter(
-    private inline val onIgnore: ItemHandler = null,
-    private inline val onLike: ItemHandler = null,
+    private inline val onIgnore: ((itemId: Int, sourceId: Int) -> Unit)? = null,
+    private inline val onLike: ((itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) -> Unit)? = null,
     private inline val onClick: ItemHandler = null,
     private inline val onShare: ItemHandler = null,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
@@ -90,17 +92,18 @@ class PostsAdapter(
     override fun getItemCount(): Int = currentList.size
 
     override fun onItemSwipedStart(position: Int) {
-        onIgnore?.invoke(currentList[position])
-        currentList.toMutableList().also {
-            it.removeAt(position)
-            submitList(it)
+        val item = currentList[position]
+        onIgnore?.invoke(item.id, item.sourceId)
+        currentList.toMutableList().also { items ->
+            items.removeAt(position)
+            submitList(items)
         }
     }
 
     override fun onItemSwipedEnd(position: Int) {
-        currentList[position].also {
-            onLike?.invoke(it)
-            it.onLike()
+        currentList[position].also { item ->
+            onLike?.invoke(item.id, item.sourceId, item.type, item.canLike, item.likesCount)
+            item.like()
         }
         notifyItemChanged(position)
     }

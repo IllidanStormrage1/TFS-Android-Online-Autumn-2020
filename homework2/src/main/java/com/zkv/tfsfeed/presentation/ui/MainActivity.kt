@@ -20,15 +20,12 @@ import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.MainViewPagerAdapter
 import com.zkv.tfsfeed.presentation.extensions.loadImage
 import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
-import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-private const val AUTHORITY_PROVIDER = "${BuildConfig.APPLICATION_ID}.fileprovider"
-
-class MainActivity : AppCompatActivity(), MainActivityCallback {
+class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCallback {
 
     @Inject
     lateinit var accessTokenHelper: AccessTokenHelper
@@ -36,9 +33,8 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        if (!VK.isLoggedIn())
+        if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
             VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS))
         else
             initUi()
@@ -86,10 +82,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         }
     }
 
-    override fun showErrorDialog(throwable: Throwable) {
-        ErrorDialogFragment.newInstance(throwable.message).show(supportFragmentManager, null)
-    }
-
     override fun shareNewsItem(item: NewsItem) {
         if (item.photoUrl != null)
             loadImage(item.photoUrl) {
@@ -120,5 +112,9 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
             .add(android.R.id.content, DetailFragment.newInstance(item))
             .addToBackStack(null)
             .commit()
+    }
+
+    companion object {
+        private const val AUTHORITY_PROVIDER = "${BuildConfig.APPLICATION_ID}.fileprovider"
     }
 }

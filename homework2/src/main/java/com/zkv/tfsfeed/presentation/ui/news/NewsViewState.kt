@@ -11,24 +11,24 @@ sealed class NewsViewState(
     val errorMessage: String? = null,
     val showEmptyLoaded: Boolean = false,
     var freshItemsAvailable: Boolean = false,
-)
+) {
+    class Loading(news: List<NewsItem>) :
+        NewsViewState(news = news.toMutableList(), showLoading = true, freshItemsAvailable = false)
 
-class Loading(news: List<NewsItem>) :
-    NewsViewState(news = news.toMutableList(), showLoading = true, freshItemsAvailable = false)
+    class EmptyLoading : NewsViewState(showEmptyLoading = true, freshItemsAvailable = false)
 
-class EmptyLoading : NewsViewState(showEmptyLoading = true, freshItemsAvailable = false)
+    class Loaded(news: List<NewsItem>, isEmpty: Boolean) :
+        NewsViewState(news = news.toMutableList(),
+            showLoading = false,
+            showEmptyLoading = false,
+            showEmptyError = false,
+            showEmptyLoaded = isEmpty)
 
-class Loaded(news: List<NewsItem>, isEmpty: Boolean) :
-    NewsViewState(news = news.toMutableList(),
-        showLoading = false,
-        showEmptyLoading = false,
-        showEmptyError = false,
-        showEmptyLoaded = isEmpty)
+    class Error(news: List<NewsItem>, message: String?) :
+        NewsViewState(news = news.toMutableList(),
+            showError = true,
+            errorMessage = message,
+            freshItemsAvailable = false)
 
-class Error(news: List<NewsItem>, message: String?) :
-    NewsViewState(news = news.toMutableList(),
-        showError = true,
-        errorMessage = message,
-        freshItemsAvailable = false)
-
-object EmptyError : NewsViewState(showEmptyError = true, freshItemsAvailable = false)
+    object EmptyError : NewsViewState(showEmptyError = true, freshItemsAvailable = false)
+}

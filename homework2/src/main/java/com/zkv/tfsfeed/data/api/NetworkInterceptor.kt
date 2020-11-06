@@ -11,11 +11,17 @@ class NetworkInterceptor @Inject constructor(private val accessTokenHelper: Acce
         val originalRequest = chain.request()
 
         val url = originalRequest.url.newBuilder()
-            .addQueryParameter("access_token", accessTokenHelper.accessToken)
-            .addQueryParameter("v", "5.124")
+            .addQueryParameter(ACCESS_TOKEN, accessTokenHelper.accessToken)
+            .addQueryParameter(VERSION_CHAR, API_VERSION)
             .build()
 
         val request = originalRequest.newBuilder().url(url).build()
         return chain.proceed(request)
+    }
+
+    companion object {
+        private const val ACCESS_TOKEN = "access_token"
+        private const val VERSION_CHAR = "v"
+        private const val API_VERSION = "5.133"
     }
 }

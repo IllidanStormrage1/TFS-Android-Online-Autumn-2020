@@ -1,6 +1,7 @@
 package com.zkv.tfsfeed.presentation.ui.news
 
 import com.zkv.tfsfeed.domain.model.NewsItem
+import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.*
 
 class NewsStateMachine {
 
@@ -37,7 +38,7 @@ class NewsStateMachine {
         state.freshItemsAvailable = isFresh
     }
 
-    fun removeItem(item: NewsItem) {
-        state.news.remove(item)
+    fun removeItem(itemId: Int) {
+        state.news.remove(state.news.find { it.id == itemId })
     }
 }
