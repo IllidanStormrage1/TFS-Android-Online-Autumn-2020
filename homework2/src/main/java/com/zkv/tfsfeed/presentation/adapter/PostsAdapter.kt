@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.merge_item_post.view.*
 private const val TEXT_HOLDER_TYPE = 0
 private const val TEXT_IMAGE_HOLDER_TYPE = 1
 
-// TODO: 06.11.2020  
 private typealias ItemHandler = ((item: NewsItem) -> Unit)?
 
 class PostsAdapter(
@@ -91,6 +90,10 @@ class PostsAdapter(
 
     override fun getItemCount(): Int = currentList.size
 
+    override fun setStateRestorationPolicy(strategy: StateRestorationPolicy) {
+        super.setStateRestorationPolicy(StateRestorationPolicy.PREVENT_WHEN_EMPTY)
+    }
+
     override fun onItemSwipedStart(position: Int) {
         val item = currentList[position]
         onIgnore?.invoke(item.id, item.sourceId)
@@ -114,11 +117,27 @@ class PostsAdapter(
         super.onViewAttachedToWindow(holder)
         holder.itemView.setOnClickListener { onClick?.invoke(currentList[holder.absoluteAdapterPosition]) }
         holder.itemView.share_btn.setOnClickListener { onShare?.invoke(currentList[holder.absoluteAdapterPosition]) }
+        onLike?.let {
+            holder.itemView.like_btn.setOnClickListener {
+                onLike(currentList[holder.absoluteAdapterPosition],
+                    holder.absoluteAdapterPosition)
+            }
+        }
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.setOnClickListener(null)
         holder.itemView.share_btn.setOnClickListener(null)
+        holder.itemView.like_btn.setOnClickListener(null)
+    }
+
+    private fun onLike(item: NewsItem, position: Int) {
+        val diffBundle = Bundle()
+        onLike?.invoke(item.id, item.sourceId, item.type, item.canLike, item.likesCount)
+        item.like()
+        diffBundle.putInt(KEY_CAN_LIKE, item.canLike)
+        diffBundle.putInt(KEY_LIKES_COUNT, item.likesCount)
+        notifyItemChanged(position, diffBundle)
     }
 }

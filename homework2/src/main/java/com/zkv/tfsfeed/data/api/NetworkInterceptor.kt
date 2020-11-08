@@ -22,6 +22,6 @@ class NetworkInterceptor @Inject constructor(private val accessTokenHelper: Acce
     companion object {
         private const val ACCESS_TOKEN = "access_token"
         private const val VERSION_CHAR = "v"
-        private const val API_VERSION = "5.133"
+        private const val API_VERSION = "5.124"
     }
 }

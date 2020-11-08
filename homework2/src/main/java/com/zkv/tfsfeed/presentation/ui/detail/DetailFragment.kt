@@ -9,15 +9,15 @@ import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.Fragment
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.extensions.*
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.merge_item_post.*
+import moxy.MvpAppCompatFragment
 
-class DetailFragment : Fragment(R.layout.fragment_detail) {
+class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail) {
 
     private var _activityCallback: MainActivityCallback? = null
     private val activityCallback: MainActivityCallback get() = _activityCallback!!

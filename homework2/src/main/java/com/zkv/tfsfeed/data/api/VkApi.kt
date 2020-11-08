@@ -11,7 +11,7 @@ interface VkApi {
     @GET("newsfeed.get")
     fun getNewsFeed(
         @Query("filters") filter: String = "post,photo",
-        @Query("count") count: Int = 5,
+        @Query("count") count: Int? = null,
         @Query("start_from") startStr: String? = null,
     ): Single<BaseNewsFeedResponse>
 

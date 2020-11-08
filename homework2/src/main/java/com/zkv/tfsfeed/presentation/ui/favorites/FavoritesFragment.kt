@@ -3,9 +3,9 @@ package com.zkv.tfsfeed.presentation.ui.favorites
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
@@ -41,12 +41,13 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(fragment = this)
+        App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (view as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
             onClick = activityCallback::navigateToDetail,
             onShare = activityCallback::shareNewsItem)
@@ -60,7 +61,6 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
 
     private fun initRecyclerView(adapter: PostsAdapter) {
         news_posts_rv.adapter = adapter
-        adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
         news_posts_rv.addItemDecoration(
             DividerItemDecoration(
                 verticalSpace = resources.getDimensionPixelSize(R.dimen.default_margin),

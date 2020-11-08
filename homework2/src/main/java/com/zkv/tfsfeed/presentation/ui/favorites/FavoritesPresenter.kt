@@ -18,11 +18,11 @@ class FavoritesPresenter @Inject constructor(
     }
 
     fun onRefresh(isRefresh: Boolean = false) {
-        favoritesInteractor.fetchFavoritesPosts(isRefresh)
+        compositeDisposable += favoritesInteractor.fetchFavoritesPosts(isRefresh)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe({ list -> updateState { stateMachine.onLoaded(list) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }) += compositeDisposable
+                { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
     private inline fun updateState(stateAction: (NewsStateMachine) -> Unit) {

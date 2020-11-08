@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
+        if (!VK.isLoggedIn() && accessTokenHelper.isTokenExpired())
             VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS))
         else
             initUi()
@@ -100,10 +100,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
 
     private fun createShareIntent(content: String, uri: Uri? = null): Intent =
         Intent(ACTION_SEND).apply {
-            type = "image/*,text/plain"
+            type = "text/plain"
             addFlags(FLAG_GRANT_READ_URI_PERMISSION)
             putExtra(EXTRA_TEXT, content)
-            uri?.let { putExtra(EXTRA_STREAM, uri) }
+            uri?.let {
+                type = "image/jpeg,text/plain"
+                putExtra(EXTRA_STREAM, uri)
+            }
         }
 
     override fun navigateToDetail(item: NewsItem) {

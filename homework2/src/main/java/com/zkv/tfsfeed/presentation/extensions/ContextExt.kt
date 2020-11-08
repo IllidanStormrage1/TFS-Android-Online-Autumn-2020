@@ -24,6 +24,10 @@ fun Context.makeToast(@StringRes text: Int, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, text, length).show()
 }
 
+fun Context.makeToast(text: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, text, length).show()
+}
+
 fun Context.checkPermissionGranted(permission: String): Boolean =
     checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 

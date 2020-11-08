@@ -13,7 +13,7 @@ class ImageTypeFileProvider : FileProvider() {
 
     override fun getType(uri: Uri): String? {
         var type: String? = super.getType(uri)
-        if (type != "application/octet-stream") return type
+        if (type != TYPE_OCTET) return type
         try {
             val parcelFileDescriptor = openFile(uri, "r") ?: return type
             type = parcelFileDescriptor.use { parcelFileDesc ->
@@ -31,12 +31,20 @@ class ImageTypeFileProvider : FileProvider() {
 
     private fun getTypeFromImageType(imageType: ImageType, defaultType: String?): String? {
         val extension: String = when (imageType) {
-            ImageType.GIF -> "gif"
-            ImageType.JPEG -> "jpg"
-            ImageType.PNG_A, ImageType.PNG -> "png"
-            ImageType.WEBP_A, ImageType.WEBP -> "webp"
+            ImageType.GIF -> EXT_GIX
+            ImageType.JPEG -> EXT_JPG
+            ImageType.PNG_A, ImageType.PNG -> EXT_PNG
+            ImageType.WEBP_A, ImageType.WEBP -> EXT_WEBP
             else -> return defaultType
         }
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+    }
+
+    companion object {
+        const val EXT_GIX = "gif"
+        const val EXT_JPG = "jpg"
+        const val EXT_PNG = "png"
+        const val EXT_WEBP = "webp"
+        const val TYPE_OCTET = "application/octet-stream"
     }
 }

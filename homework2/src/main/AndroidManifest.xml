@@ -27,8 +27,8 @@
         <provider
             android:name="com.zkv.tfsfeed.presentation.provider.ImageTypeFileProvider"
             android:authorities="com.zkv.tfsfeed.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />

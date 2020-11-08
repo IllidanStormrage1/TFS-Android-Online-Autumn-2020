@@ -19,8 +19,8 @@ interface AppComponent {
 
     fun inject(application: App)
     fun inject(mainActivity: MainActivity)
-    fun inject(fragment: NewsFragment)
-    fun inject(fragment: FavoritesFragment)
+    fun inject(newsFragment: NewsFragment)
+    fun inject(favoritesFragment: FavoritesFragment)
 
     @Component.Builder
     interface Builder {

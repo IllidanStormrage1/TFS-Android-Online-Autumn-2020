@@ -3,10 +3,10 @@ package com.zkv.tfsfeed.presentation.ui.news
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
@@ -42,12 +42,13 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(fragment = this)
+        App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (view as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
             onIgnore = presenter::ignoreItem,
             onLike = presenter::like,
@@ -80,7 +81,6 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
     }
 
     private fun initViewState(adapter: PostsAdapter) {
-        adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
         news_posts_rv.run {
             addItemDecoration(
                 DividerItemDecoration(
@@ -100,7 +100,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
             setProgressViewOffset(true, -100, 100)
         }
         news_fresh_fab.setOnClickListener {
-            news_fresh_fab.hide()
+            //news_fresh_fab.hide()
             loadData()
         }
     }

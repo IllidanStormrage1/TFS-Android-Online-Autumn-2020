@@ -52,4 +52,5 @@ ext {
     securityСryptoVersion = '1.1.0-alpha02'
     roomVersion = '2.2.5'
     moxyVersion = '2.2.0'
+    timberVersion = '4.7.1'
 }
