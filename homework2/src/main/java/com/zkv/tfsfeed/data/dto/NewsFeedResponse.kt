@@ -8,5 +8,4 @@ class NewsFeedResponse(
     @SerializedName("groups") val groups: List<Group>,
     @SerializedName("items") val items: List<Item>,
     @SerializedName("profiles") val profiles: List<Profile>,
-    @SerializedName("next_from ") val nextStr: String,
 )

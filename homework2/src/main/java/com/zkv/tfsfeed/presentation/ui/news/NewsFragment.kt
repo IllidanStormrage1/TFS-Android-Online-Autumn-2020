@@ -68,10 +68,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
             news_shimmer.isVisible = showEmptyLoading
             placeholder_list_tv.isVisible = showEmptyError
             empty_placeholder_list_tv.isVisible = showEmptyLoaded
-            if (freshItemsAvailable)
-                news_fresh_fab.show()
-            else
-                news_fresh_fab.hide()
+            news_fresh_fab.isVisible = freshItemsAvailable
             adapter.submitList(news)
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
@@ -99,14 +96,10 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
                 R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
         }
-        news_fresh_fab.setOnClickListener {
-            //news_fresh_fab.hide()
-            loadData()
-        }
+        news_fresh_fab.setOnClickListener { loadData() }
     }
 
     private fun loadData(isRefresh: Boolean = true) {
-        news_posts_srl.isRefreshing = true
         presenter.loadData(isRefresh, System.currentTimeMillis())
     }
 

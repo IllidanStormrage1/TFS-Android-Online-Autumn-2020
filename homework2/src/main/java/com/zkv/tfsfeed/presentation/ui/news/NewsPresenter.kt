@@ -3,6 +3,7 @@ package com.zkv.tfsfeed.presentation.ui.news
 import com.zkv.tfsfeed.domain.MainInteractor
 import com.zkv.tfsfeed.presentation.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.internal.functions.Functions
 import moxy.InjectViewState
 import javax.inject.Inject
 
@@ -11,7 +12,6 @@ class NewsPresenter @Inject constructor(
     private val mainInteractor: MainInteractor,
     private val stateMachine: NewsStateMachine,
 ) : BasePresenter<NewsView>() {
-
 
     override fun onFirstViewAttach() {
         loadData(isRefresh = false, time = System.currentTimeMillis())
@@ -33,8 +33,9 @@ class NewsPresenter @Inject constructor(
     fun like(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {
         compositeDisposable += mainInteractor.likePost(itemId, sourceId, type, canLike, likesCount)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({},
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+            .subscribe(Functions.EMPTY_ACTION) { throwable ->
+                updateState { stateMachine.onError(throwable) }
+            }
     }
 
     fun ignoreItem(itemId: Int, sourceId: Int) {
@@ -45,7 +46,7 @@ class NewsPresenter @Inject constructor(
     }
 
     private inline fun updateState(stateAction: (NewsStateMachine) -> Unit) {
-        stateAction.invoke(stateMachine)
+        stateAction(stateMachine)
         viewState.render(stateMachine.state)
     }
 }

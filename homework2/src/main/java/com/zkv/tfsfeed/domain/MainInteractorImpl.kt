@@ -19,7 +19,13 @@ class MainInteractorImpl @Inject constructor(
         else
             loadSavedNewsFeed(time)
 
-    override fun likePost(itemId: Int, ownerId: Int, type: String, canLike: Int, likesCount: Int) =
+    override fun likePost(
+        itemId: Int,
+        ownerId: Int,
+        type: String,
+        canLike: Int,
+        likesCount: Int,
+    ): Completable =
         remoteRepository.likePost(itemId, ownerId, type, canLike)
             .doOnComplete { changeLikeInDatabase(itemId, canLike, likesCount) }
             .subscribeOn(Schedulers.io())

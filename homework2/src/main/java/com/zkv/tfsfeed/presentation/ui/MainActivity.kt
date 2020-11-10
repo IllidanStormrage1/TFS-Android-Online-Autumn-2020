@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
         App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        if (!VK.isLoggedIn() && accessTokenHelper.isTokenExpired())
-            VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS))
+        if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
+            VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS, VKScope.OFFLINE))
         else
             initUi()
     }

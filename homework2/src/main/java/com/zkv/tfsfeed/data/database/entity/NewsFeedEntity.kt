@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "news_feed")
 class NewsFeedEntity(
-    @PrimaryKey(autoGenerate = true)
-    val index: Long = 0,
+    @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Int,
     @ColumnInfo(name = "type")
@@ -16,7 +15,7 @@ class NewsFeedEntity(
     val avatarUrl: String?,
     @ColumnInfo(name = "display_name")
     val displayName: String,
-    @ColumnInfo(name = "dateInMills")
+    @ColumnInfo(name = "date_in_mills")
     val dateInMills: Long,
     @ColumnInfo(name = "date")
     val date: String,

@@ -10,7 +10,7 @@ import io.reactivex.Single
 @Dao
 interface NewsFeedDAO {
 
-    @Query("SELECT * FROM news_feed")
+    @Query("SELECT * FROM news_feed ORDER BY date_in_mills DESC")
     fun getAllNewsFeed(): Single<List<NewsFeedEntity>>
 
     @Insert
