@@ -6,6 +6,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.provider.MediaStore
 import android.widget.Toast
@@ -38,7 +42,7 @@ fun Activity.downloadImageWithExternalStorage(bitmap: Bitmap) {
                 0)
         }
     } catch (e: Exception) {
-        makeToast(R.string.toast_faild_load)
+        makeToast(R.string.toast_failed_load)
     }
 }
 
@@ -54,7 +58,7 @@ fun Context.downloadImageWithMediaStore(bitmap: Bitmap) {
             .use { bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it) }
         makeToast(R.string.toast_successfully_download)
     } catch (e: Exception) {
-        makeToast(R.string.toast_faild_load)
+        makeToast(R.string.toast_failed_load)
     }
 }
 
@@ -82,4 +86,45 @@ fun Context.loadImage(url: String, onSuccess: (file: File) -> Unit) {
             }
         })
         .submit()
+}
+
+fun Context.registerNetworkCallback(
+    onAvailable: () -> Unit,
+    onLost: () -> Unit,
+): ConnectivityManager.NetworkCallback {
+    if (checkNetworkConnection()) onAvailable() else onLost()
+    val callback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            onAvailable()
+        }
+
+        override fun onLost(network: Network) {
+            onLost()
+        }
+
+        override fun onUnavailable() {
+            onLost()
+        }
+
+        override fun onLosing(network: Network, maxMsToLive: Int) {
+            onLost()
+        }
+    }
+    (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).registerNetworkCallback(
+        NetworkRequest.Builder()
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build(), callback)
+    return callback
+}
+
+fun Context.unregisterNetworkCallback(networkCallback: ConnectivityManager.NetworkCallback) {
+    (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).unregisterNetworkCallback(
+        networkCallback)
+}
+
+@Suppress("DEPRECATION")
+fun Context.checkNetworkConnection(): Boolean {
+    val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val ani = cm.activeNetworkInfo
+    return ani != null && ani.isConnected
 }

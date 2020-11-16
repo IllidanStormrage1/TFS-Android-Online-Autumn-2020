@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".presentation.ui.MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
@@ -12,14 +13,16 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="?actionBarSize" />
 
+    <include layout="@layout/partial_label_connection_error" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/main_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?colorSurface"
-        app:itemIconTint="@color/menu_color_selector"
-        app:itemTextColor="@color/menu_color_selector"
+        app:itemIconTint="@color/selector_color_menu"
+        app:itemTextColor="@color/selector_color_menu"
         app:menu="@menu/main_bottom_navigation" />
 
     <ProgressBar

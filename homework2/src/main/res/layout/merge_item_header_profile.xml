@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="com.zkv.tfsfeed.presentation.widget.HeaderProfileLayout">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile_avatar_iv"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:padding="1dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:strokeColor="@color/ghost"
+        app:strokeWidth="0.5dp"
+        tools:src="@tools:sample/avatars" />
+
+    <View
+        android:id="@+id/profile_online_badge"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:visibility="visible"
+        tools:background="@drawable/ic_online_status" />
+
+    <TextView
+        android:id="@+id/profile_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:layout_marginTop="@dimen/default_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:textSize="16sp"
+        tools:text="@tools:sample/full_names" />
+
+    <TextView
+        android:id="@+id/profile_domain_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        tools:text="@tools:sample/full_names" />
+
+    <TextView
+        android:id="@+id/profile_last_seen_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        tools:text="@tools:sample/date/ddmmyy" />
+
+    <TextView
+        android:id="@+id/profile_about_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:ellipsize="end"
+        android:maxLines="8"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        tools:text="@string/label_about" />
+
+    <TextView
+        android:id="@+id/profile_followers_count_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_friends"
+        tools:text="@string/label_not_indicated" />
+
+    <TextView
+        android:id="@+id/profile_bday_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_cake"
+        tools:text="@string/label_birthday" />
+
+    <TextView
+        android:id="@+id/profile_home_town_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_roofing"
+        tools:text="@string/label_home_town" />
+
+    <TextView
+        android:id="@+id/profile_city_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_location_city"
+        tools:text="@string/label_city" />
+
+    <TextView
+        android:id="@+id/profile_career_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_work"
+        tools:text="@string/label_career" />
+
+    <TextView
+        android:id="@+id/profile_education_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_school"
+        tools:text="@string/label_education" />
+
+    <TextView
+        android:id="@+id/profile_relation_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:drawablePadding="@dimen/default_margin_small"
+        android:textAppearance="@style/AppTheme.Text.Medium"
+        app:drawableStartCompat="@drawable/ic_self_improvement"
+        tools:text="@string/label_relation" />
+
+</merge>

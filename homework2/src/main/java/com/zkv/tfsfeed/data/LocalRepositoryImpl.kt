@@ -21,11 +21,11 @@ class LocalRepositoryImpl @Inject constructor(
         .map(EntityConverter::NewsItem)
         .toList()
 
-    override fun rewriteNewsInDatabase(items: List<NewsItem>) {
+    override fun rewriteNewsDatabase(items: List<NewsItem>) {
         dao.rewriteNews(items.map(EntityConverter::NewsFeedEntity))
     }
 
-    override fun deleteItemById(itemId: Int) {
+    override fun removeItemById(itemId: Int) {
         dao.deleteByPostId(itemId)
     }
 

@@ -8,7 +8,7 @@ android {
     buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.zkv.tfsfeed"
+        applicationId rootProject.applicationId
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode rootProject.versionCode
@@ -17,7 +17,7 @@ android {
         buildConfigField "String", "API_BASE_URL", "\"https://api.vk.com/method/\""
         buildConfigField "String", "PREF_FILE_NAME", "\"pref_name\""
         buildConfigField "String", "ENC_PREF_FILE_NAME", "\"enc_pref_name\""
-        buildConfigField "String", "DATABASE_NAME", "\"newsdatabese\""
+        buildConfigField "String", "DATABASE_NAME", "\"newsdatabase\""
     }
 
     buildTypes {
@@ -88,6 +88,4 @@ dependencies {
     implementation "androidx.security:security-crypto:$securityСryptoVersion"
 
     implementation "com.jakewharton.timber:timber:$timberVersion"
-
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="com.zkv.tfsfeed.presentation.widget.CommentLayout">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/comment_avatar_iv"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="1dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:strokeColor="@color/ghost"
+        app:strokeWidth="0.5dp"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/comment_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:textSize="16sp"
+        tools:text="@tools:sample/full_names" />
+
+    <TextView
+        android:id="@+id/comment_text_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        tools:text="urgkusdgkhn glksgdfhfg hgdhdfghkdghkl lkbmlcxv;lbkjxcvkbjkxclvjbkclvjbkvcxbklxcjvbklxcvbklj;xcvklbj;klxcvjbklcvjbkcjvbkjvcbjcvjbkcvjbkcvjbkcjvjbvjbnvjbnvjbnjvnbjvnbjvnbjvnbjvnbjvnbjvbnjvbnjvnbjvnbjvnbjvnbjvnbjvnbjfdhd fjhjdhjdfgkh;j ghdkjf hkdjhdf ghdfkj hd fjdkfhjdfkhjdfh jdflkfh" />
+
+    <TextView
+        android:id="@+id/comment_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        tools:text="@tools:sample/date/ddmmyy" />
+
+    <TextView
+        android:id="@+id/comment_likes_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:drawablePadding="4dp"
+        android:focusable="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:textColor="@color/ghost"
+        app:drawableStartCompat="@drawable/ic_heart_small"
+        app:drawableTint="@color/ghost"
+        tools:text="2345" />
+
+</merge>

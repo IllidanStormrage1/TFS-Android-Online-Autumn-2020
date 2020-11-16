@@ -9,6 +9,7 @@ import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.ui.MainActivity
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
+import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -21,6 +22,7 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(newsFragment: NewsFragment)
     fun inject(favoritesFragment: FavoritesFragment)
+    fun inject(profileFragment: ProfileFragment)
 
     @Component.Builder
     interface Builder {

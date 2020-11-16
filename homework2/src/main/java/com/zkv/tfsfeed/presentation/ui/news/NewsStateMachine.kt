@@ -1,9 +1,10 @@
 package com.zkv.tfsfeed.presentation.ui.news
 
+import com.zkv.tfsfeed.data.api.ErrorHandler
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.*
 
-class NewsStateMachine {
+class NewsStateMachine(private val errorHandler: ErrorHandler) {
 
     var state: NewsViewState = EmptyLoading()
         private set
@@ -28,9 +29,9 @@ class NewsStateMachine {
 
     fun onError(throwable: Throwable): NewsViewState {
         state = if (state.news.isNotEmpty())
-            Error(state.news, throwable.localizedMessage)
+            Error(state.news, errorHandler.getErrorMessage(throwable))
         else
-            EmptyError
+            EmptyError(errorHandler.getErrorMessage(throwable))
         return state
     }
 

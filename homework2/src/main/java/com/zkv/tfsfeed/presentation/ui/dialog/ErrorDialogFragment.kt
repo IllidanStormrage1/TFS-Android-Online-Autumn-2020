@@ -11,9 +11,9 @@ class ErrorDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.title_error_dialog)
+            .setTitle(R.string.text_error_dialog)
             .setMessage(requireArguments().getString(ERROR_MESSAGE_KEY)
-                ?: getString(R.string.default_message_error_dialog))
+                ?: getString(R.string.message_error_default))
             .setPositiveButton(R.string.text_positive_button_error_dialog) { _, _ -> dismiss() }
             .setCancelable(true)
             .create()

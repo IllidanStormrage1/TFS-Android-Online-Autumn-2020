@@ -13,7 +13,6 @@
         android:orientation="vertical">
 
         <com.zkv.tfsfeed.presentation.widget.SocialPostLayout
-            android:id="@+id/detail_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin_small"
@@ -27,10 +26,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/default_margin"
-            android:text="@string/save_in_gallery"
+            android:text="@string/text_save_in_gallery"
             android:textColor="?colorAccent"
             android:visibility="gone"
             tools:visibility="visible" />
 
     </LinearLayout>
+
 </ScrollView>

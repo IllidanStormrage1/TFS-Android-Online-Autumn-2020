@@ -14,6 +14,7 @@ import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_CAN
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_COMMENTS_COUNT
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_LIKES_COUNT
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_REPOSTS_COUNT
+import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_TEXT
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_VIEWS_COUNT
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
@@ -42,9 +43,10 @@ class PostsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
-            TEXT_IMAGE_HOLDER_TYPE -> TextImageViewHolder(parent.inflate(R.layout.item_post),
+            TEXT_IMAGE_HOLDER_TYPE -> TextImageViewHolder(parent.inflate(R.layout.item_rc_post),
                 isImage = true)
-            TEXT_HOLDER_TYPE -> TextViewHolder(parent.inflate(R.layout.item_post), isImage = false)
+            TEXT_HOLDER_TYPE -> TextViewHolder(parent.inflate(R.layout.item_rc_post),
+                isImage = false)
             else -> throw IllegalStateException()
         }
 
@@ -67,7 +69,7 @@ class PostsAdapter(
             diffBundle.keySet().forEach {
                 when (it) {
                     KEY_LIKES_COUNT -> holder.itemView.like_btn.text =
-                        diffBundle.getInt(it).toString()
+                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
                     KEY_CAN_LIKE -> {
                         if (diffBundle.getInt(it) == 0)
                             holder.itemView.like_btn.setIconResource(R.drawable.ic_heart_selected)
@@ -75,11 +77,11 @@ class PostsAdapter(
                             holder.itemView.like_btn.setIconResource(R.drawable.ic_heart)
                     }
                     KEY_COMMENTS_COUNT -> holder.itemView.comment_btn.text =
-                        diffBundle.getInt(it).toString()
+                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
                     KEY_REPOSTS_COUNT -> holder.itemView.share_btn.text =
-                        diffBundle.getInt(it).toString()
-                    KEY_VIEWS_COUNT -> holder.itemView.views_tv.text =
-                        diffBundle.getString(it)
+                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
+                    KEY_VIEWS_COUNT -> holder.itemView.views_tv.text = diffBundle.getString(it)
+                    KEY_TEXT -> holder.itemView.content_tv.text = diffBundle.getString(it)
                 }
             }
         }
@@ -115,29 +117,13 @@ class PostsAdapter(
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.itemView.setOnClickListener { onClick?.invoke(currentList[holder.absoluteAdapterPosition]) }
-        holder.itemView.share_btn.setOnClickListener { onShare?.invoke(currentList[holder.absoluteAdapterPosition]) }
-        onLike?.let {
-            holder.itemView.like_btn.setOnClickListener {
-                onLike(currentList[holder.absoluteAdapterPosition],
-                    holder.absoluteAdapterPosition)
-            }
-        }
+        holder.itemView.setOnClickListener { onClick?.invoke(currentList[holder.bindingAdapterPosition]) }
+        holder.itemView.share_btn.setOnClickListener { onShare?.invoke(currentList[holder.bindingAdapterPosition]) }
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.setOnClickListener(null)
         holder.itemView.share_btn.setOnClickListener(null)
-        holder.itemView.like_btn.setOnClickListener(null)
-    }
-
-    private fun onLike(item: NewsItem, position: Int) {
-        val diffBundle = Bundle()
-        onLike?.invoke(item.id, item.sourceId, item.type, item.canLike, item.likesCount)
-        item.like()
-        diffBundle.putInt(KEY_CAN_LIKE, item.canLike)
-        diffBundle.putInt(KEY_LIKES_COUNT, item.likesCount)
-        notifyItemChanged(position, diffBundle)
     }
 }

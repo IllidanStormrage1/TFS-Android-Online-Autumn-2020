@@ -15,9 +15,9 @@ import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsViewState
 import kotlinx.android.synthetic.main.fragment_news.*
-import kotlinx.android.synthetic.main.fresh_new_items_extended_fab.*
-import kotlinx.android.synthetic.main.placeholder_empty_list.*
-import kotlinx.android.synthetic.main.placeholder_shimmer_rc.*
+import kotlinx.android.synthetic.main.plc_empty_list.*
+import kotlinx.android.synthetic.main.plc_error_list_tv.*
+import kotlinx.android.synthetic.main.plc_shimmer_list.*
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -47,31 +47,16 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (view as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
+        (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
             onClick = activityCallback::navigateToDetail,
             onShare = activityCallback::shareNewsItem)
-        initRecyclerView(adapter)
+        initViewState(adapter)
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.onRefresh()
-    }
-
-    private fun initRecyclerView(adapter: PostsAdapter) {
-        news_posts_rv.adapter = adapter
-        news_posts_rv.addItemDecoration(
-            DividerItemDecoration(
-                verticalSpace = resources.getDimensionPixelSize(R.dimen.default_margin),
-                headerTextSize = resources.getDimension(R.dimen.header_text_size),
-                textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
-                adapter
-            )
-        )
-        news_posts_srl.setOnRefreshListener { presenter.onRefresh(true) }
-        news_posts_srl.setColorSchemeColors(ContextCompat.getColor(requireContext(),
-            R.color.colorAccent))
+        presenter.loadData()
     }
 
     override fun onDestroyView() {
@@ -83,17 +68,36 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
         with(state) {
             news_posts_srl.isRefreshing = showLoading
             news_shimmer.isVisible = showEmptyLoading
-            placeholder_list_tv.isVisible = showEmptyError
+            placeholder_empty_error_tv.isVisible = showEmptyError
             empty_placeholder_list_tv.isVisible = showEmptyLoaded
+            adapter.submitList(news)
             if (freshItemsAvailable)
                 news_fresh_fab.show()
             else
                 news_fresh_fab.hide()
-            adapter.submitList(news)
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
                     .showIfNotVisible(requireActivity().supportFragmentManager,
                         ErrorDialogFragment.ERROR_MESSAGE_KEY)
+        }
+    }
+
+    private fun initViewState(adapter: PostsAdapter) {
+        news_posts_rv.run {
+            this.adapter = adapter
+            addItemDecoration(
+                DividerItemDecoration(
+                    verticalSpace = resources.getDimensionPixelSize(R.dimen.default_margin),
+                    headerTextSize = resources.getDimension(R.dimen.header_text_size),
+                    textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
+                    adapter
+                ))
+        }
+        news_posts_srl.run {
+            setOnRefreshListener { presenter.loadData(true) }
+            setColorSchemeColors(ContextCompat.getColor(requireContext(),
+                R.color.colorAccent))
+            setProgressViewOffset(true, -100, 100)
         }
     }
 

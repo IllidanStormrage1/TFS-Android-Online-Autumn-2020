@@ -36,10 +36,10 @@ class TextViewHolder(override val containerView: View, isImage: Boolean) :
                 share_btn.text = ""
             views_tv.text = viewsCount
             content_iv.loadFromUrl(photoUrl,
-                R.drawable.background_placeholder,
+                R.drawable.bg_placeholder,
                 RequestOptions().centerCrop())
             avatar_iv.loadFromUrl(avatarUrl,
-                R.drawable.background_placeholder,
+                R.drawable.bg_placeholder,
                 RequestOptions().centerCrop())
             if (canLike == 0)
                 like_btn.setIconResource(R.drawable.ic_heart_selected)

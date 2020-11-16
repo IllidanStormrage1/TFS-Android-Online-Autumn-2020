@@ -7,5 +7,6 @@
     <color name="athens_gray">#EDEEF0</color>
     <color name="silver">#C3C3C3</color>
     <color name="red">#FF0000</color>
+    <color name="light_red">#BCFF0000</color>
     <color name="ghost">#C0C4CC</color>
 </resources>

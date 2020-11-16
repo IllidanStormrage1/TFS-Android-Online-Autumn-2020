@@ -13,10 +13,14 @@ private const val SUFFIX_STRING = "KMGTPE"
 fun dateStringFromTimeInMillis(timeInMillis: Long): String =
     SimpleDateFormat(DATE_FORMAT, Locale.ROOT).format(timeInMillis)
 
+// TODO: 16.11.2020  хз пока как исправить
 fun prepareDateString(timeInMilliseconds: Long) = when {
     DateUtils.isToday(timeInMilliseconds) -> "Сегодня"
-    else -> DateUtils.getRelativeTimeSpanString(timeInMilliseconds).toString()
+    else -> getTimeSpan(timeInMilliseconds)
 }
+
+fun getTimeSpan(timeInMilliseconds: Long) =
+    DateUtils.getRelativeTimeSpanString(timeInMilliseconds).toString()
 
 fun <T> MutableCollection<T>.clearAndAddAll(collection: Collection<T>) {
     clear()

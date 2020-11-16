@@ -4,7 +4,6 @@ import com.zkv.tfsfeed.domain.model.NewsItem
 
 object EntityConverter {
 
-    @Suppress("FunctionName")
     fun NewsItem(newsFeedEntity: NewsFeedEntity): NewsItem {
         with(newsFeedEntity) {
             return NewsItem(
@@ -26,7 +25,6 @@ object EntityConverter {
         }
     }
 
-    @Suppress("FunctionName")
     fun NewsFeedEntity(newsItem: NewsItem): NewsFeedEntity {
         with(newsItem) {
             return NewsFeedEntity(

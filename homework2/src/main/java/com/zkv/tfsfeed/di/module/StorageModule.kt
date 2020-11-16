@@ -5,8 +5,7 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.zkv.tfsfeed.BuildConfig.ENC_PREF_FILE_NAME
-import com.zkv.tfsfeed.BuildConfig.PREF_FILE_NAME
+import com.zkv.tfsfeed.BuildConfig.*
 import com.zkv.tfsfeed.data.database.NewsFeedDatabase
 import com.zkv.tfsfeed.data.database.dao.NewsFeedDAO
 import dagger.Module
@@ -49,7 +48,7 @@ object StorageModule {
     @JvmStatic
     @Singleton
     fun provideDatabase(context: Context): NewsFeedDatabase = Room
-        .databaseBuilder(context, NewsFeedDatabase::class.java, "newsdatabese")
+        .databaseBuilder(context, NewsFeedDatabase::class.java, DATABASE_NAME)
         .build()
 
     @Provides

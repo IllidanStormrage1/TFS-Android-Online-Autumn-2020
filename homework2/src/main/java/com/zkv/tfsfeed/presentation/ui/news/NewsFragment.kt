@@ -16,9 +16,9 @@ import com.zkv.tfsfeed.presentation.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import kotlinx.android.synthetic.main.fragment_news.*
-import kotlinx.android.synthetic.main.fresh_new_items_extended_fab.*
-import kotlinx.android.synthetic.main.placeholder_empty_list.*
-import kotlinx.android.synthetic.main.placeholder_shimmer_rc.*
+import kotlinx.android.synthetic.main.plc_empty_list.*
+import kotlinx.android.synthetic.main.plc_error_list_tv.*
+import kotlinx.android.synthetic.main.plc_shimmer_list.*
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
@@ -48,10 +48,10 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (view as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
+        (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
             onIgnore = presenter::ignoreItem,
-            onLike = presenter::like,
+            onLike = presenter::onLike,
             onClick = activityCallback::navigateToDetail,
             onShare = activityCallback::shareNewsItem)
         initViewState(adapter)
@@ -66,7 +66,8 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
         with(state) {
             news_posts_srl.isRefreshing = showLoading
             news_shimmer.isVisible = showEmptyLoading
-            placeholder_list_tv.isVisible = showEmptyError
+            placeholder_empty_error_tv.isVisible = showEmptyError
+            placeholder_empty_error_tv.text = errorMessage
             empty_placeholder_list_tv.isVisible = showEmptyLoaded
             news_fresh_fab.isVisible = freshItemsAvailable
             adapter.submitList(news)
@@ -79,22 +80,23 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
     private fun initViewState(adapter: PostsAdapter) {
         news_posts_rv.run {
+            this.adapter = adapter
             addItemDecoration(
                 DividerItemDecoration(
                     verticalSpace = resources.getDimensionPixelSize(R.dimen.default_margin),
                     headerTextSize = resources.getDimension(R.dimen.header_text_size),
                     textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
                     callback = adapter
-                )
-            )
-            this.adapter = adapter
+                ))
         }
-        ItemTouchHelper(MainItemTouchHelper(adapter)).run { attachToRecyclerView(news_posts_rv) }
         news_posts_srl.run {
             setOnRefreshListener { loadData() }
             setColorSchemeColors(ContextCompat.getColor(requireContext(),
                 R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
+        }
+        ItemTouchHelper(MainItemTouchHelper(adapter)).run {
+            attachToRecyclerView(news_posts_rv)
         }
         news_fresh_fab.setOnClickListener { loadData() }
     }

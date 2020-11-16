@@ -21,6 +21,7 @@ class DiffCallback : DiffUtil.ItemCallback<NewsItem>() {
             newItem.repostsCount)
         if (oldItem.viewsCount != newItem.viewsCount) diffBundle.putString(KEY_VIEWS_COUNT,
             newItem.viewsCount)
+        if (oldItem.text != newItem.text) diffBundle.putString(KEY_TEXT, newItem.text)
         return diffBundle
     }
 
@@ -30,5 +31,6 @@ class DiffCallback : DiffUtil.ItemCallback<NewsItem>() {
         const val KEY_COMMENTS_COUNT = "commentsCount"
         const val KEY_REPOSTS_COUNT = "repostsCount"
         const val KEY_VIEWS_COUNT = "viewsCount"
+        const val KEY_TEXT = "keyText"
     }
 }

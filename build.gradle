@@ -1,11 +1,11 @@
 buildscript {
-    ext.kotlinVersion = '1.4.10'
+    ext.kotlinVersion = '1.4.20-RC'
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.2"
+        classpath "com.android.tools.build:gradle:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
@@ -29,6 +29,7 @@ ext {
     compileSdkVersion = 30
     buildToolsVersion = '30.0.2'
     applicationVersion = '1.0.0'
+    applicationId = "com.zkv.tfsfeed"
     versionCode = 1
 
     // Vk sdk

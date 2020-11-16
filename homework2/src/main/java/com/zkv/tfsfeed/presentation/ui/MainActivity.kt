@@ -2,7 +2,7 @@ package com.zkv.tfsfeed.presentation.ui
 
 import android.content.Intent
 import android.content.Intent.*
-import android.net.Uri
+import android.net.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -19,20 +19,28 @@ import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.MainViewPagerAdapter
 import com.zkv.tfsfeed.presentation.extensions.loadImage
+import com.zkv.tfsfeed.presentation.extensions.registerNetworkCallback
+import com.zkv.tfsfeed.presentation.extensions.unregisterNetworkCallback
 import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
+import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.partial_label_connection_error.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCallback {
+class MainActivity : AppCompatActivity(), MainActivityCallback {
 
     @Inject
     lateinit var accessTokenHelper: AccessTokenHelper
+    private var _networkCallback: ConnectivityManager.NetworkCallback? = null
+    private val networkCallback: ConnectivityManager.NetworkCallback get() = _networkCallback!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
             VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS, VKScope.OFFLINE))
@@ -56,11 +64,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
             super.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterNetworkCallback(networkCallback)
+        _networkCallback = null
+    }
+
     private fun initUi() {
         main_progress_bar.isVisible = false
-        val fragments = listOf(NewsFragment.newInstance(), FavoritesFragment.newInstance())
+        val fragments = listOf(NewsFragment.newInstance(),
+            FavoritesFragment.newInstance(),
+            ProfileFragment.newInstance())
         initViewPager(fragments)
         initBottomNavigation()
+        _networkCallback = registerNetworkCallback(
+            onAvailable = { runOnUiThread { label_connection_error.isVisible = false } },
+            onLost = { runOnUiThread { label_connection_error.isVisible = true } })
     }
 
     private fun initViewPager(fragments: List<Fragment>) {
@@ -75,8 +94,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
     private fun initBottomNavigation() {
         main_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menu_news -> main_view_pager.setCurrentItem(0, true)
-                R.id.menu_favorites -> main_view_pager.setCurrentItem(1, true)
+                R.id.menu_news -> main_view_pager.setCurrentItem(0, false)
+                R.id.menu_favorites -> main_view_pager.setCurrentItem(1, false)
+                R.id.menu_profile -> main_view_pager.setCurrentItem(2, false)
             }
             return@setOnNavigationItemSelectedListener true
         }
@@ -95,7 +115,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
 
     private fun showIntentChooser(shareIntent: Intent) {
         startActivity(createChooser(shareIntent,
-            resources.getString(R.string.share_intent_title)))
+            resources.getString(R.string.text_share_intent)))
     }
 
     private fun createShareIntent(content: String, uri: Uri? = null): Intent =

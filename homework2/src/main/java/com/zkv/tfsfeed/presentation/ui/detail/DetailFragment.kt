@@ -45,7 +45,7 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail) {
             share_btn.text = repostsCount.toString()
             share_btn.setOnClickListener { activityCallback.shareNewsItem(this) }
             views_tv.text = viewsCount
-            avatar_iv.loadFromUrl(avatarUrl, R.drawable.background_placeholder)
+            avatar_iv.loadFromUrl(avatarUrl, R.drawable.bg_placeholder)
             if (item.photoUrl == null) {
                 content_iv.isVisible = false
             } else {
@@ -53,7 +53,7 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail) {
                 content_iv.updateLayoutParams { height = MATCH_PARENT }
                 content_iv.loadFromUrl(
                     photoUrl,
-                    R.drawable.background_placeholder)
+                    R.drawable.bg_placeholder)
                 detail_save_btn.isVisible = true
                 detail_save_btn.setOnClickListener { downloadImage(content_iv) }
             }

@@ -6,6 +6,7 @@ import com.vk.api.sdk.VKTokenExpiredHandler
 import com.zkv.tfsfeed.BuildConfig
 import com.zkv.tfsfeed.data.api.AccessTokenHelper
 import com.zkv.tfsfeed.di.component.AppComponent
+import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
@@ -22,11 +23,24 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appComponent = AppComponent.create(this)
-        appComponent.inject(this)
+        initDi()
         initExpiredTokenHandler()
+        initLogger()
+        initRxJavaPlugin()
+    }
+
+    private fun initRxJavaPlugin() {
+        RxJavaPlugins.setErrorHandler { Timber.d(it) }
+    }
+
+    private fun initLogger() {
         if (BuildConfig.DEBUG)
             Timber.plant(DebugTree())
+    }
+
+    private fun initDi() {
+        appComponent = AppComponent.create(this)
+        appComponent.inject(this)
     }
 
     private fun initExpiredTokenHandler() {

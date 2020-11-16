@@ -1,6 +1,9 @@
 package com.zkv.tfsfeed.presentation.ui.news
 
-import com.zkv.tfsfeed.domain.MainInteractor
+import com.zkv.tfsfeed.domain.middleware.CheckRelevanceNews
+import com.zkv.tfsfeed.domain.middleware.FetchNewsFeed
+import com.zkv.tfsfeed.domain.middleware.IgnorePost
+import com.zkv.tfsfeed.domain.middleware.LikePost
 import com.zkv.tfsfeed.presentation.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.functions.Functions
@@ -9,7 +12,10 @@ import javax.inject.Inject
 
 @InjectViewState
 class NewsPresenter @Inject constructor(
-    private val mainInteractor: MainInteractor,
+    private val likePost: LikePost,
+    private val ignorePost: IgnorePost,
+    private val fetchNewsFeed: FetchNewsFeed,
+    private val checkRelevanceNews: CheckRelevanceNews,
     private val stateMachine: NewsStateMachine,
 ) : BasePresenter<NewsView>() {
 
@@ -18,9 +24,9 @@ class NewsPresenter @Inject constructor(
     }
 
     fun loadData(isRefresh: Boolean, time: Long?) {
-        compositeDisposable += mainInteractor.fetchAllPosts(isRefresh, time)
+        compositeDisposable += fetchNewsFeed(isRefresh, time)
+            .flatMap { items -> checkRelevanceNews().map { items to it } }
             .observeOn(AndroidSchedulers.mainThread())
-            .flatMap { items -> mainInteractor.isRelevanceNews().map { items to it } }
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
                 { items ->
@@ -30,8 +36,8 @@ class NewsPresenter @Inject constructor(
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
-    fun like(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {
-        compositeDisposable += mainInteractor.likePost(itemId, sourceId, type, canLike, likesCount)
+    fun onLike(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {
+        compositeDisposable += likePost(itemId, sourceId, type, canLike, likesCount)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
                 updateState { stateMachine.onError(throwable) }
@@ -39,9 +45,10 @@ class NewsPresenter @Inject constructor(
     }
 
     fun ignoreItem(itemId: Int, sourceId: Int) {
-        compositeDisposable += mainInteractor.ignoreItem(itemId, sourceId, "wall")
+        compositeDisposable += ignorePost(itemId, sourceId, "wall")
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ updateState { stateMachine.removeItem(itemId) } },
+            .subscribe(
+                { updateState { stateMachine.removeItem(itemId) } },
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 

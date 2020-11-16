@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
-    <include layout="@layout/fresh_new_items_extended_fab" />
+    <include layout="@layout/plc_shimmer_list" />
 
-    <include layout="@layout/placeholder_shimmer_rc" />
-
-    <include layout="@layout/placeholder_empty_list" />
+    <include layout="@layout/plc_empty_list" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/news_posts_srl"
@@ -28,5 +27,23 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/news_fresh_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:backgroundTint="?colorAccent"
+        android:padding="0dp"
+        android:text="@string/label_fresh_items"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="?colorSurface"
+        android:visibility="gone"
+        app:icon="@drawable/ic_arrow_upward"
+        app:iconGravity="textStart"
+        app:iconSize="16dp"
+        app:iconTint="?colorSurface"
+        tools:visibility="visible" />
 
 </FrameLayout>

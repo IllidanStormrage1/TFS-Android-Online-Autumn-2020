@@ -30,5 +30,6 @@ sealed class NewsViewState(
             errorMessage = message,
             freshItemsAvailable = false)
 
-    object EmptyError : NewsViewState(showEmptyError = true, freshItemsAvailable = false)
+    class EmptyError(message: String?) :
+        NewsViewState(errorMessage = message, showEmptyError = true, freshItemsAvailable = false)
 }

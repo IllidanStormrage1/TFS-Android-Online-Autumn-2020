@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:background="@drawable/bg_circle_placeholder" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="160dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/default_margin_small"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:background="@drawable/bg_corner_radius"
+                android:backgroundTint="@color/silver" />
+
+            <View
+                android:layout_width="64dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="@dimen/default_margin_small"
+                android:layout_marginTop="@dimen/default_margin_small"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:background="@drawable/bg_corner_radius"
+                android:backgroundTint="@color/silver" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="256dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@drawable/bg_corner_radius"
+        android:backgroundTint="@color/silver" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@drawable/bg_corner_radius"
+        android:backgroundTint="@color/silver" />
+
+    <View
+        android:layout_width="160dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@drawable/bg_corner_radius"
+        android:backgroundTint="@color/silver" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:background="@drawable/bg_corner_radius"
+        android:backgroundTint="@color/silver" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin_small"
+            android:background="@drawable/bg_corner_radius"
+            android:backgroundTint="@color/silver" />
+
+        <View
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin_small"
+            android:background="@drawable/bg_corner_radius"
+            android:backgroundTint="@color/silver" />
+
+        <View
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin_small"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="@drawable/bg_corner_radius"
+            android:backgroundTint="@color/silver" />
+
+        <Space
+            android:layout_width="46dp"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="48dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:background="@drawable/bg_corner_radius"
+            android:backgroundTint="@color/silver" />
+
+    </LinearLayout>
+
+</merge>
