@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
             VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS, VKScope.OFFLINE))
         else
-            initUi()
+            initViewState()
     }
 
     @Suppress("DEPRECATION")
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
                 accessTokenHelper.saveToken(token.accessToken)
-                initUi()
+                initViewState()
             }
 
             override fun onLoginFailed(errorCode: Int) {
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
             showIntentChooser(createShareIntent(item.text))
     }
 
-    private fun initUi() {
+    private fun initViewState() {
         main_progress_bar.isVisible = false
         val fragments = listOf(NewsFragment.newInstance(),
             FavoritesFragment.newInstance(),

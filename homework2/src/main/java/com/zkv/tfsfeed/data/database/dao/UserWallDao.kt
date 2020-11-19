@@ -1,9 +1,6 @@
 package com.zkv.tfsfeed.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.zkv.tfsfeed.data.database.entity.UserWallEntity
 import io.reactivex.Single
 
@@ -13,7 +10,7 @@ interface UserWallDao {
     @Query("SELECT * FROM user_wall ORDER BY date_in_mills DESC")
     fun getAllUserWallNews(): Single<List<UserWallEntity>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(news: List<UserWallEntity>)
 
     @Query("UPDATE user_wall SET can_like = :canLike ,likes_count= :likesCount WHERE id = :id")

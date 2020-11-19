@@ -17,12 +17,13 @@ sealed class NewsViewState(
 
     class EmptyLoading : NewsViewState(showEmptyLoading = true, freshItemsAvailable = false)
 
-    class Loaded(news: List<NewsItem>, isEmpty: Boolean) :
+    class Loaded(news: List<NewsItem>, isEmpty: Boolean, freshItemsAvailable: Boolean) :
         NewsViewState(news = news.toMutableList(),
             showLoading = false,
             showEmptyLoading = false,
             showEmptyError = false,
-            showEmptyLoaded = isEmpty)
+            showEmptyLoaded = isEmpty,
+            freshItemsAvailable = freshItemsAvailable)
 
     class Error(news: List<NewsItem>, message: String?) :
         NewsViewState(news = news.toMutableList(),

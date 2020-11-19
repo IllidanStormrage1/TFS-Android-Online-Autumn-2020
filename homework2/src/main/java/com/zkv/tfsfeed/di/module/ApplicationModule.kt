@@ -1,9 +1,7 @@
 package com.zkv.tfsfeed.di.module
 
-import com.zkv.tfsfeed.data.LocalRepositoryImpl
-import com.zkv.tfsfeed.data.RemoteRepositoryImpl
-import com.zkv.tfsfeed.domain.repository.LocaleRepository
-import com.zkv.tfsfeed.domain.repository.RemoteRepository
+import com.zkv.tfsfeed.data.MediatorRepositoryImpl
+import com.zkv.tfsfeed.domain.repository.MediatorRepository
 import dagger.Binds
 import dagger.Module
 
@@ -11,8 +9,5 @@ import dagger.Module
 abstract class ApplicationModule {
 
     @Binds
-    abstract fun bindLocalRepositoryImpl(localRepositoryImpl: LocalRepositoryImpl): LocaleRepository
-
-    @Binds
-    abstract fun bindRemoteRepository(remoteRepository: RemoteRepositoryImpl): RemoteRepository
+    abstract fun bindMediatorRepository(mediatorRepositoryImpl: MediatorRepositoryImpl): MediatorRepository
 }

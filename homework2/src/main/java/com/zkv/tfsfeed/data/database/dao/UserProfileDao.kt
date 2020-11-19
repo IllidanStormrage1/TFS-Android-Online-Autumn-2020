@@ -13,7 +13,7 @@ interface UserProfileDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertProfile(profile: UserProfileEntity)
 
-    @Query("DELETE FROM news_feed")
+    @Query("DELETE FROM user_profile")
     fun clearTable()
 
     @Transaction

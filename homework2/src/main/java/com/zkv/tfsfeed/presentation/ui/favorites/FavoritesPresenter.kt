@@ -14,14 +14,14 @@ class FavoritesPresenter @Inject constructor(
 ) : BasePresenter<FavoritesView>() {
 
     override fun onFirstViewAttach() {
-        loadData()
+        loadData(isRefresh = false)
     }
 
-    fun loadData(isRefresh: Boolean = false) {
+    fun loadData(isRefresh: Boolean) {
         compositeDisposable += fetchFavoritesPost(isRefresh)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
-            .subscribe({ list -> updateState { stateMachine.onLoaded(list) } },
+            .subscribe({ list -> updateState { stateMachine.onLoaded(list, false) } },
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 

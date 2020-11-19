@@ -29,9 +29,8 @@ class NewsPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
-                { items ->
-                    updateState { stateMachine.onLoaded(items.first) }
-                    updateState { stateMachine.updateFreshItemsAvailable(items.second) }
+                { pair ->
+                    updateState { stateMachine.onLoaded(pair.first, pair.second) }
                 },
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }

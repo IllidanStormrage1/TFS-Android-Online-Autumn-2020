@@ -19,12 +19,12 @@ interface VkApi {
     @GET("newsfeed.get")
     fun getNewsFeed(
         @Query("filters") filter: String = "post,photo",
-        @Query("count") count: Int? = null,
+        @Query("count") count: Int? = 50,
         @Query("start_from") startStr: String? = null,
     ): Single<BaseNewsFeedResponse>
 
     @GET("newsfeed.ignoreItem")
-    fun ignoreItem(
+    fun ignoreItemNewsFeed(
         @Query("item_id") itemId: Int,
         @Query("owner_id") ownerId: Int,
         @Query("type") type: String,
@@ -32,14 +32,14 @@ interface VkApi {
 
     /// ========== Likes ========== ///
     @GET("likes.add")
-    fun addItemInLikes(
+    fun addLikes(
         @Query("item_id") itemId: Int,
         @Query("owner_id") ownerId: Int? = null,
         @Query("type") type: String,
     ): Completable
 
     @GET("likes.delete")
-    fun deleteItemFromLikes(
+    fun deleteLikes(
         @Query("item_id") itemId: Int,
         @Query("owner_id") ownerId: Int? = null,
         @Query("type") type: String,
@@ -47,7 +47,7 @@ interface VkApi {
 
     /// ========== Users ========== ///
     @GET("users.get")
-    fun getProfileInfo(
+    fun getUser(
         @Query("user_ids") userId: Int? = null,
         @Query("fields") fields: String = USERS_GET_FIELDS,
     ): Single<BaseProfileResponse>
@@ -60,13 +60,13 @@ interface VkApi {
     ): Single<BaseNewsWallResponse>
 
     @GET("wall.delete")
-    fun deleteUserPost(
+    fun deleteUserWallPost(
         @Query("owner_id") ownerId: Int? = null,
         @Query("post_id") postId: Int,
     ): Completable
 
     @GET("wall.getComments")
-    fun getCommentsForWall(
+    fun getComments(
         @Query("owner_id") ownerId: Int?,
         @Query("sort") sortType: String = "desc",
         @Query("post_id") postId: Int,

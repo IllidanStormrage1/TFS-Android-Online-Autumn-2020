@@ -94,7 +94,7 @@ fun Context.registerNetworkCallback(
     onAvailable: () -> Unit,
     onLost: () -> Unit,
 ): ConnectivityManager.NetworkCallback {
-    if (checkNetworkConnection()) onAvailable() else onLost()
+    if (isConnected()) onAvailable() else onLost()
     val callback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             onAvailable()
@@ -125,7 +125,7 @@ fun Context.unregisterNetworkCallback(networkCallback: ConnectivityManager.Netwo
 }
 
 @Suppress("DEPRECATION")
-fun Context.checkNetworkConnection(): Boolean {
+fun Context.isConnected(): Boolean {
     val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val ani = cm.activeNetworkInfo
     return ani != null && ani.isConnected

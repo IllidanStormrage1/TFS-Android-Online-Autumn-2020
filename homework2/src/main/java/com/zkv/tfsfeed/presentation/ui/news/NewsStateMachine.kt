@@ -22,8 +22,8 @@ class NewsStateMachine(private val errorHandler: ErrorHandler) {
         return state
     }
 
-    fun onLoaded(news: List<NewsItem>): NewsViewState {
-        state = Loaded(news.toList(), news.isEmpty())
+    fun onLoaded(news: List<NewsItem>, fresh: Boolean): NewsViewState {
+        state = Loaded(news.toList(), news.isEmpty(), fresh)
         return state
     }
 
@@ -33,10 +33,6 @@ class NewsStateMachine(private val errorHandler: ErrorHandler) {
         else
             EmptyError(errorHandler.getErrorMessage(throwable))
         return state
-    }
-
-    fun updateFreshItemsAvailable(isFresh: Boolean) {
-        state.freshItemsAvailable = isFresh
     }
 
     fun removeItem(itemId: Int) {

@@ -1,5 +1,6 @@
 package com.zkv.tfsfeed.presentation.ui.profile
 
+import com.zkv.tfsfeed.data.api.NetworkHelper
 import com.zkv.tfsfeed.domain.middleware.*
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.Profile
@@ -18,13 +19,14 @@ class ProfilePresenter @Inject constructor(
     private val likePost: LikePost,
     private val stateMachine: ProfileStateMachine,
     private val createPost: CreatePost,
+    private val networkHelper: NetworkHelper,
 ) : BasePresenter<ProfileView>() {
 
     override fun onFirstViewAttach() {
-        getProfileInfo()
+        getProfileInfo(isRefresh = networkHelper.isConnected)
     }
 
-    fun getProfileInfo(isRefresh: Boolean = false) {
+    fun getProfileInfo(isRefresh: Boolean) {
         compositeDisposable += fetchProfileInformation(isRefresh)
             .zipWith(fetchUserNewsFeed(isRefresh)) { profile: Profile, list: List<NewsItem> ->
                 profile to list
@@ -38,7 +40,7 @@ class ProfilePresenter @Inject constructor(
                 { throwable -> Timber.e(throwable);updateState { stateMachine.onError(throwable) } })
     }
 
-    fun onDeletePost(postId: Int, sourceId: Int) {
+    fun onDeletePost(postId: Int, ownerId: Int) {
         compositeDisposable += removeUserPost(postId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

@@ -56,7 +56,7 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
 
     override fun onResume() {
         super.onResume()
-        presenter.loadData()
+        presenter.loadData(isRefresh = false)
     }
 
     override fun onDestroyView() {

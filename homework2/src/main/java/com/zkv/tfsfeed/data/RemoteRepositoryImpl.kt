@@ -9,27 +9,26 @@ import com.zkv.tfsfeed.data.dto.group.GroupInformationResponse
 import com.zkv.tfsfeed.domain.model.Comment
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.Profile
-import com.zkv.tfsfeed.domain.repository.RemoteRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class RemoteRepositoryImpl @Inject constructor(private val vkApi: VkApi) : RemoteRepository {
+class RemoteRepositoryImpl @Inject constructor(private val vkApi: VkApi) {
 
-    override fun fetchAllPosts(): Single<List<NewsItem>> =
+    fun fetchAllPosts(): Single<List<NewsItem>> =
         vkApi.getNewsFeed()
             .map { NewsResponseConverter.map(it.newsFeedResponse) }
 
-    override fun likePost(itemId: Int, ownerId: Int?, type: String, canLike: Int): Completable =
+    fun likePost(itemId: Int, ownerId: Int?, type: String, canLike: Int): Completable =
         if (canLike == 0)
-            vkApi.deleteItemFromLikes(itemId, ownerId, type)
+            vkApi.deleteLikes(itemId, ownerId, type)
         else
-            vkApi.addItemInLikes(itemId, ownerId, type)
+            vkApi.addLikes(itemId, ownerId, type)
 
-    override fun ignoreItem(itemId: Int, ownerId: Int, type: String): Completable =
-        vkApi.ignoreItem(itemId, ownerId, type)
+    fun ignoreItem(itemId: Int, ownerId: Int, type: String): Completable =
+        vkApi.ignoreItemNewsFeed(itemId, ownerId, type)
 
-    override fun fetchProfileInformation(): Single<Profile> = vkApi.getProfileInfo()
+    fun fetchProfileInformation(): Single<Profile> = vkApi.getUser()
         .map { it.profileFeedResponse.first() }
         .flatMap { response ->
             val groupId = response.career?.firstOrNull()?.groupId
@@ -39,16 +38,16 @@ class RemoteRepositoryImpl @Inject constructor(private val vkApi: VkApi) : Remot
         }
         .map { ProfileResponseConverter.Profile(it.first, it.second) }
 
-    override fun fetchUserWall(): Single<List<NewsItem>> = vkApi.getUserWall()
+    fun fetchUserWall(): Single<List<NewsItem>> = vkApi.getUserWall()
         .map { WallResponseConverter.NewsItem(it.newsWallResponse) }
 
-    override fun removeUserPost(postId: Int): Completable = vkApi.deleteUserPost(postId = postId)
+    fun removeUserPost(postId: Int): Completable = vkApi.deleteUserWallPost(postId = postId)
 
-    override fun fetchComments(postId: Int, ownerId: Int): Single<List<Comment>> =
-        vkApi.getCommentsForWall(postId = postId, ownerId = ownerId)
+    fun fetchComments(postId: Int, ownerId: Int): Single<List<Comment>> =
+        vkApi.getComments(postId = postId, ownerId = ownerId)
             .map { CommentsConverter.map(it.response) }
 
-    override fun createPost(message: String): Completable = vkApi.createPost(message)
+    fun createPost(message: String): Completable = vkApi.createPost(message)
 
     private fun getGroupInfo(groupId: Int): Single<GroupInformationResponse> =
         vkApi.getGroupDescription(groupId)
