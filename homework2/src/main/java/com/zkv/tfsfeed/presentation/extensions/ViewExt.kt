@@ -44,3 +44,7 @@ fun TextView.setText(@StringRes resourceId: Int, @StringRes vararg values: Int) 
 fun TextView.setPluralText(@PluralsRes resourceId: Int, value: Int) {
     text = resources.getQuantityString(resourceId, value, value)
 }
+
+fun View.setOnThrottleClickListener(time: Long = 1000L, onClick: (View?) -> Unit) {
+    setOnClickListener(ThrottleClickListener(time, onClick))
+}

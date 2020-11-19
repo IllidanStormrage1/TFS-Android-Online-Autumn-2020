@@ -7,7 +7,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.zkv.tfsfeed.BuildConfig.*
 import com.zkv.tfsfeed.data.database.NewsFeedDatabase
-import com.zkv.tfsfeed.data.database.dao.NewsFeedDAO
+import com.zkv.tfsfeed.data.database.dao.NewsFeedDao
+import com.zkv.tfsfeed.data.database.dao.UserProfileDao
+import com.zkv.tfsfeed.data.database.dao.UserWallDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -54,5 +56,15 @@ object StorageModule {
     @Provides
     @JvmStatic
     @Singleton
-    fun provideNewsFeedDao(database: NewsFeedDatabase): NewsFeedDAO = database.newsFeedDAO
+    fun provideNewsFeedDao(database: NewsFeedDatabase): NewsFeedDao = database.newsFeedDao
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideUserProfileDao(database: NewsFeedDatabase): UserProfileDao = database.userProfileDao
+
+    @Provides
+    @JvmStatic
+    @Singleton
+    fun provideUserWallDao(database: NewsFeedDatabase): UserWallDao = database.userWallDao
 }

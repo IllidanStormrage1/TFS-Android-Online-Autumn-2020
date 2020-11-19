@@ -74,6 +74,11 @@ interface VkApi {
         @Query("need_likes") needLikes: Int = 1,
     ): Single<BaseCommentsResponse>
 
+    @GET("wall.post")
+    fun createPost(
+        @Query("message") message: String,
+    ): Completable
+
     /// ========== Groups ========== ///
     @GET("groups.getById")
     fun getGroupDescription(

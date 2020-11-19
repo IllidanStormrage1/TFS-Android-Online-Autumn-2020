@@ -49,8 +49,8 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
-            onClick = activityCallback::navigateToDetail,
-            onShare = activityCallback::shareNewsItem)
+            onClickHandler = activityCallback::navigateToDetail,
+            onShareHandler = activityCallback::shareNewsItem)
         initViewState(adapter)
     }
 

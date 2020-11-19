@@ -1,15 +1,13 @@
 package com.zkv.tfsfeed.presentation.ui.profile
 
-import com.zkv.tfsfeed.domain.middleware.FetchProfileInformation
-import com.zkv.tfsfeed.domain.middleware.FetchUserNewsFeed
-import com.zkv.tfsfeed.domain.middleware.LikePost
-import com.zkv.tfsfeed.domain.middleware.RemoveUserPost
+import com.zkv.tfsfeed.domain.middleware.*
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.Profile
 import com.zkv.tfsfeed.presentation.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.functions.Functions
 import moxy.InjectViewState
+import timber.log.Timber
 import javax.inject.Inject
 
 @InjectViewState
@@ -19,6 +17,7 @@ class ProfilePresenter @Inject constructor(
     private val fetchUserNewsFeed: FetchUserNewsFeed,
     private val likePost: LikePost,
     private val stateMachine: ProfileStateMachine,
+    private val createPost: CreatePost,
 ) : BasePresenter<ProfileView>() {
 
     override fun onFirstViewAttach() {
@@ -36,7 +35,7 @@ class ProfilePresenter @Inject constructor(
                 { pair ->
                     updateState { stateMachine.onLoaded(pair.first, pair.second) }
                 },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> Timber.e(throwable);updateState { stateMachine.onError(throwable) } })
     }
 
     fun onDeletePost(postId: Int, sourceId: Int) {
@@ -52,6 +51,16 @@ class ProfilePresenter @Inject constructor(
     fun onLike(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {
         compositeDisposable += likePost(itemId, null, type, canLike, likesCount)
             .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(Functions.EMPTY_ACTION) { throwable ->
+                updateState { stateMachine.onError(throwable) }
+            }
+    }
+
+    fun createPostAndRefresh(message: String) {
+        compositeDisposable += createPost(message)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnComplete { getProfileInfo(true) }
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
                 updateState { stateMachine.onError(throwable) }
             }

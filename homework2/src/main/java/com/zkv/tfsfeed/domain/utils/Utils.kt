@@ -1,8 +1,9 @@
 package com.zkv.tfsfeed.domain.utils
 
+import android.content.res.Resources
 import android.text.format.DateUtils
+import androidx.core.os.ConfigurationCompat
 import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.math.ln
 import kotlin.math.pow
 
@@ -11,13 +12,14 @@ private const val COUNT_SUFFIX = "%.1f%c"
 private const val SUFFIX_STRING = "KMGTPE"
 
 fun dateStringFromTimeInMillis(timeInMillis: Long): String =
-    SimpleDateFormat(DATE_FORMAT, Locale.ROOT).format(timeInMillis)
+    SimpleDateFormat(DATE_FORMAT,
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)).format(
+        timeInMillis)
 
-// TODO: 16.11.2020  хз пока как исправить
-fun prepareDateString(timeInMilliseconds: Long) = when {
-    DateUtils.isToday(timeInMilliseconds) -> "Сегодня"
-    else -> getTimeSpan(timeInMilliseconds)
-}
+fun prepareDateString(timeInMilliseconds: Long): String =
+    DateUtils.getRelativeTimeSpanString(timeInMilliseconds,
+        System.currentTimeMillis(),
+        DateUtils.DAY_IN_MILLIS).toString()
 
 fun getTimeSpan(timeInMilliseconds: Long) =
     DateUtils.getRelativeTimeSpanString(timeInMilliseconds).toString()

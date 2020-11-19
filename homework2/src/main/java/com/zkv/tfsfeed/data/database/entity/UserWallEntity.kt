@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "news_feed")
-class NewsFeedEntity(
+@Entity(tableName = "user_wall")
+class UserWallEntity(
     @PrimaryKey @ColumnInfo(name = "id") val id: Int,
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "avatar_url") val avatarUrl: String?,

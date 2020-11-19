@@ -21,6 +21,7 @@ import com.zkv.tfsfeed.presentation.adapter.MainViewPagerAdapter
 import com.zkv.tfsfeed.presentation.extensions.loadImage
 import com.zkv.tfsfeed.presentation.extensions.registerNetworkCallback
 import com.zkv.tfsfeed.presentation.extensions.unregisterNetworkCallback
+import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
@@ -70,6 +71,33 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         _networkCallback = null
     }
 
+    override fun navigateToDetail(item: NewsItem) {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.enter, R.anim.exit)
+            .add(android.R.id.content, DetailFragment.newInstance(item))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun navigateToCreatorPost() {
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.enter, R.anim.exit)
+            .add(android.R.id.content, CreatorPostFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun shareNewsItem(item: NewsItem) {
+        if (item.photoUrl != null)
+            loadImage(item.photoUrl) {
+                showIntentChooser(createShareIntent(item.text, FileProvider.getUriForFile(this,
+                    AUTHORITY_PROVIDER,
+                    it)))
+            }
+        else
+            showIntentChooser(createShareIntent(item.text))
+    }
+
     private fun initUi() {
         main_progress_bar.isVisible = false
         val fragments = listOf(NewsFragment.newInstance(),
@@ -102,17 +130,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         }
     }
 
-    override fun shareNewsItem(item: NewsItem) {
-        if (item.photoUrl != null)
-            loadImage(item.photoUrl) {
-                showIntentChooser(createShareIntent(item.text, FileProvider.getUriForFile(this,
-                    AUTHORITY_PROVIDER,
-                    it)))
-            }
-        else
-            showIntentChooser(createShareIntent(item.text))
-    }
-
     private fun showIntentChooser(shareIntent: Intent) {
         startActivity(createChooser(shareIntent,
             resources.getString(R.string.text_share_intent)))
@@ -128,14 +145,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
                 putExtra(EXTRA_STREAM, uri)
             }
         }
-
-    override fun navigateToDetail(item: NewsItem) {
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.enter, R.anim.exit)
-            .add(android.R.id.content, DetailFragment.newInstance(item))
-            .addToBackStack(null)
-            .commit()
-    }
 
     companion object {
         private const val AUTHORITY_PROVIDER = "${BuildConfig.APPLICATION_ID}.fileprovider"

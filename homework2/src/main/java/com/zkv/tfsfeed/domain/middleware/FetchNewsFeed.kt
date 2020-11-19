@@ -10,21 +10,26 @@ import javax.inject.Inject
 class FetchNewsFeed @Inject constructor(
     private val localeRepository: LocaleRepository,
     private val remoteRepository: RemoteRepository,
-) : (Boolean, Long?) -> Single<List<NewsItem>> {
+) : (Boolean) -> Single<List<NewsItem>> {
 
-    override fun invoke(isRefresh: Boolean, time: Long?) =
-        if (isRefresh) syncNewsFeed(time) else loadSavedNewsFeed(time)
+    override fun invoke(isRefresh: Boolean): Single<List<NewsItem>> {
+        val currentTime = System.currentTimeMillis()
+        return if (isRefresh)
+            syncNewsFeed(currentTime)
+        else
+            loadSavedNewsFeed(currentTime)
+    }
 
-    private fun syncNewsFeed(time: Long? = null): Single<List<NewsItem>> =
+    private fun syncNewsFeed(time: Long): Single<List<NewsItem>> =
         remoteRepository.fetchAllPosts()
             .map {
-                time?.let(localeRepository::putCurrentTimeInPrefs)
+                localeRepository.putCurrentTimeInPrefs(time)
                 it
             }
-            .doAfterSuccess(localeRepository::rewriteNewsDatabase)
+            .doOnSuccess(localeRepository::rewriteNewsDatabase)
             .subscribeOn(Schedulers.io())
 
-    private fun loadSavedNewsFeed(time: Long?): Single<List<NewsItem>> =
+    private fun loadSavedNewsFeed(time: Long): Single<List<NewsItem>> =
         localeRepository.fetchSavedPosts()
             .flatMap { savedNews ->
                 if (savedNews.isEmpty())

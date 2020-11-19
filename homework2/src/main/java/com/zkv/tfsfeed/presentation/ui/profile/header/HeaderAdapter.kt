@@ -7,8 +7,10 @@ import com.zkv.tfsfeed.domain.model.Profile
 import com.zkv.tfsfeed.domain.utils.clearAndAddAll
 import com.zkv.tfsfeed.presentation.extensions.inflate
 import com.zkv.tfsfeed.presentation.ui.profile.header.holder.HeaderViewHolder
+import kotlinx.android.synthetic.main.merge_item_header_profile.view.*
 
-class HeaderAdapter : RecyclerView.Adapter<HeaderViewHolder>() {
+class HeaderAdapter(private val clicksHandler: () -> Unit) :
+    RecyclerView.Adapter<HeaderViewHolder>() {
 
     private var items = mutableListOf<Profile>()
 
@@ -29,4 +31,12 @@ class HeaderAdapter : RecyclerView.Adapter<HeaderViewHolder>() {
         HeaderViewHolder(parent.inflate(R.layout.item_header_profile))
 
     override fun getItemCount(): Int = items.size
+
+    override fun onViewAttachedToWindow(holder: HeaderViewHolder) {
+        holder.itemView.profile_create_post.setOnClickListener { clicksHandler() }
+    }
+
+    override fun onViewDetachedFromWindow(holder: HeaderViewHolder) {
+        holder.itemView.profile_create_post.setOnClickListener(null)
+    }
 }

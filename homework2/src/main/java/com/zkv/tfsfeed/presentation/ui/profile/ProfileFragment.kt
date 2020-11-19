@@ -15,6 +15,7 @@ import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
 import com.zkv.tfsfeed.presentation.adapter.utils.SpacingItemDecoration
 import com.zkv.tfsfeed.presentation.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
+import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.profile.header.HeaderAdapter
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -51,14 +52,15 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
-        headerAdapter = HeaderAdapter()
+        headerAdapter = HeaderAdapter(clicksHandler = activityCallback::navigateToCreatorPost)
         postsAdapter = PostsAdapter(
-            onLike = presenter::onLike,
-            onIgnore = presenter::onDeletePost,
-            onClick = activityCallback::navigateToDetail,
-            onShare = activityCallback::shareNewsItem)
+            onLikeHandler = presenter::onLike,
+            onIgnoreHandler = presenter::onDeletePost,
+            onClickHandler = activityCallback::navigateToDetail,
+            onShareHandler = activityCallback::shareNewsItem)
         val adapter = ConcatAdapter(headerAdapter, postsAdapter)
         initViewState(adapter)
+        setFragmentResultListener()
     }
 
     override fun onDestroyView() {
@@ -88,12 +90,18 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
         }
         profile_posts_srl.run {
             setOnRefreshListener { presenter.getProfileInfo(true) }
-            setColorSchemeColors(ContextCompat.getColor(requireContext(),
-                R.color.colorAccent))
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
         }
         ItemTouchHelper(MainItemTouchHelper(postsAdapter)).run {
             attachToRecyclerView(profile_posts_rv)
+        }
+    }
+
+    private fun setFragmentResultListener() {
+        requireActivity().supportFragmentManager.setFragmentResultListener(CreatorPostFragment.RESULT_REQUEST_KEY,
+            viewLifecycleOwner) { key: String, bundle: Bundle ->
+            presenter.createPostAndRefresh(bundle.getString(key, null))
         }
     }
 

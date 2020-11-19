@@ -50,10 +50,10 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
-            onIgnore = presenter::ignoreItem,
-            onLike = presenter::onLike,
-            onClick = activityCallback::navigateToDetail,
-            onShare = activityCallback::shareNewsItem)
+            onIgnoreHandler = presenter::ignoreItem,
+            onLikeHandler = presenter::onLike,
+            onClickHandler = activityCallback::navigateToDetail,
+            onShareHandler = activityCallback::shareNewsItem)
         initViewState(adapter)
     }
 
@@ -90,7 +90,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
                 ))
         }
         news_posts_srl.run {
-            setOnRefreshListener { loadData() }
+            setOnRefreshListener { loadData(true) }
             setColorSchemeColors(ContextCompat.getColor(requireContext(),
                 R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
@@ -98,11 +98,11 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
         ItemTouchHelper(MainItemTouchHelper(adapter)).run {
             attachToRecyclerView(news_posts_rv)
         }
-        news_fresh_fab.setOnClickListener { loadData() }
+        news_fresh_fab.setOnClickListener { loadData(true) }
     }
 
-    private fun loadData(isRefresh: Boolean = true) {
-        presenter.loadData(isRefresh, System.currentTimeMillis())
+    private fun loadData(isRefresh: Boolean) {
+        presenter.loadData(isRefresh)
     }
 
     companion object {

@@ -8,6 +8,6 @@ class FetchFavoritesPost @Inject constructor(private val fetchNewsFeed: FetchNew
         (Boolean) -> Single<List<NewsItem>> {
 
     override fun invoke(isRefresh: Boolean): Single<List<NewsItem>> =
-        fetchNewsFeed(isRefresh, null)
+        fetchNewsFeed(isRefresh)
             .map { items -> items.filter { it.canLike == 0 } }
 }

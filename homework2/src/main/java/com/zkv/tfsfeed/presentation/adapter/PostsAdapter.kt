@@ -27,10 +27,10 @@ private const val TEXT_IMAGE_HOLDER_TYPE = 1
 private typealias ItemHandler = ((item: NewsItem) -> Unit)?
 
 class PostsAdapter(
-    private inline val onIgnore: ((itemId: Int, sourceId: Int) -> Unit)? = null,
-    private inline val onLike: ((itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) -> Unit)? = null,
-    private inline val onClick: ItemHandler = null,
-    private inline val onShare: ItemHandler = null,
+    private inline val onIgnoreHandler: ((itemId: Int, sourceId: Int) -> Unit)? = null,
+    private inline val onLikeHandler: ((itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) -> Unit)? = null,
+    private inline val onClickHandler: ItemHandler = null,
+    private inline val onShareHandler: ItemHandler = null,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     MainItemTouchHelper.ItemTouchHelperAdapter, DividerItemDecoration.DividerAdapterCallback {
 
@@ -98,7 +98,7 @@ class PostsAdapter(
 
     override fun onItemSwipedStart(position: Int) {
         val item = currentList[position]
-        onIgnore?.invoke(item.id, item.sourceId)
+        onIgnoreHandler?.invoke(item.id, item.sourceId)
         currentList.toMutableList().also { items ->
             items.removeAt(position)
             submitList(items)
@@ -107,7 +107,7 @@ class PostsAdapter(
 
     override fun onItemSwipedEnd(position: Int) {
         currentList[position].also { item ->
-            onLike?.invoke(item.id, item.sourceId, item.type, item.canLike, item.likesCount)
+            onLikeHandler?.invoke(item.id, item.sourceId, item.type, item.canLike, item.likesCount)
             item.like()
         }
         notifyItemChanged(position)
@@ -117,8 +117,8 @@ class PostsAdapter(
 
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
-        holder.itemView.setOnClickListener { onClick?.invoke(currentList[holder.bindingAdapterPosition]) }
-        holder.itemView.share_btn.setOnClickListener { onShare?.invoke(currentList[holder.bindingAdapterPosition]) }
+        holder.itemView.setOnClickListener { onClickHandler?.invoke(currentList[holder.bindingAdapterPosition]) }
+        holder.itemView.share_btn.setOnClickListener { onShareHandler?.invoke(currentList[holder.bindingAdapterPosition]) }
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {

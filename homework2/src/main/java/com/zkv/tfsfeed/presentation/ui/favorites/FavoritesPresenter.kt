@@ -1,7 +1,6 @@
 package com.zkv.tfsfeed.presentation.ui.favorites
 
 import com.zkv.tfsfeed.domain.middleware.FetchFavoritesPost
-import com.zkv.tfsfeed.domain.middleware.LikePost
 import com.zkv.tfsfeed.presentation.base.BasePresenter
 import com.zkv.tfsfeed.presentation.ui.news.NewsStateMachine
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,7 +10,6 @@ import javax.inject.Inject
 @InjectViewState
 class FavoritesPresenter @Inject constructor(
     private val fetchFavoritesPost: FetchFavoritesPost,
-    private val likePost: LikePost,
     private val stateMachine: NewsStateMachine,
 ) : BasePresenter<FavoritesView>() {
 

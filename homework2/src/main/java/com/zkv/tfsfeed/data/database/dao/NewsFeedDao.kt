@@ -8,7 +8,7 @@ import com.zkv.tfsfeed.data.database.entity.NewsFeedEntity
 import io.reactivex.Single
 
 @Dao
-interface NewsFeedDAO {
+interface NewsFeedDao {
 
     @Query("SELECT * FROM news_feed ORDER BY date_in_mills DESC")
     fun getAllNewsFeed(): Single<List<NewsFeedEntity>>

@@ -112,6 +112,13 @@ class HeaderProfileLayout @JvmOverloads constructor(
             height)
         height += profile_relation_tv.measuredHeight + profile_relation_tv.marginTop
 
+        measureChildWithMargins(profile_create_post,
+            widthMeasureSpec,
+            width,
+            heightMeasureSpec,
+            height)
+        height += profile_create_post.measuredHeight + profile_create_post.marginTop
+
         setMeasuredDimension(resolveSize(width, widthMeasureSpec), height)
     }
 
@@ -225,6 +232,14 @@ class HeaderProfileLayout @JvmOverloads constructor(
             currentTop + profile_relation_tv.marginTop,
             currentStart + profile_relation_tv.measuredWidth + profile_relation_tv.marginStart,
             currentTop + profile_relation_tv.measuredHeight + profile_relation_tv.marginTop
+        )
+        currentTop += profile_relation_tv.measuredHeight + profile_relation_tv.marginTop
+
+        profile_create_post.layout(
+            currentStart + profile_create_post.marginStart,
+            currentTop + profile_create_post.marginTop,
+            currentStart + profile_create_post.measuredWidth + profile_create_post.marginStart,
+            currentTop + profile_create_post.measuredHeight + profile_create_post.marginTop
         )
     }
 

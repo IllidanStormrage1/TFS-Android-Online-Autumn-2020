@@ -29,8 +29,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin_small"
+        android:ellipsize="end"
+        android:maxLines="10"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        tools:text="urgkusdgkhn glksgdfhfg hgdhdfghkdghkl lkbmlcxv;lbkjxcvkbjkxclvjbkclvjbkvcxbklxcjvbklxcvbklj;xcvklbj;klxcvjbklcvjbkcjvbkjvcbjcvjbkcvjbkcvjbkcjvjbvjbnvjbnvjbnjvnbjvnbjvnbjvnbjvnbjvnbjvbnjvbnjvnbjvnbjvnbjvnbjvnbjvnbjfdhd fjhjdhjdfgkh;j ghdkjf hkdjhdf ghdfkj hd fjdkfhjdfkhjdfh jdflkfh" />
+        tools:text="@tools:sample/lorem/random" />
 
     <TextView
         android:id="@+id/comment_date"

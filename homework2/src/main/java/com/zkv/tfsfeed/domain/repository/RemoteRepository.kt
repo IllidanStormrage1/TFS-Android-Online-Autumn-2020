@@ -12,6 +12,7 @@ interface RemoteRepository {
     fun fetchUserWall(): Single<List<NewsItem>>
     fun fetchComments(postId: Int, ownerId: Int): Single<List<Comment>>
     fun likePost(itemId: Int, ownerId: Int?, type: String, canLike: Int): Completable
+    fun createPost(message: String): Completable
     fun removeUserPost(postId: Int): Completable
     fun ignoreItem(itemId: Int, ownerId: Int, type: String): Completable
 }

@@ -20,11 +20,11 @@ class NewsPresenter @Inject constructor(
 ) : BasePresenter<NewsView>() {
 
     override fun onFirstViewAttach() {
-        loadData(isRefresh = false, time = System.currentTimeMillis())
+        loadData(isRefresh = false)
     }
 
-    fun loadData(isRefresh: Boolean, time: Long?) {
-        compositeDisposable += fetchNewsFeed(isRefresh, time)
+    fun loadData(isRefresh: Boolean) {
+        compositeDisposable += fetchNewsFeed(isRefresh)
             .flatMap { items -> checkRelevanceNews().map { items to it } }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }

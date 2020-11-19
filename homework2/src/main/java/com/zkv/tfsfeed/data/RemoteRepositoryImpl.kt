@@ -48,6 +48,8 @@ class RemoteRepositoryImpl @Inject constructor(private val vkApi: VkApi) : Remot
         vkApi.getCommentsForWall(postId = postId, ownerId = ownerId)
             .map { CommentsConverter.map(it.response) }
 
+    override fun createPost(message: String): Completable = vkApi.createPost(message)
+
     private fun getGroupInfo(groupId: Int): Single<GroupInformationResponse> =
         vkApi.getGroupDescription(groupId)
             .map { it.response.first() }

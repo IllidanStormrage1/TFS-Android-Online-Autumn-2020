@@ -149,4 +149,22 @@
         app:drawableStartCompat="@drawable/ic_self_improvement"
         tools:text="@string/label_relation" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/profile_create_post"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:backgroundTint="@color/athens_gray"
+        android:text="@string/label_create_post_hint"
+        android:textAllCaps="false"
+        android:textColor="?colorAccent"
+        app:cornerRadius="8dp"
+        app:icon="@drawable/ic_create"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/default_margin_small"
+        app:iconTint="?colorAccent" />
+
 </merge>

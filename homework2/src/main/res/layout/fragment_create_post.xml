@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?colorSurface"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageButton
+            android:id="@+id/creator_close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/default_margin_small"
+            android:background="@null"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_close" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/label_create_post_title"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+        <ImageButton
+            android:id="@+id/creator_send_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/default_margin_small"
+            android:background="@null"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_done" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/create_post_et"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:layout_marginEnd="@dimen/default_margin_small"
+        android:autofillHints=""
+        android:background="@null"
+        android:gravity="start|top"
+        android:hint="@string/label_create_post_hint"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+</LinearLayout>
