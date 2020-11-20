@@ -14,7 +14,6 @@
     <string name="toast_successfully_download">Download successfully</string>
     <string name="text_share_intent">Отправить</string>
     <string name="label_fresh_items">Свежие записи</string>
-    <string name="label_fresh_data">Свежая информация</string>
 
     <string name="label_internet_error">Интернет-соединение недоступно</string>
     <string name="label_last_seen">Был в сети: %s</string>

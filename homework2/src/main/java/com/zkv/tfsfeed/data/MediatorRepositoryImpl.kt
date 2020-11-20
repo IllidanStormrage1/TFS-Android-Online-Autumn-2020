@@ -20,20 +20,15 @@ class MediatorRepositoryImpl @Inject constructor(
                 localeRepository.putCurrentTimeInPrefs()
             }
     } else {
-        localeRepository.fetchSavedPosts()
-            .flatMap {
-                if (it.isEmpty())
-                    fetchNewsFeed(true)
-                else
-                    Single.just(it)
-            }
+        localeRepository.fetchNewsFeedPosts()
+            .flatMap { if (it.isEmpty()) fetchNewsFeed(true) else Single.just(it) }
     }
 
     override fun fetchUserWall(isRefresh: Boolean): Single<List<NewsItem>> = if (isRefresh) {
         remoteRepository.fetchUserWall()
             .doOnSuccess(localeRepository::rewriteUserWallTable)
     } else {
-        localeRepository.fetchSavedUserWall()
+        localeRepository.savedUserWallPosts()
             .flatMap { if (it.isEmpty()) fetchUserWall(true) else Single.just(it) }
     }
 
@@ -41,7 +36,7 @@ class MediatorRepositoryImpl @Inject constructor(
         remoteRepository.fetchProfileInformation()
             .doOnSuccess(localeRepository::rewriteProfileTable)
     } else {
-        localeRepository.fetchSavedProfile()
+        localeRepository.fetchProfileInformation()
             .switchIfEmpty(fetchProfileInformation(true))
     }
 

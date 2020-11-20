@@ -13,7 +13,6 @@ import com.zkv.tfsfeed.data.database.entity.UserWallEntity
     version = 1,
     exportSchema = false)
 abstract class NewsFeedDatabase : RoomDatabase() {
-
     abstract val newsFeedDao: NewsFeedDao
     abstract val userProfileDao: UserProfileDao
     abstract val userWallDao: UserWallDao

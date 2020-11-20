@@ -17,7 +17,7 @@ interface UserProfileDao {
     fun clearTable()
 
     @Transaction
-    fun rewriteProfile(profile: UserProfileEntity) {
+    fun rewriteTable(profile: UserProfileEntity) {
         clearTable()
         insertProfile(profile)
     }

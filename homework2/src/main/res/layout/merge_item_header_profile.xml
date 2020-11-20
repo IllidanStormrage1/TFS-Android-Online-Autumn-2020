@@ -162,7 +162,6 @@
         android:textAllCaps="false"
         android:textColor="?colorAccent"
         app:cornerRadius="8dp"
-        app:icon="@drawable/ic_create"
         app:iconGravity="textStart"
         app:iconPadding="@dimen/default_margin_small"
         app:iconTint="?colorAccent" />

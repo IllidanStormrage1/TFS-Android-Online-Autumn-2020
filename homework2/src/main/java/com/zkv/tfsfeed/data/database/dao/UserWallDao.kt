@@ -23,8 +23,8 @@ interface UserWallDao {
     fun clearTable()
 
     @Transaction
-    fun rewriteNews(news: List<UserWallEntity>) {
+    fun rewriteTable(items: List<UserWallEntity>) {
         clearTable()
-        insertAll(news)
+        insertAll(items)
     }
 }

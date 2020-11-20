@@ -16,40 +16,44 @@ import javax.inject.Named
 class LocalRepositoryImpl @Inject constructor(
     private val newsFeedDao: NewsFeedDao,
     private val userProfileDao: UserProfileDao,
-    private val wallDao: UserWallDao,
+    private val userWallDao: UserWallDao,
     @Named("default") private val preferences: SharedPreferences,
 ) {
 
-    fun fetchSavedPosts(): Single<List<NewsItem>> = newsFeedDao.getAllNewsFeed()
+    fun fetchNewsFeedPosts(): Single<List<NewsItem>> = newsFeedDao.getAllNewsFeed()
         .toObservable()
         .flatMapIterable { news -> news }
         .map(EntityConverter::NewsItem)
         .toList()
 
+    fun savedUserWallPosts(): Single<List<NewsItem>> = userWallDao.getAllUserWallNews()
+        .toObservable()
+        .flatMapIterable { news -> news }
+        .map(EntityConverter::NewsItem)
+        .toList()
+
+    fun fetchProfileInformation(): Maybe<Profile> = userProfileDao.getProfile()
+        .map(EntityConverter::Profile)
+
     fun rewriteNewsFeedTable(items: List<NewsItem>) {
-        newsFeedDao.rewriteNews(items.map(EntityConverter::NewsFeedEntity))
+        newsFeedDao.rewriteTable(items.map(EntityConverter::NewsFeedEntity))
     }
 
-    fun removeItemById(itemId: Int) {
-        newsFeedDao.deleteByPostId(itemId)
+    fun rewriteProfileTable(profile: Profile) {
+        userProfileDao.rewriteTable(EntityConverter.UserProfileEntity(profile))
     }
 
-    fun putCurrentTimeInPrefs() {
-        preferences.edit {
-            putLong(PREF_KEY_TIME, System.currentTimeMillis())
-        }
+    fun rewriteUserWallTable(items: List<NewsItem>) {
+        userWallDao.rewriteTable(items.map(EntityConverter::UserWallEntity))
     }
 
     fun removeUserWallPost(postId: Int) {
-        wallDao.deleteByPostId(postId)
+        userWallDao.deleteByPostId(postId)
     }
 
     fun removeNewsFeedPost(postId: Int) {
         newsFeedDao.deleteByPostId(postId)
     }
-
-    fun getRefreshTime(): Long =
-        preferences.getLong(PREF_KEY_TIME, PREF_TIME_DEF_VALUE)
 
     fun changeLikeNewsFeedPost(id: Int, canLike: Int, likesCount: Int) {
         val data = preparedLikeData(canLike, likesCount)
@@ -58,18 +62,7 @@ class LocalRepositoryImpl @Inject constructor(
 
     fun changeLikeUserWallPost(id: Int, canLike: Int, likesCount: Int) {
         val data = preparedLikeData(canLike, likesCount)
-        wallDao.updateLikesPost(id, data.first, data.second)
-    }
-
-    fun fetchSavedProfile(): Maybe<Profile> = userProfileDao.getProfile()
-        .map(EntityConverter::Profile)
-
-    fun rewriteProfileTable(profile: Profile) {
-        userProfileDao.rewriteProfile(EntityConverter.UserProfileEntity(profile))
-    }
-
-    fun rewriteUserWallTable(items: List<NewsItem>) {
-        wallDao.rewriteNews(items.map(EntityConverter::UserWallEntity))
+        userWallDao.updateLikesPost(id, data.first, data.second)
     }
 
     private fun preparedLikeData(canLike: Int, likesCount: Int): Pair<Int, Int> {
@@ -78,11 +71,11 @@ class LocalRepositoryImpl @Inject constructor(
         return currentCanLike to currentLikesCount
     }
 
-    fun fetchSavedUserWall(): Single<List<NewsItem>> = wallDao.getAllUserWallNews()
-        .toObservable()
-        .flatMapIterable { news -> news }
-        .map(EntityConverter::NewsItem)
-        .toList()
+    fun putCurrentTimeInPrefs() {
+        preferences.edit { putLong(PREF_KEY_TIME, System.currentTimeMillis()) }
+    }
+
+    fun getRefreshTime(): Long = preferences.getLong(PREF_KEY_TIME, PREF_TIME_DEF_VALUE)
 
     companion object {
         private const val PREF_KEY_TIME = "time"

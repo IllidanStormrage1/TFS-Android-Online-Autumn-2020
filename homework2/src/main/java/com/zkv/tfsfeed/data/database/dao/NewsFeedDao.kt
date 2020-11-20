@@ -26,8 +26,8 @@ interface NewsFeedDao {
     fun clearTable()
 
     @Transaction
-    fun rewriteNews(news: List<NewsFeedEntity>) {
+    fun rewriteTable(items: List<NewsFeedEntity>) {
         clearTable()
-        insertAll(news)
+        insertAll(items)
     }
 }
