@@ -14,6 +14,7 @@ class Item(
     @SerializedName("post_id") val postId: Int,
     @SerializedName("reposts") val reposts: Reposts,
     @SerializedName("source_id") val sourceId: Int,
+    @SerializedName("owner_id") val ownerId: Int,
     @SerializedName("text") val text: String?,
     @SerializedName("type") val type: String?,
     @SerializedName("copy_history") val copyHistory: List<History>?,

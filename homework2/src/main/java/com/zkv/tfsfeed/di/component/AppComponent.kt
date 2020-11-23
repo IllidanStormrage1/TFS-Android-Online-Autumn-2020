@@ -7,6 +7,7 @@ import com.zkv.tfsfeed.di.module.StateMachineModule
 import com.zkv.tfsfeed.di.module.StorageModule
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.ui.MainActivity
+import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
 import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
@@ -23,6 +24,7 @@ interface AppComponent {
     fun inject(newsFragment: NewsFragment)
     fun inject(favoritesFragment: FavoritesFragment)
     fun inject(profileFragment: ProfileFragment)
+    fun inject(detailFragment: DetailFragment)
 
     @Component.Builder
     interface Builder {

@@ -67,6 +67,7 @@ interface VkApi {
 
     @GET("wall.getComments")
     fun getComments(
+        @Query("extended") extended: Int = 1,
         @Query("owner_id") ownerId: Int?,
         @Query("sort") sortType: String = "desc",
         @Query("post_id") postId: Int,
@@ -76,6 +77,13 @@ interface VkApi {
 
     @GET("wall.post")
     fun createPost(
+        @Query("message") message: String,
+    ): Completable
+
+    @GET("wall.createComment")
+    fun createComment(
+        @Query("owner_id") ownerId: Int? = null,
+        @Query("post_id") postId: Int,
         @Query("message") message: String,
     ): Completable
 

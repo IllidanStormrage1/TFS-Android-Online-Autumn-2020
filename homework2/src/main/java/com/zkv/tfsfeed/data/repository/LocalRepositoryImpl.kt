@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.data
+package com.zkv.tfsfeed.data.repository
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

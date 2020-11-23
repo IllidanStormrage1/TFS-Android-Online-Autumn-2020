@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.data
+package com.zkv.tfsfeed.data.repository
 
 import com.zkv.tfsfeed.data.api.VkApi
 import com.zkv.tfsfeed.data.converter.CommentsConverter
@@ -43,11 +43,14 @@ class RemoteRepositoryImpl @Inject constructor(private val vkApi: VkApi) {
 
     fun removeUserPost(postId: Int): Completable = vkApi.deleteUserWallPost(postId = postId)
 
-    fun fetchComments(postId: Int, ownerId: Int): Single<List<Comment>> =
+    fun fetchComments(postId: Int, ownerId: Int?): Single<List<Comment>> =
         vkApi.getComments(postId = postId, ownerId = ownerId)
             .map { CommentsConverter.map(it.response) }
 
     fun createPost(message: String): Completable = vkApi.createPost(message)
+
+    fun createComment(ownerId: Int?, postId: Int, message: String): Completable =
+        vkApi.createComment(ownerId, postId, message)
 
     private fun getGroupInfo(groupId: Int): Single<GroupInformationResponse> =
         vkApi.getGroupDescription(groupId)

@@ -73,7 +73,10 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
 
     override fun navigateToDetail(item: NewsItem) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.enter, R.anim.exit)
+            .setCustomAnimations(R.anim.slide_in_right,
+                R.anim.slide_in_left,
+                R.anim.slide_in_right,
+                R.anim.slide_in_left)
             .add(android.R.id.content, DetailFragment.newInstance(item))
             .addToBackStack(null)
             .commit()
@@ -81,7 +84,10 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
 
     override fun navigateToCreatorPost() {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.enter, R.anim.exit)
+            .setCustomAnimations(R.anim.slide_in_top,
+                R.anim.slide_in_bottom,
+                R.anim.slide_in_top,
+                R.anim.slide_in_bottom)
             .add(android.R.id.content, CreatorPostFragment.newInstance())
             .addToBackStack(null)
             .commit()

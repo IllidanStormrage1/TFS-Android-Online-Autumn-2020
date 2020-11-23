@@ -20,6 +20,7 @@ object CommentsConverter {
                 avatarUrl = currentItemProfile?.photo100
             }
             Comment(
+                id = item.id,
                 avatarUrl = avatarUrl ?: "",
                 nickname = displayName ?: "",
                 date = dateStringFromTimeInMillis(item.date * 1000L),
@@ -27,5 +28,4 @@ object CommentsConverter {
                 likesCount = item.likes.count,
             )
         }
-
 }

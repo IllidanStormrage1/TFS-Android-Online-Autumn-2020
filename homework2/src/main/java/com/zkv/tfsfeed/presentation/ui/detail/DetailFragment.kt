@@ -2,66 +2,111 @@ package com.zkv.tfsfeed.presentation.ui.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.text.util.Linkify
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
+import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.ConcatAdapter
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
+import com.zkv.tfsfeed.presentation.App
+import com.zkv.tfsfeed.presentation.adapter.utils.SpacingItemDecoration
 import com.zkv.tfsfeed.presentation.extensions.*
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
+import com.zkv.tfsfeed.presentation.ui.detail.list.CommentsAdapter
+import com.zkv.tfsfeed.presentation.ui.detail.list.HeaderPostAdapter
+import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.merge_item_post.*
+import kotlinx.android.synthetic.main.merge_input_comment.*
 import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
+import kotlin.properties.Delegates
 
-class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail) {
+class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailView {
+
+    @Inject
+    lateinit var presenterProvider: Provider<DetailPresenter>
+    private val presenter by moxyPresenter { presenterProvider.get() }
 
     private var _activityCallback: MainActivityCallback? = null
     private val activityCallback: MainActivityCallback get() = _activityCallback!!
+
+    private var postsAdapter: HeaderPostAdapter by Delegates.notNull()
+    private var commentsAdapter: CommentsAdapter by Delegates.notNull()
+
+    private var newsItem: NewsItem by Delegates.notNull()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is MainActivityCallback) _activityCallback = context
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        requireArguments().getParcelable<NewsItem>(KEY_ITEM)?.let(::initView)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
-    private fun initView(item: NewsItem) {
-        with(item) {
-            content_tv.autoLinkMask = Linkify.ALL
-            content_tv.setTextIsSelectable(true)
-            content_tv.linksClickable = true
-            group_name_tv.text = displayName
-            post_creation_date_tv.text = date
-            content_tv.text = text
-            like_btn.text = likesCount.toString()
-            comment_btn.text = commentsCount.toString()
-            share_btn.text = repostsCount.toString()
-            share_btn.setOnClickListener { activityCallback.shareNewsItem(this) }
-            views_tv.text = viewsCount
-            avatar_iv.loadFromUrl(avatarUrl, R.drawable.bg_placeholder)
-            if (item.photoUrl == null) {
-                content_iv.isVisible = false
-            } else {
-                content_iv.adjustViewBounds = true
-                content_iv.updateLayoutParams { height = MATCH_PARENT }
-                content_iv.loadFromUrl(
-                    photoUrl,
-                    R.drawable.bg_placeholder)
-                detail_save_btn.isVisible = true
-                detail_save_btn.setOnClickListener { downloadImage(content_iv) }
-            }
-            if (canLike == 0)
-                like_btn.setIconResource(R.drawable.ic_heart_selected)
-            else
-                like_btn.setIconResource(R.drawable.ic_heart)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
+        postsAdapter = HeaderPostAdapter(shareClickHandler = activityCallback::shareNewsItem)
+        requireArguments().getParcelable<NewsItem>(KEY_ITEM)?.let {
+            postsAdapter.submit(it)
+            newsItem = it
+            presenter.getComments(it.id, it.sourceId)
         }
+        commentsAdapter = CommentsAdapter()
+        val adapter = ConcatAdapter(postsAdapter, commentsAdapter)
+        initViewState(adapter)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _activityCallback = null
+    }
+
+    override fun render(state: DetailViewState) {
+        with(state) {
+            detail_posts_srl.isRefreshing = showLoading
+            commentsAdapter.submitList(comments)
+            if (showError)
+                ErrorDialogFragment.newInstance(errorMessage)
+                    .showIfNotVisible(requireActivity().supportFragmentManager,
+                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
+        }
+    }
+
+    private fun initViewState(adapter: ConcatAdapter) {
+        detail_posts_rv.run {
+            addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.default_margin)))
+            this.adapter = adapter
+        }
+        detail_posts_srl.run {
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+            setProgressViewOffset(true, -100, 100)
+            setOnRefreshListener { presenter.getComments(newsItem.id, newsItem.sourceId) }
+        }
+        detail_comment_et.addTextChangedListener(onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
+            detail_send_iv.isEnabled = charSequence.isNullOrBlank().not()
+        })
+        detail_send_iv.run {
+            isEnabled = false
+            setOnThrottleClickListener {
+                presenter.createCommentAndRefresh(newsItem.id,
+                    newsItem.sourceId,
+                    detail_comment_et.text.toString())
+                close()
+            }
+        }
+    }
+
+    private fun close() {
+        detail_comment_et.text.clear()
+        requireContext().hideKeyboardFrom(detail_comment_et)
     }
 
     private fun downloadImage(imageView: ImageView) {
@@ -70,15 +115,9 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail) {
             val bitmap = drawable.toBitmap()
             if (isQHigher)
                 requireContext().downloadImageWithMediaStore(bitmap)
-            else {
+            else
                 requireActivity().downloadImageWithExternalStorage(bitmap)
-            }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _activityCallback = null
     }
 
     companion object {

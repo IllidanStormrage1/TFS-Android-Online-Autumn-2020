@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.data
+package com.zkv.tfsfeed.data.repository
 
 import com.zkv.tfsfeed.domain.model.Comment
 import com.zkv.tfsfeed.domain.model.NewsItem
@@ -40,7 +40,7 @@ class MediatorRepositoryImpl @Inject constructor(
             .switchIfEmpty(fetchProfileInformation(true))
     }
 
-    override fun fetchComments(postId: Int, ownerId: Int): Single<List<Comment>> =
+    override fun fetchComments(postId: Int, ownerId: Int?): Single<List<Comment>> =
         remoteRepository.fetchComments(postId, ownerId)
 
     override fun removeUserWallPost(postId: Int): Completable =
@@ -66,6 +66,9 @@ class MediatorRepositoryImpl @Inject constructor(
             }
 
     override fun createPost(message: String): Completable = remoteRepository.createPost(message)
+
+    override fun createComment(ownerId: Int?, postId: Int, message: String) =
+        remoteRepository.createComment(ownerId, postId, message)
 
     override fun getLastRefreshTime(): Long = localeRepository.getRefreshTime()
 }

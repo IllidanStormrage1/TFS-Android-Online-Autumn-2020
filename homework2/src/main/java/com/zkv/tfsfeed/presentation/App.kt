@@ -23,14 +23,14 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initDi()
+        initDI()
         initExpiredTokenHandler()
         initLogger()
         initRxJavaPlugin()
     }
 
     private fun initRxJavaPlugin() {
-        RxJavaPlugins.setErrorHandler { Timber.d(it) }
+        RxJavaPlugins.setErrorHandler { Timber.e(it) }
     }
 
     private fun initLogger() {
@@ -38,7 +38,7 @@ class App : Application() {
             Timber.plant(DebugTree())
     }
 
-    private fun initDi() {
+    private fun initDI() {
         appComponent = AppComponent.create(this)
         appComponent.inject(this)
     }

@@ -30,8 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin_small"
         android:ellipsize="end"
-        android:maxLines="10"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        android:maxLines="15"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         tools:text="@tools:sample/lorem/random" />
 
     <TextView

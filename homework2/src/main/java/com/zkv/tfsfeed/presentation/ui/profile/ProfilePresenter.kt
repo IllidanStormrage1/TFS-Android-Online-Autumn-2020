@@ -8,7 +8,6 @@ import com.zkv.tfsfeed.presentation.base.BasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.functions.Functions
 import moxy.InjectViewState
-import timber.log.Timber
 import javax.inject.Inject
 
 @InjectViewState
@@ -37,7 +36,7 @@ class ProfilePresenter @Inject constructor(
                 { pair ->
                     updateState { stateMachine.onLoaded(pair.first, pair.second) }
                 },
-                { throwable -> Timber.e(throwable);updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
     fun onDeletePost(postId: Int, ownerId: Int) {

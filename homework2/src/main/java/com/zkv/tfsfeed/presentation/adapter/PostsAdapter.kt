@@ -25,10 +25,11 @@ private const val TEXT_HOLDER_TYPE = 0
 private const val TEXT_IMAGE_HOLDER_TYPE = 1
 
 private typealias ItemHandler = ((item: NewsItem) -> Unit)?
+private typealias onLikeHandler = ((itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) -> Unit)?
 
 class PostsAdapter(
     private inline val onIgnoreHandler: ((itemId: Int, sourceId: Int) -> Unit)? = null,
-    private inline val onLikeHandler: ((itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) -> Unit)? = null,
+    private inline val onLikeHandler: onLikeHandler = null,
     private inline val onClickHandler: ItemHandler = null,
     private inline val onShareHandler: ItemHandler = null,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),

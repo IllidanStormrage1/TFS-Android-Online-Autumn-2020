@@ -44,6 +44,7 @@
     <string name="content_description">contentDescription</string>
     <string name="label_create_post_hint">Что у Вас нового?</string>
     <string name="label_create_post_title">Новая запись</string>
+    <string name="label_comment">Комментарий</string>
 
     <integer name="com_vk_sdk_AppId" tools:ignore="UnusedResources">7636667</integer>
 </resources>

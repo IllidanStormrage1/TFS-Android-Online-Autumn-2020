@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="com.zkv.tfsfeed.presentation.widget.CommentInputLayout">
+
+    <EditText
+        android:id="@+id/detail_comment_et"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/default_margin"
+        android:background="@null"
+        android:hint="@string/label_comment"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine" />
+
+    <ImageView
+        android:id="@+id/detail_send_iv"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:contentDescription="@string/content_description"
+        android:src="@drawable/ic_send" />
+
+</merge>

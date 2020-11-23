@@ -33,8 +33,8 @@ object WallResponseConverter {
                 displayName = displayName ?: "",
                 dateInMills = item.dateInMills * 1000L,
                 date = dateStringFromTimeInMillis(item.dateInMills * 1000L),
-                sourceId = item.fromId,
-                photoUrl = item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "x" }?.url
+                sourceId = item.ownerId,
+                photoUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "x" }?.url
                     ?: item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "x" }?.url,
                 id = item.postId,
                 text = if (item.text.isBlank()) item.copyHistory?.first()?.text

@@ -10,7 +10,7 @@ interface MediatorRepository {
     fun fetchNewsFeed(isRefresh: Boolean): Single<List<NewsItem>>
     fun fetchUserWall(isRefresh: Boolean): Single<List<NewsItem>>
     fun fetchProfileInformation(isRefresh: Boolean): Single<Profile>
-    fun fetchComments(postId: Int, ownerId: Int): Single<List<Comment>>
+    fun fetchComments(postId: Int, ownerId: Int?): Single<List<Comment>>
 
     fun removeUserWallPost(postId: Int): Completable
     fun removeNewsFeedPost(postId: Int, ownerId: Int, type: String): Completable
@@ -23,6 +23,7 @@ interface MediatorRepository {
     ): Completable
 
     fun createPost(message: String): Completable
+    fun createComment(ownerId: Int?, postId: Int, message: String): Completable
 
     fun getLastRefreshTime(): Long
 }
