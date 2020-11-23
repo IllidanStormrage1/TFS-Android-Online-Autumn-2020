@@ -22,7 +22,6 @@
         android:id="@+id/profile_online_badge"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:visibility="visible"
         tools:background="@drawable/ic_online_status" />
 
     <TextView

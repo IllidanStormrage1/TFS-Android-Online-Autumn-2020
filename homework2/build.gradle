@@ -1,7 +1,9 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -49,12 +51,10 @@ androidExtensions {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    //noinspection DifferentStdlibGradleVersion
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "com.github.moxy-community:moxy-androidx:$moxyVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.github.moxy-community:moxy-compiler:$moxyVersion"
     implementation "com.github.moxy-community:moxy-ktx:$moxyVersion"
 
