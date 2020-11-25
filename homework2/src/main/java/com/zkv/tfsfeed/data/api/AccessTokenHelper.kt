@@ -26,6 +26,6 @@ class AccessTokenHelper @Inject constructor(
 
     companion object {
         private const val TOKEN_KEY = "tokenKey"
-        private const val TOKEN_HAS_EXPIRED = "tokenExpired"
+        private const val TOKEN_HAS_EXPIRED = "tokenHasExpired"
     }
 }

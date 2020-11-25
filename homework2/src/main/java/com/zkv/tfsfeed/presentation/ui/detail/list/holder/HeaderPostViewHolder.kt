@@ -9,11 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.extensions.loadFromUrl
+import com.zkv.tfsfeed.presentation.widget.SocialPostLayout
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_post.*
 
 class HeaderPostViewHolder(override val containerView: View) :
     RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+    init {
+        (itemView as SocialPostLayout).isAvailableToDownload = true
+    }
 
     fun bind(item: NewsItem) {
         with(item) {

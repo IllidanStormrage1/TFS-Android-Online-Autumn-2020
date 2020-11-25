@@ -20,6 +20,7 @@ android {
         buildConfigField "String", "PREF_FILE_NAME", "\"pref_name\""
         buildConfigField "String", "ENC_PREF_FILE_NAME", "\"enc_pref_name\""
         buildConfigField "String", "DATABASE_NAME", "\"newsdatabase\""
+        buildConfigField "String", "API_VERSION", "\"5.124\""
     }
 
     buildTypes {

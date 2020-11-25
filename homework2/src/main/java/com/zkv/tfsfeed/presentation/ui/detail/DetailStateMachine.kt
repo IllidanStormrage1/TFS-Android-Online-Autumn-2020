@@ -1,9 +1,9 @@
 package com.zkv.tfsfeed.presentation.ui.detail
 
-import com.zkv.tfsfeed.data.api.ErrorHandler
+import com.zkv.tfsfeed.data.api.SimpleErrorHandler
 import com.zkv.tfsfeed.domain.model.Comment
 
-class DetailStateMachine(private val errorHandler: ErrorHandler) {
+class DetailStateMachine(private val simpleErrorHandler: SimpleErrorHandler) {
 
     var state: DetailViewState = DetailViewState.InitialState
         private set
@@ -22,7 +22,7 @@ class DetailStateMachine(private val errorHandler: ErrorHandler) {
     }
 
     fun onError(throwable: Throwable): DetailViewState {
-        state = DetailViewState.Error(state.comments, errorHandler.getErrorMessage(throwable))
+        state = DetailViewState.Error(state.comments, simpleErrorHandler.getErrorMessage(throwable))
         return state
     }
 }

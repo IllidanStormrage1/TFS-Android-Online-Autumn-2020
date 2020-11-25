@@ -53,7 +53,8 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
-        postsAdapter = HeaderPostAdapter(shareClickHandler = activityCallback::shareNewsItem)
+        postsAdapter = HeaderPostAdapter(shareClickHandler = activityCallback::shareNewsItem,
+            downloadClickHandler = this::downloadImage)
         requireArguments().getParcelable<NewsItem>(KEY_ITEM)?.let {
             postsAdapter.submit(it)
             newsItem = it

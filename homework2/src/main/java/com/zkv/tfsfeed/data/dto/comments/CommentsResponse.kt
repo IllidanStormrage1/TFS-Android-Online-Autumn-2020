@@ -7,10 +7,7 @@ import com.zkv.tfsfeed.data.dto.news.wall.Profile
 
 @Keep
 class CommentsResponse(
-    @SerializedName("groups")
-    val groups: List<Group>,
-    @SerializedName("items")
-    val items: List<Comment>,
-    @SerializedName("profiles")
-    val profiles: List<Profile>,
+    @SerializedName("groups") val groups: List<Group>,
+    @SerializedName("items") val items: List<Comment>,
+    @SerializedName("profiles") val profiles: List<Profile>,
 )

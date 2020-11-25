@@ -86,7 +86,7 @@
         app:iconGravity="textStart"
         app:iconTint="@null"
         app:rippleColor="@null"
-        tools:text="13526611117" />
+        tools:text="1117" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/share_btn"
@@ -99,7 +99,7 @@
         android:textColor="?colorPrimaryDark"
         app:icon="@drawable/ic_share"
         app:iconGravity="textStart"
-        tools:text="1352667" />
+        tools:text="1667" />
 
     <ImageView
         android:id="@+id/views_iv"
@@ -108,6 +108,18 @@
         android:contentDescription="@string/content_description"
         android:src="@drawable/ic_eye"
         app:tint="@color/ghost" />
+
+    <ImageView
+        android:id="@+id/download_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/content_description"
+        android:focusable="true"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:src="@drawable/ic_arrow_downward"
+        app:tint="?colorPrimaryDark" />
 
     <TextView
         android:id="@+id/views_tv"

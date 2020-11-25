@@ -1,6 +1,7 @@
 package com.zkv.tfsfeed.presentation.ui.detail.list
 
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
@@ -9,8 +10,10 @@ import com.zkv.tfsfeed.presentation.extensions.inflate
 import com.zkv.tfsfeed.presentation.ui.detail.list.holder.HeaderPostViewHolder
 import kotlinx.android.synthetic.main.merge_item_post.view.*
 
-class HeaderPostAdapter(private val shareClickHandler: (NewsItem) -> Unit) :
-    RecyclerView.Adapter<HeaderPostViewHolder>() {
+class HeaderPostAdapter(
+    private inline val shareClickHandler: (NewsItem) -> Unit,
+    private inline val downloadClickHandler: (ImageView) -> Unit,
+) : RecyclerView.Adapter<HeaderPostViewHolder>() {
 
     private var items = mutableListOf<NewsItem>()
 
@@ -34,9 +37,11 @@ class HeaderPostAdapter(private val shareClickHandler: (NewsItem) -> Unit) :
 
     override fun onViewAttachedToWindow(holder: HeaderPostViewHolder) {
         holder.itemView.share_btn.setOnClickListener { shareClickHandler(items.first()) }
+        holder.itemView.download_iv.setOnClickListener { downloadClickHandler(holder.itemView.content_iv) }
     }
 
     override fun onViewDetachedFromWindow(holder: HeaderPostViewHolder) {
         holder.itemView.share_btn.setOnClickListener(null)
+        holder.itemView.download_iv.setOnClickListener(null)
     }
 }

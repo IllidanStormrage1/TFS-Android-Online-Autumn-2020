@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="plural_subscribers">
+        <item quantity="one">%d подписчик.</item>
+        <item quantity="few">%d подписчика.</item>
+        <item quantity="many">%d подписчиков.</item>
+    </plurals>
+</resources>

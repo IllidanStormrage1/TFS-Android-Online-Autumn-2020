@@ -10,10 +10,13 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private const val USERS_GET_FIELDS =
-    "domain, first_name, last_name, photo_100, about, bdate, city, country, career, education, followers_count, last_seen, online, home_town, relation"
-
 interface VkApi {
+
+    companion object {
+        private const val USERS_GET_FIELDS =
+            "domain, first_name, last_name, photo_100, about, bdate, city, country, career," +
+                    " education, followers_count, last_seen, online, home_town, relation"
+    }
 
     /// ========== NewsFeed ========== ///
     @GET("newsfeed.get")

@@ -15,6 +15,7 @@ class SocialPostLayout @JvmOverloads constructor(
 ) : ViewGroup(context, attributeSet, defStyleAttrs) {
 
     var isImage = false
+    var isAvailableToDownload = false
 
     init {
         setWillNotDraw(true)
@@ -34,6 +35,9 @@ class SocialPostLayout @JvmOverloads constructor(
         width += avatar_iv.measuredWidth
 
         measureChildWithMargins(group_name_tv, widthMeasureSpec, width, heightMeasureSpec, height)
+        if (isImage && content_iv.isVisible && isAvailableToDownload)
+            measureChildWithMargins(download_iv, widthMeasureSpec, width, heightMeasureSpec, height)
+
         height += group_name_tv.measuredHeight + group_name_tv.marginTop
 
         measureChildWithMargins(
@@ -150,6 +154,14 @@ class SocialPostLayout @JvmOverloads constructor(
             currentTop + share_btn.measuredHeight
         )
         currentStart += share_btn.measuredWidth
+
+        if (isImage && isAvailableToDownload)
+            download_iv.layout(
+                currentStart + like_btn.marginStart,
+                currentTop,
+                download_iv.measuredWidth + like_btn.marginStart + currentStart,
+                currentTop + share_btn.measuredHeight
+            )
 
         val partHeight = views_tv.measuredHeight / 2
         val baseLine = currentTop + share_btn.measuredHeight / 2

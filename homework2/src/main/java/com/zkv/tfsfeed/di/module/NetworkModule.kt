@@ -2,8 +2,8 @@ package com.zkv.tfsfeed.di.module
 
 import android.content.Context
 import com.zkv.tfsfeed.BuildConfig
-import com.zkv.tfsfeed.data.api.ErrorHandler
 import com.zkv.tfsfeed.data.api.NetworkInterceptor
+import com.zkv.tfsfeed.data.api.SimpleErrorHandler
 import com.zkv.tfsfeed.data.api.VkApi
 import dagger.Module
 import dagger.Provides
@@ -20,7 +20,7 @@ object NetworkModule {
     @Provides
     @JvmStatic
     @Singleton
-    fun provideErrorHandler(context: Context): ErrorHandler = ErrorHandler(context)
+    fun provideErrorHandler(context: Context): SimpleErrorHandler = SimpleErrorHandler(context)
 
     @Provides
     @JvmStatic

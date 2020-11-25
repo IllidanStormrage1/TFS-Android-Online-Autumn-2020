@@ -1,5 +1,6 @@
 package com.zkv.tfsfeed.data.api
 
+import com.zkv.tfsfeed.BuildConfig.API_VERSION
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -22,6 +23,5 @@ class NetworkInterceptor @Inject constructor(private val accessTokenHelper: Acce
     companion object {
         private const val ACCESS_TOKEN = "access_token"
         private const val VERSION_CHAR = "v"
-        private const val API_VERSION = "5.124"
     }
 }

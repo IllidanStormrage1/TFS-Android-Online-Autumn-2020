@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="label_menu_news">Новости</string>
+    <string name="label_menu_favorites">Избранное</string>
+    <string name="label_menu_profile">Профиль</string>
+
+    <string name="text_error_dialog">Ошибка</string>
+    <string name="text_positive_button_error_dialog">OK</string>
+    <string name="plc_empty_list_error">Не удалось загрузить данные, попробуйте еще раз.</string>
+    <string name="plc_empty_list">Похоже, здесь пока пусто. Приходи позже.</string>
+    <string name="toast_failed_load">Failed to load image</string>
+    <string name="toast_successfully_download">Загружено</string>
+    <string name="text_share_intent">Отправить</string>
+    <string name="label_fresh_items">Свежие записи</string>
+
+    <string name="label_internet_error">Интернет-соединение недоступно</string>
+    <string name="label_last_seen">Был в сети: %s</string>
+    <string name="label_about">О себе: %s.</string>
+    <string name="label_birthday">День рождения: %s.</string>
+    <string name="label_home_town">Родной город: %s.</string>
+    <string name="label_city">Город: %s.</string>
+    <string name="label_career">Карьера: %s.</string>
+    <string name="label_education">Образование: %s.</string>
+    <string name="label_relation">Семейное положение: %s.</string>
+    <string name="label_not_indicated">не указано</string>
+
+    <string-array name="relation_status">
+        <item>@string/label_not_indicated</item>
+        <item>не женат/не замужем</item>
+        <item>есть друг/подруга</item>
+        <item>помолвлен(а)</item>
+        <item>женат/замужем</item>
+        <item>всё сложно</item>
+        <item>в активном поиске</item>
+        <item>влюблён/влюблена</item>
+        <item>в гражданском браке</item>
+    </string-array>
+
+    <string name="message_unknown_host_exception">Отсутствует подключение к интернету.</string>
+    <string name="message_error_default">При обработке запроса произошла ошибка.</string>
+
+    <string name="label_create_post_hint">Что у Вас нового?</string>
+    <string name="label_create_post_title">Новая запись</string>
+    <string name="label_comment">Комментарий</string>
+</resources>
