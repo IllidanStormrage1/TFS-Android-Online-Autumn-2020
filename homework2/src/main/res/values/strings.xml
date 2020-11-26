@@ -43,7 +43,7 @@
     <string name="content_description" translatable="false">contentDescription</string>
     <string name="label_create_post_hint">What\'s new with you?</string>
     <string name="label_create_post_title">New post</string>
-    <string name="label_comment">Comment</string>
+    <string name="label_comment">Write a comment</string>
 
     <integer name="com_vk_sdk_AppId" tools:ignore="UnusedResources">7636667</integer>
 </resources>

@@ -91,4 +91,6 @@ dependencies {
     implementation "androidx.security:security-crypto:$securityСryptoVersion"
 
     implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }

@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".presentation.ui.detail.DetailFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

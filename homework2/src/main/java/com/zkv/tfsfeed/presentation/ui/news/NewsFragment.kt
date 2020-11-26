@@ -1,6 +1,5 @@
 package com.zkv.tfsfeed.presentation.ui.news
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -31,15 +30,9 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
     lateinit var presenterProvider: Provider<NewsPresenter>
     private val presenter by moxyPresenter { presenterProvider.get() }
 
-    private var _activityCallback: MainActivityCallback? = null
-    private val activityCallback: MainActivityCallback get() = _activityCallback!!
+    private val activityCallback get() = requireActivity() as MainActivityCallback
 
     private var adapter: PostsAdapter by Delegates.notNull()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is MainActivityCallback) _activityCallback = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -55,11 +48,6 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
             onClickHandler = activityCallback::navigateToDetail,
             onShareHandler = activityCallback::shareNewsItem)
         initViewState(adapter)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _activityCallback = null
     }
 
     override fun render(state: NewsViewState) {
@@ -90,7 +78,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
                 ))
         }
         news_posts_srl.run {
-            setOnRefreshListener { loadData(true) }
+            setOnRefreshListener { loadData() }
             setColorSchemeColors(ContextCompat.getColor(requireContext(),
                 R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
@@ -98,11 +86,11 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
         ItemTouchHelper(MainItemTouchHelper(adapter)).run {
             attachToRecyclerView(news_posts_rv)
         }
-        news_fresh_fab.setOnClickListener { loadData(true) }
+        news_fresh_fab.setOnClickListener { loadData() }
     }
 
-    private fun loadData(isRefresh: Boolean) {
-        presenter.loadData(isRefresh)
+    private fun loadData() {
+        presenter.loadData(true)
     }
 
     companion object {

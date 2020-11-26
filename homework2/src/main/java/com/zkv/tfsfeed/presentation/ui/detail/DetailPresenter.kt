@@ -18,17 +18,15 @@ class DetailPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
-                { items ->
-                    updateState { stateMachine.onLoaded(items) }
-                },
+                { items -> updateState { stateMachine.onLoaded(items) } },
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
     fun createCommentAndRefresh(postId: Int, ownerId: Int?, message: String) {
         compositeDisposable += createComment(ownerId, postId, message)
+            .andThen { getComments(postId, ownerId) }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
-            .doOnComplete { getComments(postId, ownerId) }
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
                 updateState { stateMachine.onError(throwable) }
             }

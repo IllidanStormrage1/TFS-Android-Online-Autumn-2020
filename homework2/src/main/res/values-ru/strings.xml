@@ -41,5 +41,5 @@
 
     <string name="label_create_post_hint">Что у Вас нового?</string>
     <string name="label_create_post_title">Новая запись</string>
-    <string name="label_comment">Комментарий</string>
+    <string name="label_comment">Написать комментарий</string>
 </resources>

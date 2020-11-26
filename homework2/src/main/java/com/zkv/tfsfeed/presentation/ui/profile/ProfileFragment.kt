@@ -1,6 +1,5 @@
 package com.zkv.tfsfeed.presentation.ui.profile
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -33,16 +32,10 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
     lateinit var presenterProvider: Provider<ProfilePresenter>
     private val presenter by moxyPresenter { presenterProvider.get() }
 
-    private var _activityCallback: MainActivityCallback? = null
-    private val activityCallback: MainActivityCallback get() = _activityCallback!!
+    private val activityCallback get() = requireActivity() as MainActivityCallback
 
     private var headerAdapter: HeaderAdapter by Delegates.notNull()
     private var postsAdapter: PostsAdapter by Delegates.notNull()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is MainActivityCallback) _activityCallback = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -61,11 +54,6 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
         val adapter = ConcatAdapter(headerAdapter, postsAdapter)
         initViewState(adapter)
         setFragmentResultListener()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _activityCallback = null
     }
 
     override fun render(state: ProfileViewState) {

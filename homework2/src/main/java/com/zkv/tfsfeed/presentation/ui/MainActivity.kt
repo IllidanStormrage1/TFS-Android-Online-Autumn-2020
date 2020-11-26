@@ -73,10 +73,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
 
     override fun navigateToDetail(item: NewsItem) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.slide_in_right,
-                R.anim.slide_in_left,
-                R.anim.slide_in_right,
-                R.anim.slide_in_left)
             .add(android.R.id.content, DetailFragment.newInstance(item))
             .addToBackStack(null)
             .commit()

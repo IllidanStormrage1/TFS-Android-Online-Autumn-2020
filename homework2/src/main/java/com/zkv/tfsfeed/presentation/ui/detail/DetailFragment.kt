@@ -1,6 +1,5 @@
 package com.zkv.tfsfeed.presentation.ui.detail
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -32,18 +31,12 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
     lateinit var presenterProvider: Provider<DetailPresenter>
     private val presenter by moxyPresenter { presenterProvider.get() }
 
-    private var _activityCallback: MainActivityCallback? = null
-    private val activityCallback: MainActivityCallback get() = _activityCallback!!
+    private val activityCallback get() = requireActivity() as MainActivityCallback
 
     private var postsAdapter: HeaderPostAdapter by Delegates.notNull()
     private var commentsAdapter: CommentsAdapter by Delegates.notNull()
 
     private var newsItem: NewsItem by Delegates.notNull()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is MainActivityCallback) _activityCallback = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -63,11 +56,6 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
         commentsAdapter = CommentsAdapter()
         val adapter = ConcatAdapter(postsAdapter, commentsAdapter)
         initViewState(adapter)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _activityCallback = null
     }
 
     override fun render(state: DetailViewState) {

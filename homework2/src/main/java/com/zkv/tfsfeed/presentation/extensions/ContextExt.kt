@@ -33,6 +33,7 @@ fun Context.makeToast(@StringRes text: Int, length: Int = Toast.LENGTH_SHORT) {
 fun Context.checkPermissionGranted(permission: String): Boolean =
     checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
 
+@Suppress("DEPRECATION")
 fun Activity.downloadImageWithExternalStorage(bitmap: Bitmap) {
     try {
         if (checkPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {

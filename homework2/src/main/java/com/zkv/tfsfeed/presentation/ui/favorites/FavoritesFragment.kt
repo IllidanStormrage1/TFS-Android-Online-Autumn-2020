@@ -1,6 +1,5 @@
 package com.zkv.tfsfeed.presentation.ui.favorites
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -30,15 +29,9 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
     lateinit var presenterProvider: Provider<FavoritesPresenter>
     private val presenter by moxyPresenter { presenterProvider.get() }
 
-    private var _activityCallback: MainActivityCallback? = null
-    private val activityCallback: MainActivityCallback get() = _activityCallback!!
+    private val activityCallback get() = requireActivity() as MainActivityCallback
 
     private var adapter: PostsAdapter by Delegates.notNull()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is MainActivityCallback) _activityCallback = context
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -57,11 +50,6 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
     override fun onResume() {
         super.onResume()
         presenter.loadData(isRefresh = false)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _activityCallback = null
     }
 
     override fun render(state: NewsViewState) {
