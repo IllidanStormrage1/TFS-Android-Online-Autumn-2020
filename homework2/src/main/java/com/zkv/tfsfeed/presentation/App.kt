@@ -34,8 +34,7 @@ class App : Application() {
     }
 
     private fun initLogger() {
-        if (BuildConfig.DEBUG)
-            Timber.plant(DebugTree())
+        if (BuildConfig.DEBUG) Timber.plant(DebugTree())
     }
 
     private fun initDI() {

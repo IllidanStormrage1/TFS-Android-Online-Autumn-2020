@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.presentation.extensions
+package com.zkv.tfsfeed.presentation.utils.extensions
 
 import android.Manifest
 import android.app.Activity

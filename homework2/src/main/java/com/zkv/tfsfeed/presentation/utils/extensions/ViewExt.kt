@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.presentation.extensions
+package com.zkv.tfsfeed.presentation.utils.extensions
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.zkv.tfsfeed.presentation.utils.DebounceClickListener
 
 fun ImageView.loadFromUrl(
     url: String?,
@@ -45,6 +46,6 @@ fun TextView.setPluralText(@PluralsRes resourceId: Int, value: Int) {
     text = resources.getQuantityString(resourceId, value, value)
 }
 
-fun View.setOnThrottleClickListener(time: Long = 1000L, onClick: (View?) -> Unit) {
-    setOnClickListener(ThrottleClickListener(time, onClick))
+fun View.setOnDebounceClickListener(time: Long = 1000L, onClick: (View?) -> Unit) {
+    setOnClickListener(DebounceClickListener(time, onClick))
 }

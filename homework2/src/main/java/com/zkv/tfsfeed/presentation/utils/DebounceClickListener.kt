@@ -1,8 +1,8 @@
-package com.zkv.tfsfeed.presentation.extensions
+package com.zkv.tfsfeed.presentation.utils
 
 import android.view.View
 
-class ThrottleClickListener(private val time: Long, private val onClick: (View?) -> Unit) :
+class DebounceClickListener(private val time: Long, private val onClick: (View?) -> Unit) :
     View.OnClickListener {
 
     private var lastClickTime = 0L

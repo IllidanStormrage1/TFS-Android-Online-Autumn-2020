@@ -81,10 +81,10 @@
         android:clickable="false"
         android:focusable="false"
         android:padding="0dp"
-        android:textColor="?colorPrimaryDark"
+        android:textColor="@color/selector_color_post_buttons"
         app:icon="@drawable/ic_comment"
         app:iconGravity="textStart"
-        app:iconTint="@null"
+        app:iconTint="@color/selector_color_post_buttons"
         app:rippleColor="@null"
         tools:text="1117" />
 

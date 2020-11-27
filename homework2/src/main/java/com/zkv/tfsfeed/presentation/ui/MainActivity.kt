@@ -18,19 +18,19 @@ import com.zkv.tfsfeed.data.api.AccessTokenHelper
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.MainViewPagerAdapter
-import com.zkv.tfsfeed.presentation.extensions.loadImage
-import com.zkv.tfsfeed.presentation.extensions.registerNetworkCallback
-import com.zkv.tfsfeed.presentation.extensions.unregisterNetworkCallback
 import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
 import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
+import com.zkv.tfsfeed.presentation.utils.extensions.loadImage
+import com.zkv.tfsfeed.presentation.utils.extensions.registerNetworkCallback
+import com.zkv.tfsfeed.presentation.utils.extensions.unregisterNetworkCallback
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.partial_label_connection_error.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainActivityCallback {
+class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCallback {
 
     @Inject
     lateinit var accessTokenHelper: AccessTokenHelper
@@ -39,14 +39,18 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
             VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS, VKScope.OFFLINE))
         else
             initViewState()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterNetworkCallback(networkCallback)
+        _networkCallback = null
     }
 
     @Suppress("DEPRECATION")
@@ -63,12 +67,6 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback))
             super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterNetworkCallback(networkCallback)
-        _networkCallback = null
     }
 
     override fun navigateToDetail(item: NewsItem) {
@@ -90,8 +88,8 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
     }
 
     override fun shareNewsItem(item: NewsItem) {
-        if (item.photoUrl != null)
-            loadImage(item.photoUrl) {
+        if (item.contentUrl != null)
+            loadImage(item.contentUrl) {
                 showIntentChooser(createShareIntent(item.text, FileProvider.getUriForFile(this,
                     AUTHORITY_PROVIDER,
                     it)))
@@ -133,22 +131,23 @@ class MainActivity : AppCompatActivity(), MainActivityCallback {
     }
 
     private fun showIntentChooser(shareIntent: Intent) {
-        startActivity(createChooser(shareIntent,
-            resources.getString(R.string.text_share_intent)))
+        startActivity(createChooser(shareIntent, resources.getString(R.string.text_share_intent)))
     }
 
     private fun createShareIntent(content: String, uri: Uri? = null): Intent =
         Intent(ACTION_SEND).apply {
-            type = "text/plain"
+            type = TEXT_INTENT_TYPE
             addFlags(FLAG_GRANT_READ_URI_PERMISSION)
             putExtra(EXTRA_TEXT, content)
             uri?.let {
-                type = "image/jpeg,text/plain"
+                type = "$IMAGE_INTENT_TYPE,$TEXT_INTENT_TYPE"
                 putExtra(EXTRA_STREAM, uri)
             }
         }
 
     companion object {
+        private const val TEXT_INTENT_TYPE = "text/plain"
+        private const val IMAGE_INTENT_TYPE = "image/jpeg"
         private const val AUTHORITY_PROVIDER = "${BuildConfig.APPLICATION_ID}.fileprovider"
     }
 }

@@ -20,4 +20,5 @@ class UserWallEntity(
     @ColumnInfo(name = "can_like") val canLike: Int,
     @ColumnInfo(name = "likes_count") val likesCount: Int,
     @ColumnInfo(name = "views_count") val viewsCount: String,
+    @ColumnInfo(name = "can_post_comment") val canPostComments: Boolean,
 )

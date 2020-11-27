@@ -12,18 +12,17 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.utils.SpacingItemDecoration
-import com.zkv.tfsfeed.presentation.extensions.*
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.detail.list.CommentsAdapter
 import com.zkv.tfsfeed.presentation.ui.detail.list.HeaderPostAdapter
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
+import com.zkv.tfsfeed.presentation.utils.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.merge_input_comment.*
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import javax.inject.Provider
-import kotlin.properties.Delegates
 
 class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailView {
 
@@ -33,10 +32,9 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
 
     private val activityCallback get() = requireActivity() as MainActivityCallback
 
-    private var postsAdapter: HeaderPostAdapter by Delegates.notNull()
-    private var commentsAdapter: CommentsAdapter by Delegates.notNull()
-
-    private var newsItem: NewsItem by Delegates.notNull()
+    private lateinit var postsAdapter: HeaderPostAdapter
+    private lateinit var commentsAdapter: CommentsAdapter
+    private lateinit var newsItem: NewsItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -46,12 +44,19 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
-        postsAdapter = HeaderPostAdapter(shareClickHandler = activityCallback::shareNewsItem,
+        postsAdapter = HeaderPostAdapter(
+            shareClickHandler = activityCallback::shareNewsItem,
             downloadClickHandler = this::downloadImage)
         requireArguments().getParcelable<NewsItem>(KEY_ITEM)?.let {
             postsAdapter.submit(it)
             newsItem = it
-            presenter.getComments(it.id, it.sourceId)
+            if (it.canPost) {
+                presenter.getComments(it.id, it.sourceId)
+            } else {
+                detail_posts_srl.isEnabled = false
+                detail_comment_et.isEnabled = false
+                detail_comment_et.setText(resources.getString(R.string.label_comment_disabled))
+            }
         }
         commentsAdapter = CommentsAdapter()
         val adapter = ConcatAdapter(postsAdapter, commentsAdapter)
@@ -80,11 +85,11 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
             setOnRefreshListener { presenter.getComments(newsItem.id, newsItem.sourceId) }
         }
         detail_comment_et.addTextChangedListener(onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
-            detail_send_iv.isEnabled = charSequence.isNullOrBlank().not()
+            detail_send_iv.isEnabled = !charSequence.isNullOrBlank()
         })
         detail_send_iv.run {
             isEnabled = false
-            setOnThrottleClickListener {
+            setOnDebounceClickListener {
                 presenter.createCommentAndRefresh(newsItem.id,
                     newsItem.sourceId,
                     detail_comment_et.text.toString())
@@ -110,7 +115,6 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
     }
 
     companion object {
-
         const val KEY_ITEM = "item"
 
         fun newInstance(item: NewsItem) = DetailFragment().withArgs {

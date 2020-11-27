@@ -12,11 +12,11 @@ import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
 import com.zkv.tfsfeed.presentation.adapter.utils.SpacingItemDecoration
-import com.zkv.tfsfeed.presentation.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.profile.header.HeaderAdapter
+import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
 import kotlinx.android.synthetic.main.plc_shimmer_list.*
@@ -24,7 +24,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import javax.inject.Provider
-import kotlin.properties.Delegates
 
 class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), ProfileView {
 
@@ -34,8 +33,8 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
 
     private val activityCallback get() = requireActivity() as MainActivityCallback
 
-    private var headerAdapter: HeaderAdapter by Delegates.notNull()
-    private var postsAdapter: PostsAdapter by Delegates.notNull()
+    private lateinit var headerAdapter: HeaderAdapter
+    private lateinit var postsAdapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -94,7 +93,6 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
     }
 
     companion object {
-
         fun newInstance() = ProfileFragment()
     }
 }

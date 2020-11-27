@@ -34,7 +34,7 @@ object WallResponseConverter {
                 dateInMills = item.dateInMills * 1000L,
                 date = dateStringFromTimeInMillis(item.dateInMills * 1000L),
                 sourceId = item.ownerId,
-                photoUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "x" }?.url
+                contentUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "x" }?.url
                     ?: item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "x" }?.url,
                 id = item.postId,
                 text = if (item.text.isBlank()) item.copyHistory?.first()?.text
@@ -43,7 +43,8 @@ object WallResponseConverter {
                 repostsCount = item.reposts.count,
                 canLike = item.likes.canLike,
                 likesCount = item.likes.count,
-                viewsCount = item.views?.count?.currencyCountWithSuffix ?: "0"
+                viewsCount = item.views?.count?.currencyCountWithSuffix ?: "0",
+                canPost = item.comments.canPost == 1
             )
         }
 }

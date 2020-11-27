@@ -26,7 +26,7 @@ object NewsResponseConverter {
             dateInMills = item.date * 1000L,
             date = dateStringFromTimeInMillis(item.date * 1000L),
             sourceId = item.sourceId,
-            photoUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "x" }?.url
+            contentUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "x" }?.url
                 ?: item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "x" }?.url,
             id = item.postId,
             text = if (item.text != null && item.text.isBlank()) item.copyHistory?.first()?.text
@@ -35,7 +35,8 @@ object NewsResponseConverter {
             repostsCount = item.reposts.count,
             canLike = item.likes.canLike,
             likesCount = item.likes.count,
-            viewsCount = item.views?.count?.currencyCountWithSuffix ?: "0"
+            viewsCount = item.views?.count?.currencyCountWithSuffix ?: "0",
+            canPost = item.comments.canPost == 1
         )
     }
 }

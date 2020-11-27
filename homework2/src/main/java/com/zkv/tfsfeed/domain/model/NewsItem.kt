@@ -11,7 +11,7 @@ data class NewsItem(
     val dateInMills: Long,
     val date: String,
     val sourceId: Int,
-    val photoUrl: String?,
+    val contentUrl: String?,
     val id: Int,
     val text: String,
     val commentsCount: Int,
@@ -19,6 +19,7 @@ data class NewsItem(
     var canLike: Int,
     var likesCount: Int,
     val viewsCount: String,
+    val canPost: Boolean,
 ) : Parcelable
 
 fun NewsItem.like() {

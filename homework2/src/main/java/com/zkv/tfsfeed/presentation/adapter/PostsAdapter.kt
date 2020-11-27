@@ -7,22 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.like
-import com.zkv.tfsfeed.presentation.adapter.holder.TextImageViewHolder
-import com.zkv.tfsfeed.presentation.adapter.holder.TextViewHolder
+import com.zkv.tfsfeed.presentation.adapter.holder.SocialPostViewHolder
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback
-import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_CAN_LIKE
-import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_COMMENTS_COUNT
-import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_LIKES_COUNT
-import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_REPOSTS_COUNT
-import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_TEXT
-import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback.Companion.KEY_VIEWS_COUNT
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
-import com.zkv.tfsfeed.presentation.extensions.inflate
+import com.zkv.tfsfeed.presentation.utils.extensions.inflate
 import kotlinx.android.synthetic.main.merge_item_post.view.*
-
-private const val TEXT_HOLDER_TYPE = 0
-private const val TEXT_IMAGE_HOLDER_TYPE = 1
 
 private typealias ItemHandler = ((item: NewsItem) -> Unit)?
 private typealias onLikeHandler = ((itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) -> Unit)?
@@ -32,7 +22,7 @@ class PostsAdapter(
     private inline val onLikeHandler: onLikeHandler = null,
     private inline val onClickHandler: ItemHandler = null,
     private inline val onShareHandler: ItemHandler = null,
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+) : RecyclerView.Adapter<SocialPostViewHolder>(),
     MainItemTouchHelper.ItemTouchHelperAdapter, DividerItemDecoration.DividerAdapterCallback {
 
     private val differ = AsyncListDiffer(this, DiffCallback())
@@ -42,54 +32,23 @@ class PostsAdapter(
         differ.submitList(newItems)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        when (viewType) {
-            TEXT_IMAGE_HOLDER_TYPE -> TextImageViewHolder(parent.inflate(R.layout.item_rc_post),
-                isImage = true)
-            TEXT_HOLDER_TYPE -> TextViewHolder(parent.inflate(R.layout.item_rc_post),
-                isImage = false)
-            else -> throw IllegalStateException()
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SocialPostViewHolder =
+        SocialPostViewHolder(parent.inflate(R.layout.item_rc_post))
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is TextViewHolder -> holder.bind(currentList[position])
-            is TextImageViewHolder -> holder.bind(currentList[position])
-        }
+    override fun onBindViewHolder(holder: SocialPostViewHolder, position: Int) {
+        holder.bind(currentList[position])
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: SocialPostViewHolder,
         position: Int,
         payloads: List<Any>,
     ) {
-        if (payloads.isEmpty()) {
+        if (payloads.isEmpty())
             onBindViewHolder(holder, position)
-        } else {
-            val diffBundle = payloads[0] as Bundle
-            diffBundle.keySet().forEach {
-                when (it) {
-                    KEY_LIKES_COUNT -> holder.itemView.like_btn.text =
-                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
-                    KEY_CAN_LIKE -> {
-                        if (diffBundle.getInt(it) == 0)
-                            holder.itemView.like_btn.setIconResource(R.drawable.ic_heart_selected)
-                        else
-                            holder.itemView.like_btn.setIconResource(R.drawable.ic_heart)
-                    }
-                    KEY_COMMENTS_COUNT -> holder.itemView.comment_btn.text =
-                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
-                    KEY_REPOSTS_COUNT -> holder.itemView.share_btn.text =
-                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
-                    KEY_VIEWS_COUNT -> holder.itemView.views_tv.text = diffBundle.getString(it)
-                    KEY_TEXT -> holder.itemView.content_tv.text = diffBundle.getString(it)
-                }
-            }
-        }
+        else
+            holder.update(payloads[0] as Bundle)
     }
-
-    override fun getItemViewType(position: Int): Int =
-        currentList[position].photoUrl?.let { TEXT_IMAGE_HOLDER_TYPE } ?: TEXT_HOLDER_TYPE
 
     override fun getItemCount(): Int = currentList.size
 
@@ -116,13 +75,13 @@ class PostsAdapter(
 
     override fun getData(): List<NewsItem> = currentList
 
-    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+    override fun onViewAttachedToWindow(holder: SocialPostViewHolder) {
         super.onViewAttachedToWindow(holder)
         holder.itemView.setOnClickListener { onClickHandler?.invoke(currentList[holder.bindingAdapterPosition]) }
         holder.itemView.share_btn.setOnClickListener { onShareHandler?.invoke(currentList[holder.bindingAdapterPosition]) }
     }
 
-    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+    override fun onViewDetachedFromWindow(holder: SocialPostViewHolder) {
         super.onViewDetachedFromWindow(holder)
         holder.itemView.setOnClickListener(null)
         holder.itemView.share_btn.setOnClickListener(null)

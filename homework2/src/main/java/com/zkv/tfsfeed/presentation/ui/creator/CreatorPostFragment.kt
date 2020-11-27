@@ -6,9 +6,9 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.zkv.tfsfeed.R
-import com.zkv.tfsfeed.presentation.extensions.hideKeyboardFrom
-import com.zkv.tfsfeed.presentation.extensions.openKeyboardTo
-import com.zkv.tfsfeed.presentation.extensions.setOnThrottleClickListener
+import com.zkv.tfsfeed.presentation.utils.extensions.hideKeyboardFrom
+import com.zkv.tfsfeed.presentation.utils.extensions.openKeyboardTo
+import com.zkv.tfsfeed.presentation.utils.extensions.setOnDebounceClickListener
 import kotlinx.android.synthetic.main.fragment_create_post.*
 
 class CreatorPostFragment : Fragment(R.layout.fragment_create_post) {
@@ -21,7 +21,7 @@ class CreatorPostFragment : Fragment(R.layout.fragment_create_post) {
     private fun initViewState() {
         creator_send_iv.run {
             isEnabled = false
-            setOnThrottleClickListener {
+            setOnDebounceClickListener {
                 setFragmentResult()
                 close()
             }
@@ -30,7 +30,7 @@ class CreatorPostFragment : Fragment(R.layout.fragment_create_post) {
         create_post_et.run {
             requireActivity().openKeyboardTo(this)
             addTextChangedListener(onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
-                creator_send_iv.isEnabled = charSequence.isNullOrBlank().not()
+                creator_send_iv.isEnabled = !charSequence.isNullOrBlank()
             })
         }
     }

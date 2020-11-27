@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.Profile
 import com.zkv.tfsfeed.domain.utils.clearAndAddAll
-import com.zkv.tfsfeed.presentation.extensions.inflate
 import com.zkv.tfsfeed.presentation.ui.profile.header.holder.HeaderViewHolder
+import com.zkv.tfsfeed.presentation.utils.extensions.inflate
 import kotlinx.android.synthetic.main.merge_item_header_profile.view.*
 
 class HeaderAdapter(private val clicksHandler: () -> Unit) :

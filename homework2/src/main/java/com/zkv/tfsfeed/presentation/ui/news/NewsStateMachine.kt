@@ -12,12 +12,11 @@ class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) {
     fun onLoading(): NewsViewState {
         state = when (state) {
             is EmptyLoading, is Loading -> state
-            else -> {
+            else ->
                 if (state.news.isNotEmpty())
                     Loading(state.news)
                 else
                     EmptyLoading()
-            }
         }
         return state
     }

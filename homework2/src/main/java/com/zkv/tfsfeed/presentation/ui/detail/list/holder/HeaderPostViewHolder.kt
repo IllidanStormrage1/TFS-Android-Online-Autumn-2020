@@ -8,7 +8,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
-import com.zkv.tfsfeed.presentation.extensions.loadFromUrl
+import com.zkv.tfsfeed.presentation.utils.extensions.loadFromUrl
 import com.zkv.tfsfeed.presentation.widget.SocialPostLayout
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_post.*
@@ -32,14 +32,15 @@ class HeaderPostViewHolder(override val containerView: View) :
             comment_btn.text = commentsCount.toString()
             share_btn.text = repostsCount.toString()
             views_tv.text = viewsCount
+            comment_btn.isEnabled = canPost
             avatar_iv.loadFromUrl(avatarUrl, R.drawable.bg_placeholder)
-            if (item.photoUrl == null) {
+            if (item.contentUrl == null) {
                 content_iv.isVisible = false
             } else {
                 content_iv.adjustViewBounds = true
                 content_iv.updateLayoutParams { height = ViewGroup.LayoutParams.MATCH_PARENT }
                 content_iv.loadFromUrl(
-                    photoUrl,
+                    contentUrl,
                     R.drawable.bg_placeholder)
             }
             if (canLike == 0)

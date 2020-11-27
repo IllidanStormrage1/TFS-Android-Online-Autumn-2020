@@ -14,7 +14,6 @@ class SocialPostLayout @JvmOverloads constructor(
     defStyleAttrs: Int = 0,
 ) : ViewGroup(context, attributeSet, defStyleAttrs) {
 
-    var isImage = false
     var isAvailableToDownload = false
 
     init {
@@ -22,7 +21,6 @@ class SocialPostLayout @JvmOverloads constructor(
         clipToOutline = true
         inflate(context, R.layout.merge_item_post, this)
         context.withStyledAttributes(attributeSet, R.styleable.SocialPostLayout, defStyleAttrs) {
-            isImage = getBoolean(R.styleable.SocialPostLayout_isImage, false)
             content_tv.maxLines = getInteger(R.styleable.SocialPostLayout_textMaxLines, 15)
         }
     }
@@ -35,7 +33,7 @@ class SocialPostLayout @JvmOverloads constructor(
         width += avatar_iv.measuredWidth
 
         measureChildWithMargins(group_name_tv, widthMeasureSpec, width, heightMeasureSpec, height)
-        if (isImage && content_iv.isVisible && isAvailableToDownload)
+        if (content_iv.isVisible && isAvailableToDownload)
             measureChildWithMargins(download_iv, widthMeasureSpec, width, heightMeasureSpec, height)
 
         height += group_name_tv.measuredHeight + group_name_tv.marginTop
@@ -57,7 +55,7 @@ class SocialPostLayout @JvmOverloads constructor(
             height += content_tv.measuredHeight + content_tv.marginTop
         }
 
-        if (isImage && content_iv.isVisible) {
+        if (content_iv.isVisible) {
             measureChildWithMargins(content_iv, widthMeasureSpec, width, heightMeasureSpec, height)
             height += content_iv.measuredHeight + content_iv.marginTop
         }
@@ -120,7 +118,7 @@ class SocialPostLayout @JvmOverloads constructor(
             currentTop += content_tv.measuredHeight + content_tv.marginTop
         }
 
-        if (isImage) {
+        if (content_iv.isVisible) {
             content_iv.layout(
                 currentStart + content_iv.marginStart,
                 currentTop + content_iv.marginTop,
@@ -129,6 +127,7 @@ class SocialPostLayout @JvmOverloads constructor(
             )
             currentTop += content_iv.measuredHeight + content_iv.marginTop
         }
+
 
         like_btn.layout(
             currentStart + like_btn.marginStart,
@@ -155,7 +154,7 @@ class SocialPostLayout @JvmOverloads constructor(
         )
         currentStart += share_btn.measuredWidth
 
-        if (isImage && isAvailableToDownload)
+        if (content_iv.isVisible && isAvailableToDownload)
             download_iv.layout(
                 currentStart + like_btn.marginStart,
                 currentTop,

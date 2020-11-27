@@ -9,10 +9,10 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
-import com.zkv.tfsfeed.presentation.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsViewState
+import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.plc_empty_list.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
@@ -21,7 +21,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import javax.inject.Provider
-import kotlin.properties.Delegates
 
 class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), FavoritesView {
 
@@ -31,7 +30,7 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
 
     private val activityCallback get() = requireActivity() as MainActivityCallback
 
-    private var adapter: PostsAdapter by Delegates.notNull()
+    private lateinit var adapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -59,10 +58,6 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
             placeholder_empty_error_tv.isVisible = showEmptyError
             empty_placeholder_list_tv.isVisible = showEmptyLoaded
             adapter.submitList(news)
-            if (freshItemsAvailable)
-                news_fresh_fab.show()
-            else
-                news_fresh_fab.hide()
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
                     .showIfNotVisible(requireActivity().supportFragmentManager,
@@ -83,14 +78,12 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
         }
         news_posts_srl.run {
             setOnRefreshListener { presenter.loadData(true) }
-            setColorSchemeColors(ContextCompat.getColor(requireContext(),
-                R.color.colorAccent))
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
         }
     }
 
     companion object {
-
         fun newInstance() = FavoritesFragment()
     }
 }

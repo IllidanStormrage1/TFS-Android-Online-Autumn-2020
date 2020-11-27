@@ -12,12 +12,6 @@ import retrofit2.http.Query
 
 interface VkApi {
 
-    companion object {
-        private const val USERS_GET_FIELDS =
-            "domain, first_name, last_name, photo_100, about, bdate, city, country, career," +
-                    " education, followers_count, last_seen, online, home_town, relation"
-    }
-
     /// ========== NewsFeed ========== ///
     @GET("newsfeed.get")
     fun getNewsFeed(
@@ -95,4 +89,10 @@ interface VkApi {
     fun getGroupDescription(
         @Query("group_id") groupId: Int,
     ): Single<BaseGroupInformationResponse>
+
+    companion object {
+        private const val USERS_GET_FIELDS =
+            "domain, first_name, last_name, photo_100, about, bdate, city, country, career," +
+                    " education, followers_count, last_seen, online, home_town, relation"
+    }
 }

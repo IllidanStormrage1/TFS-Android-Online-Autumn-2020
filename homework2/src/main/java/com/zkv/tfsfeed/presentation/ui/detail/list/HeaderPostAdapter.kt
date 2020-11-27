@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.utils.clearAndAddAll
-import com.zkv.tfsfeed.presentation.extensions.inflate
 import com.zkv.tfsfeed.presentation.ui.detail.list.holder.HeaderPostViewHolder
+import com.zkv.tfsfeed.presentation.utils.extensions.inflate
 import kotlinx.android.synthetic.main.merge_item_post.view.*
 
 class HeaderPostAdapter(

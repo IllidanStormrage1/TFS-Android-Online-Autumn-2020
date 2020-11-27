@@ -44,6 +44,7 @@
     <string name="label_create_post_hint">What\'s new with you?</string>
     <string name="label_create_post_title">New post</string>
     <string name="label_comment">Write a comment</string>
+    <string name="label_comment_disabled">Comments are closed</string>
 
     <integer name="com_vk_sdk_AppId" tools:ignore="UnusedResources">7636667</integer>
 </resources>

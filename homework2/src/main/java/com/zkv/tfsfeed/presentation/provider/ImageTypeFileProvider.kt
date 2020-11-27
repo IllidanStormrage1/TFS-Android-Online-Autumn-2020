@@ -15,7 +15,7 @@ class ImageTypeFileProvider : FileProvider() {
         var type: String? = super.getType(uri)
         if (type != TYPE_OCTET) return type
         try {
-            val parcelFileDescriptor = openFile(uri, "r") ?: return type
+            val parcelFileDescriptor = openFile(uri, MODE_READ) ?: return type
             type = parcelFileDescriptor.use { parcelFileDesc ->
                 FileInputStream(
                     parcelFileDesc.fileDescriptor).use { fileInputStr ->
@@ -41,6 +41,7 @@ class ImageTypeFileProvider : FileProvider() {
     }
 
     companion object {
+        const val MODE_READ = "r"
         const val EXT_GIX = "gif"
         const val EXT_JPG = "jpg"
         const val EXT_PNG = "png"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SocialPostLayout">
-        <attr name="isImage" format="boolean"/>
-        <attr name="textMaxLines" format="integer"/>
+        <attr name="textMaxLines" format="integer" />
     </declare-styleable>
 </resources>

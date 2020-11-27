@@ -11,9 +11,9 @@ import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
-import com.zkv.tfsfeed.presentation.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
+import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.plc_empty_list.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
@@ -22,7 +22,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import javax.inject.Inject
 import javax.inject.Provider
-import kotlin.properties.Delegates
 
 class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
@@ -32,7 +31,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
     private val activityCallback get() = requireActivity() as MainActivityCallback
 
-    private var adapter: PostsAdapter by Delegates.notNull()
+    private lateinit var adapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -79,13 +78,10 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
         }
         news_posts_srl.run {
             setOnRefreshListener { loadData() }
-            setColorSchemeColors(ContextCompat.getColor(requireContext(),
-                R.color.colorAccent))
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             setProgressViewOffset(true, -100, 100)
         }
-        ItemTouchHelper(MainItemTouchHelper(adapter)).run {
-            attachToRecyclerView(news_posts_rv)
-        }
+        ItemTouchHelper(MainItemTouchHelper(adapter)).run { attachToRecyclerView(news_posts_rv) }
         news_fresh_fab.setOnClickListener { loadData() }
     }
 
@@ -94,7 +90,6 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
     }
 
     companion object {
-
         fun newInstance() = NewsFragment()
     }
 }

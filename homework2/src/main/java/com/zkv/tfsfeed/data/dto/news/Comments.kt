@@ -6,4 +6,5 @@ import com.google.gson.annotations.SerializedName
 @Keep
 class Comments(
     @SerializedName("count") val count: Int,
+    @SerializedName("can_post") val canPost: Int,
 )

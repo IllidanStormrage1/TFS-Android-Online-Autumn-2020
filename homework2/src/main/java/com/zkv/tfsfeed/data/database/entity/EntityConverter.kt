@@ -14,7 +14,7 @@ object EntityConverter {
                 dateInMills = dateInMills,
                 date = date,
                 sourceId = sourceId,
-                photoUrl = photoUrl,
+                contentUrl = photoUrl,
                 id = id,
                 text = text,
                 commentsCount = commentsCount,
@@ -22,6 +22,7 @@ object EntityConverter {
                 canLike = canLike,
                 likesCount = likesCount,
                 viewsCount = viewsCount,
+                canPost = canPostComments
             )
         }
     }
@@ -35,7 +36,7 @@ object EntityConverter {
                 dateInMills = dateInMills,
                 date = date,
                 sourceId = sourceId,
-                photoUrl = photoUrl,
+                photoUrl = contentUrl,
                 id = id,
                 text = text,
                 commentsCount = commentsCount,
@@ -43,6 +44,7 @@ object EntityConverter {
                 canLike = canLike,
                 likesCount = likesCount,
                 viewsCount = viewsCount,
+                canPostComments = canPost,
             )
         }
     }
@@ -96,7 +98,7 @@ object EntityConverter {
                 dateInMills = dateInMills,
                 date = date,
                 sourceId = sourceId,
-                photoUrl = photoUrl,
+                contentUrl = photoUrl,
                 id = id,
                 text = text,
                 commentsCount = commentsCount,
@@ -104,6 +106,7 @@ object EntityConverter {
                 canLike = canLike,
                 likesCount = likesCount,
                 viewsCount = viewsCount,
+                canPost = canPostComments,
             )
         }
     }
@@ -117,7 +120,7 @@ object EntityConverter {
                 dateInMills = dateInMills,
                 date = date,
                 sourceId = sourceId,
-                photoUrl = photoUrl,
+                photoUrl = contentUrl,
                 id = id,
                 text = text,
                 commentsCount = commentsCount,
@@ -125,6 +128,7 @@ object EntityConverter {
                 canLike = canLike,
                 likesCount = likesCount,
                 viewsCount = viewsCount,
+                canPostComments = canPost,
             )
         }
     }

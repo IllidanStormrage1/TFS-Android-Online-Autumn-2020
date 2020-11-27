@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.zkv.tfsfeed.R
-import com.zkv.tfsfeed.presentation.extensions.withArgs
+import com.zkv.tfsfeed.presentation.utils.extensions.withArgs
 
 class ErrorDialogFragment : DialogFragment() {
 
@@ -19,7 +19,6 @@ class ErrorDialogFragment : DialogFragment() {
             .create()
 
     companion object {
-
         const val ERROR_MESSAGE_KEY = "messageKey"
 
         fun newInstance(errorMessage: String?) = ErrorDialogFragment().withArgs {

@@ -33,9 +33,7 @@ class ProfilePresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
-                { pair ->
-                    updateState { stateMachine.onLoaded(pair.first, pair.second) }
-                },
+                { pair -> updateState { stateMachine.onLoaded(pair.first, pair.second) } },
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
@@ -44,9 +42,7 @@ class ProfilePresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { updateState { stateMachine.removeItem(postId) } },
-                { throwable ->
-                    updateState { stateMachine.onError(throwable) }
-                })
+                { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
     fun onLike(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {

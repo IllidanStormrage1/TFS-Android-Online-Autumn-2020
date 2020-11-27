@@ -4,9 +4,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.Profile
-import com.zkv.tfsfeed.presentation.extensions.loadFromUrl
-import com.zkv.tfsfeed.presentation.extensions.setPluralText
-import com.zkv.tfsfeed.presentation.extensions.setText
+import com.zkv.tfsfeed.presentation.utils.extensions.loadFromUrl
+import com.zkv.tfsfeed.presentation.utils.extensions.setPluralText
+import com.zkv.tfsfeed.presentation.utils.extensions.setText
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_header_profile.*
 

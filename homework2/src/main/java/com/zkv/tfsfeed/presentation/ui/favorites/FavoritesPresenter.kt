@@ -21,7 +21,8 @@ class FavoritesPresenter @Inject constructor(
         compositeDisposable += fetchFavoritesPost(isRefresh)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
-            .subscribe({ list -> updateState { stateMachine.onLoaded(list, false) } },
+            .subscribe(
+                { list -> updateState { stateMachine.onLoaded(list, false) } },
                 { throwable -> updateState { stateMachine.onError(throwable) } })
     }
 
