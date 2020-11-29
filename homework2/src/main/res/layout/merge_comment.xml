@@ -34,6 +34,20 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         tools:text="@tools:sample/lorem/random" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/comment_content_iv"
+        android:layout_width="160dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="@dimen/default_margin_small"
+        android:layout_marginTop="@dimen/default_margin_small"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedImageView"
+        app:strokeColor="@color/ghost"
+        app:strokeWidth="0.5dp"
+        tools:src="@drawable/ic_logo" />
+
     <TextView
         android:id="@+id/comment_date"
         android:layout_width="wrap_content"

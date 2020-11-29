@@ -22,6 +22,8 @@ class DiffCallback : DiffUtil.ItemCallback<NewsItem>() {
         if (oldItem.viewsCount != newItem.viewsCount) diffBundle.putString(KEY_VIEWS_COUNT,
             newItem.viewsCount)
         if (oldItem.text != newItem.text) diffBundle.putString(KEY_TEXT, newItem.text)
+        if (oldItem.canPost != newItem.canPost) diffBundle.putBoolean(KEY_COMMENTS_ENABLED,
+            newItem.canPost)
         return diffBundle
     }
 
@@ -32,5 +34,6 @@ class DiffCallback : DiffUtil.ItemCallback<NewsItem>() {
         const val KEY_REPOSTS_COUNT = "repostsCount"
         const val KEY_VIEWS_COUNT = "viewsCount"
         const val KEY_TEXT = "keyText"
+        const val KEY_COMMENTS_ENABLED = "commentsEnabled"
     }
 }

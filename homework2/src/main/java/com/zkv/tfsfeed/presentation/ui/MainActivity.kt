@@ -8,15 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKAccessToken
-import com.vk.api.sdk.auth.VKAuthCallback
-import com.vk.api.sdk.auth.VKScope
 import com.zkv.tfsfeed.BuildConfig
 import com.zkv.tfsfeed.R
-import com.zkv.tfsfeed.data.api.AccessTokenHelper
 import com.zkv.tfsfeed.domain.model.NewsItem
-import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.MainViewPagerAdapter
 import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
@@ -29,44 +23,21 @@ import com.zkv.tfsfeed.presentation.utils.extensions.unregisterNetworkCallback
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.merge_item_post.*
 import kotlinx.android.synthetic.main.partial_label_connection_error.*
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCallback {
 
-    @Inject
-    lateinit var accessTokenHelper: AccessTokenHelper
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-
-        if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
-            VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS, VKScope.OFFLINE))
-        else
-            initViewState()
+        initViewState()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         networkCallback?.let(::unregisterNetworkCallback)
         networkCallback = null
-    }
-
-    @Suppress("DEPRECATION")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val callback = object : VKAuthCallback {
-            override fun onLogin(token: VKAccessToken) {
-                accessTokenHelper.saveToken(token.accessToken)
-                initViewState()
-            }
-
-            override fun onLoginFailed(errorCode: Int) {
-                finish()
-            }
-        }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback))
-            super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun navigateToDetail(item: NewsItem) {

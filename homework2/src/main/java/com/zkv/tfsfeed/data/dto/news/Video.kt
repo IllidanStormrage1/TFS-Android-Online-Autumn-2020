@@ -4,6 +4,6 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep
-class Reposts(
-    @SerializedName("count") val count: Int?,
+class Video(
+    @SerializedName("image") val images: List<VideoThumb>,
 )

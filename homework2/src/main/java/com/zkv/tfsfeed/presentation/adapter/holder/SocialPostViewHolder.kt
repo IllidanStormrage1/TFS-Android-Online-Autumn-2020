@@ -66,6 +66,8 @@ class SocialPostViewHolder(override val containerView: View) :
                     if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
                 DiffCallback.KEY_VIEWS_COUNT -> itemView.views_tv.text = diffBundle.getString(it)
                 DiffCallback.KEY_TEXT -> itemView.content_tv.text = diffBundle.getString(it)
+                DiffCallback.KEY_COMMENTS_ENABLED -> itemView.comment_btn.isEnabled =
+                    diffBundle.getBoolean(it)
             }
         }
     }

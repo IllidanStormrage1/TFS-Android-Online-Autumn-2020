@@ -21,6 +21,8 @@ class CommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
             newItem.nickname)
         if (oldItem.avatarUrl != newItem.avatarUrl) diffBundle.putString(KEY_AVATAR_URL,
             newItem.avatarUrl)
+        if (oldItem.contentUrl != newItem.contentUrl) diffBundle.putString(KEY_CONTENT_URL,
+            newItem.contentUrl)
         return diffBundle
     }
 
@@ -29,5 +31,6 @@ class CommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
         const val KEY_TEXT = "text"
         const val KEY_NICKNAME = "nickname"
         const val KEY_AVATAR_URL = "avatarUrl"
+        const val KEY_CONTENT_URL = "contentUrl"
     }
 }

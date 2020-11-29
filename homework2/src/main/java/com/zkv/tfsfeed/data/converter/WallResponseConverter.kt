@@ -2,7 +2,9 @@
 
 package com.zkv.tfsfeed.data.converter
 
+import com.zkv.tfsfeed.data.dto.news.Attachment
 import com.zkv.tfsfeed.data.dto.news.wall.NewsWallResponse
+import com.zkv.tfsfeed.data.dto.news.wall.WallItem
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.utils.currencyCountWithSuffix
 import com.zkv.tfsfeed.domain.utils.dateStringFromTimeInMillis
@@ -34,17 +36,28 @@ object WallResponseConverter {
                 dateInMills = item.dateInMills * 1000L,
                 date = dateStringFromTimeInMillis(item.dateInMills * 1000L),
                 sourceId = item.ownerId,
-                contentUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "r" }?.url
-                    ?: item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "r" }?.url,
+                contentUrl = getAttachmentUrl(item.copyHistory != null, item),
                 id = item.postId,
                 text = if (item.text.isBlank()) item.copyHistory?.first()?.text
                     ?: "" else item.text,
-                commentsCount = item.comments.count,
-                repostsCount = item.reposts.count,
-                canLike = item.likes.canLike,
-                likesCount = item.likes.count,
+                commentsCount = item.comments?.count ?: 0,
+                repostsCount = item.reposts?.count ?: 0,
+                canLike = item.likes?.canLike ?: 1,
+                likesCount = item.likes?.count ?: 0,
                 viewsCount = item.views?.count?.currencyCountWithSuffix ?: "0",
-                canPost = item.comments.canPost == 1
+                canPost = item.comments?.canPost == 1
             )
         }
+
+    private fun getAttachmentUrl(isCopyHistory: Boolean, item: WallItem): String? =
+        if (isCopyHistory)
+            getContentUrl(item.copyHistory?.first()?.attachment?.first())
+        else
+            getContentUrl(item.attachments?.first())
+
+    private fun getContentUrl(attachment: Attachment?): String? = when (attachment?.type) {
+        "photo" -> attachment.photo?.sizes?.find { it.type == "r" }?.url
+        "video" -> attachment.video?.images?.find { it.height == 450 }?.url
+        else -> null
+    }
 }

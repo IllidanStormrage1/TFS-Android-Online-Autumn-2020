@@ -18,8 +18,8 @@ class SpacingItemDecoration(
     ) {
         with(outRect) {
             if (!applyToTop && parent.getChildAdapterPosition(view) != 0) {
-                left = spaceSize / 2
-                right = spaceSize / 2
+                left = spaceSize
+                right = spaceSize
                 top = spaceSize
             }
         }

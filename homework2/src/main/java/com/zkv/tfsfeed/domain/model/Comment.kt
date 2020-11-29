@@ -7,4 +7,5 @@ data class Comment(
     val date: String,
     val text: String,
     val likesCount: Int,
+    val contentUrl: String?,
 )

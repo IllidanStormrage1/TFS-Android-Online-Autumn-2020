@@ -18,17 +18,22 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Splash">
 
-        <activity android:name="com.zkv.tfsfeed.presentation.ui.MainActivity">
+        <activity
+            android:name=".presentation.ui.splash.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.ui.MainActivity" />
+
         <provider
-            android:name="com.zkv.tfsfeed.presentation.provider.ImageTypeFileProvider"
+            android:name=".presentation.provider.ImageTypeFileProvider"
             android:authorities="com.zkv.tfsfeed.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
