@@ -27,6 +27,7 @@ import com.zkv.tfsfeed.presentation.utils.extensions.loadImage
 import com.zkv.tfsfeed.presentation.utils.extensions.registerNetworkCallback
 import com.zkv.tfsfeed.presentation.utils.extensions.unregisterNetworkCallback
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.merge_item_post.*
 import kotlinx.android.synthetic.main.partial_label_connection_error.*
 import javax.inject.Inject
 
@@ -34,8 +35,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
 
     @Inject
     lateinit var accessTokenHelper: AccessTokenHelper
-    private var _networkCallback: ConnectivityManager.NetworkCallback? = null
-    private val networkCallback: ConnectivityManager.NetworkCallback get() = _networkCallback!!
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.appComponent.inject(this)
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterNetworkCallback(networkCallback)
-        _networkCallback = null
+        networkCallback?.let(::unregisterNetworkCallback)
+        networkCallback = null
     }
 
     @Suppress("DEPRECATION")
@@ -71,6 +71,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
 
     override fun navigateToDetail(item: NewsItem) {
         supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
+            .setCustomAnimations(R.anim.slide_in_left,
+                R.anim.slide_in_right,
+                R.anim.slide_in_left,
+                R.anim.slide_in_right)
             .add(android.R.id.content, DetailFragment.newInstance(item))
             .addToBackStack(null)
             .commit()
@@ -78,6 +83,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
 
     override fun navigateToCreatorPost() {
         supportFragmentManager.beginTransaction()
+            .setReorderingAllowed(true)
             .setCustomAnimations(R.anim.slide_in_top,
                 R.anim.slide_in_bottom,
                 R.anim.slide_in_top,
@@ -99,13 +105,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
     }
 
     private fun initViewState() {
-        main_progress_bar.isVisible = false
         val fragments = listOf(NewsFragment.newInstance(),
             FavoritesFragment.newInstance(),
             ProfileFragment.newInstance())
         initViewPager(fragments)
         initBottomNavigation()
-        _networkCallback = registerNetworkCallback(
+        networkCallback = registerNetworkCallback(
             onAvailable = { runOnUiThread { label_connection_error.isVisible = false } },
             onLost = { runOnUiThread { label_connection_error.isVisible = true } })
     }

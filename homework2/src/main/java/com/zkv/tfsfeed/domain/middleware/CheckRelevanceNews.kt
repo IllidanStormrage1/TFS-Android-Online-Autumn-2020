@@ -14,6 +14,6 @@ class CheckRelevanceNews @Inject constructor(private val mediatorRepository: Med
             .subscribeOn(Schedulers.io())
 
     companion object {
-        private val TIME_INTERVAL = TimeUnit.SECONDS.toMillis(5)
+        private val TIME_INTERVAL = TimeUnit.MINUTES.toMillis(5)
     }
 }

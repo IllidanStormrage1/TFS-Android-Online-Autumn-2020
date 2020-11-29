@@ -66,7 +66,6 @@ interface VkApi {
     fun getComments(
         @Query("extended") extended: Int = 1,
         @Query("owner_id") ownerId: Int?,
-        @Query("sort") sortType: String = "desc",
         @Query("post_id") postId: Int,
         @Query("count") count: Int = 50,
         @Query("need_likes") needLikes: Int = 1,

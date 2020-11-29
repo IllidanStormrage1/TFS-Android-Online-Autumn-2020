@@ -39,9 +39,7 @@ class HeaderPostViewHolder(override val containerView: View) :
             } else {
                 content_iv.adjustViewBounds = true
                 content_iv.updateLayoutParams { height = ViewGroup.LayoutParams.MATCH_PARENT }
-                content_iv.loadFromUrl(
-                    contentUrl,
-                    R.drawable.bg_placeholder)
+                content_iv.loadFromUrl(contentUrl, R.drawable.bg_placeholder)
             }
             if (canLike == 0)
                 like_btn.setIconResource(R.drawable.ic_heart_selected)

@@ -26,8 +26,8 @@ object NewsResponseConverter {
             dateInMills = item.date * 1000L,
             date = dateStringFromTimeInMillis(item.date * 1000L),
             sourceId = item.sourceId,
-            contentUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "x" }?.url
-                ?: item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "x" }?.url,
+            contentUrl = item.attachments?.first()?.photo?.sizes?.find { it.type == "r" }?.url
+                ?: item.copyHistory?.first()?.attachment?.first()?.photo?.sizes?.find { it.type == "r" }?.url,
             id = item.postId,
             text = if (item.text != null && item.text.isBlank()) item.copyHistory?.first()?.text
                 ?: "" else item.text ?: "",

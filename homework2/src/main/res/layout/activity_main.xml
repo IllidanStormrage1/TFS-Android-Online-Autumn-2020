@@ -25,11 +25,4 @@
         app:itemTextColor="@color/selector_color_menu"
         app:menu="@menu/main_bottom_navigation" />
 
-    <ProgressBar
-        android:id="@+id/main_progress_bar"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:visibility="visible" />
-
 </FrameLayout>
