@@ -41,8 +41,10 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }
         }
-        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback))
+        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
+            finish()
+        }
     }
 
     private fun navigateToMainActivity() {

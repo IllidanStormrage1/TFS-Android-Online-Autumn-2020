@@ -1,14 +1,12 @@
 package com.zkv.tfsfeed.presentation
 
 import android.app.Application
+import android.util.Log
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
-import com.zkv.tfsfeed.BuildConfig
 import com.zkv.tfsfeed.data.api.AccessTokenHelper
 import com.zkv.tfsfeed.di.component.AppComponent
 import io.reactivex.plugins.RxJavaPlugins
-import timber.log.Timber
-import timber.log.Timber.DebugTree
 import javax.inject.Inject
 
 class App : Application() {
@@ -25,16 +23,7 @@ class App : Application() {
         super.onCreate()
         initDI()
         initExpiredTokenHandler()
-        initLogger()
-        initRxJavaPlugin()
-    }
-
-    private fun initRxJavaPlugin() {
-        RxJavaPlugins.setErrorHandler { Timber.e(it) }
-    }
-
-    private fun initLogger() {
-        if (BuildConfig.DEBUG) Timber.plant(DebugTree())
+        RxJavaPlugins.setErrorHandler { Log.e(it.toString(), it.localizedMessage, it) }
     }
 
     private fun initDI() {
