@@ -15,4 +15,5 @@ class Comment(
     @SerializedName("text") val text: String,
     @SerializedName("likes") val likes: Likes,
     @SerializedName("attachments") val attachments: List<Attachment>?,
+    @SerializedName("deleted") val deleted: Boolean?,
 )

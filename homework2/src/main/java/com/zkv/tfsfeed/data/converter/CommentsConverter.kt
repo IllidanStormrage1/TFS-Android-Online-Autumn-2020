@@ -7,8 +7,10 @@ import com.zkv.tfsfeed.domain.utils.dateStringFromTimeInMillis
 
 object CommentsConverter {
 
-    fun map(commentsResponse: CommentsResponse): List<Comment> =
-        commentsResponse.items.map { item ->
+    fun map(commentsResponse: CommentsResponse): List<Comment> {
+        val items = mutableListOf<Comment>()
+        commentsResponse.items.forEach loop@{ item ->
+            item.deleted?.let { if (it) return@loop }
             val displayName: String?
             val avatarUrl: String?
             if (item.fromId < 0) {
@@ -20,7 +22,7 @@ object CommentsConverter {
                 displayName = currentItemProfile?.run { "$firstName $lastName" }
                 avatarUrl = currentItemProfile?.photo100
             }
-            Comment(
+            items += Comment(
                 id = item.id,
                 avatarUrl = avatarUrl ?: "",
                 nickname = displayName ?: "",
@@ -30,6 +32,8 @@ object CommentsConverter {
                 contentUrl = getContentUrl(item.attachments?.first())
             )
         }
+        return items
+    }
 
     private fun getContentUrl(attachment: Attachment?): String? = when (attachment?.type) {
         "photo" -> attachment.photo?.sizes?.find { it.type == "r" }?.url
