@@ -1,3 +1,2 @@
 include ':homework2'
-include ':homework1'
 rootProject.name = "HomeWork15.09.20"
