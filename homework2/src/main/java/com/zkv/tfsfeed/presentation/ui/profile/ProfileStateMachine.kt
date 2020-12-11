@@ -11,7 +11,8 @@ class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
     override fun handleUpdate(action: Action): ProfileViewState {
         state = when (action) {
             is Action.Loading -> state.copy(
-                showLoading = true,
+                showEmptyLoading = state.news.isEmpty() && state.profile == null,
+                showLoading = state.news.isNotEmpty() || state.profile != null,
                 showError = false,
                 showEmptyError = false,
             )
@@ -19,6 +20,7 @@ class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
                 news = action.payload,
                 profile = action.profile,
                 showLoading = false,
+                showEmptyLoading = false,
             )
             is Action.Error -> state.copy(
                 showEmptyError = state.news.isEmpty() && state.profile == null,
