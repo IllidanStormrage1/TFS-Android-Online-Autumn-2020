@@ -23,7 +23,8 @@ class FavoritesPresenter @Inject constructor(
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
                 { list -> updateState { stateMachine.onLoaded(list, false) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } }
+            )
     }
 
     private inline fun updateState(stateAction: (NewsStateMachine) -> Unit) {

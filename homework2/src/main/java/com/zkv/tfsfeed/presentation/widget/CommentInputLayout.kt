@@ -25,19 +25,23 @@ class CommentInputLayout @JvmOverloads constructor(
         var height = 0
         var width = 0
 
-        measureChildWithMargins(detail_comment_et,
+        measureChildWithMargins(
+            detail_comment_et,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         width += detail_comment_et.measuredWidth + detail_comment_et.marginStart - detail_comment_et.marginEnd
 
         measureChildWithMargins(detail_send_iv, widthMeasureSpec, width, heightMeasureSpec, height)
         width += detail_send_iv.measuredWidth + detail_send_iv.marginStart
         height += detail_comment_et.measuredHeight + detail_comment_et.marginTop
 
-        setMeasuredDimension(resolveSize(width, widthMeasureSpec),
-            resolveSize(height, heightMeasureSpec))
+        setMeasuredDimension(
+            resolveSize(width, widthMeasureSpec),
+            resolveSize(height, heightMeasureSpec)
+        )
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {

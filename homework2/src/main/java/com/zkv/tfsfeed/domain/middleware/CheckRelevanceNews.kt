@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CheckRelevanceNews @Inject constructor(private val mediatorRepository: MediatorRepository) :
-        () -> Single<Boolean> {
+    () -> Single<Boolean> {
 
     override fun invoke(): Single<Boolean> =
         Single.fromCallable { System.currentTimeMillis() - TIME_INTERVAL > mediatorRepository.getLastRefreshTime() }

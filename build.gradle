@@ -1,12 +1,17 @@
 buildscript {
-    ext.kotlinVersion = '1.4.10'
+    ext {
+        kotlinVersion = '1.4.21'
+        ktlintVersion = '9.4.1'
+    }
     repositories {
         google()
         jcenter()
+        maven {url "https://plugins.gradle.org/m2/"}
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath 'com.android.tools.build:gradle:4.2.0-beta01'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
     }
 }
 
@@ -22,7 +27,6 @@ task clean(type: Delete) {
 }
 
 ext {
-    // Sdk and tools
     javaVersion = JavaVersion.VERSION_1_8
     minSdkVersion = 23
     targetSdkVersion = 30
@@ -32,10 +36,6 @@ ext {
     applicationId = "com.zkv.tfsfeed"
     versionCode = 1
 
-    // Vk sdk
-    vkSdkVersion = '2.4.0'
-
-    // App dependencies
     appCompatVersion = '1.3.0-alpha02'
     coreKtxVersion = '1.3.2'
     materialVersion = '1.2.1'
@@ -54,4 +54,5 @@ ext {
     roomVersion = '2.2.5'
     moxyVersion = '2.2.0'
     timberVersion = '4.7.1'
+    vkSdkVersion = '2.4.0'
 }

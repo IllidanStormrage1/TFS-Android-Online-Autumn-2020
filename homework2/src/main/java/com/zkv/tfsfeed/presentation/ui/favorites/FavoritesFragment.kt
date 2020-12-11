@@ -42,7 +42,8 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         adapter = PostsAdapter(
             onClickHandler = activityCallback::navigateToDetail,
-            onShareHandler = activityCallback::shareNewsItem)
+            onShareHandler = activityCallback::shareNewsItem
+        )
         initViewState(adapter)
     }
 
@@ -60,8 +61,10 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
             adapter.submitList(news)
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(requireActivity().supportFragmentManager,
-                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
+                    .showIfNotVisible(
+                        requireActivity().supportFragmentManager,
+                        ErrorDialogFragment.ERROR_MESSAGE_KEY
+                    )
         }
     }
 
@@ -74,7 +77,8 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
                     headerTextSize = resources.getDimension(R.dimen.header_text_size),
                     textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
                     adapter
-                ))
+                )
+            )
         }
         news_posts_srl.run {
             setOnRefreshListener { presenter.loadData(true) }

@@ -7,4 +7,3 @@ import com.google.gson.annotations.SerializedName
 class BaseNewsFeedResponse(
     @SerializedName("response") val newsFeedResponse: NewsFeedResponse,
 )
-

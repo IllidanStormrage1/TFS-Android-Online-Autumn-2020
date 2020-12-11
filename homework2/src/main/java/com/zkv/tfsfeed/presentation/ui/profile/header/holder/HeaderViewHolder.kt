@@ -10,7 +10,8 @@ import com.zkv.tfsfeed.presentation.utils.extensions.setText
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_header_profile.*
 
-class HeaderViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
+class HeaderViewHolder(override val containerView: View) :
+    RecyclerView.ViewHolder(containerView),
     LayoutContainer {
 
     fun bind(item: Profile) {
@@ -48,8 +49,10 @@ class HeaderViewHolder(override val containerView: View) : RecyclerView.ViewHold
                 profile_online_badge.setBackgroundResource(R.drawable.ic_online_status)
             else
                 profile_online_badge.setBackgroundResource(R.drawable.ic_offline_status)
-            profile_relation_tv.setText(R.string.label_relation,
-                itemView.context.resources.getStringArray(R.array.relation_status)[relation])
+            profile_relation_tv.setText(
+                R.string.label_relation,
+                itemView.context.resources.getStringArray(R.array.relation_status)[relation]
+            )
         }
     }
 }

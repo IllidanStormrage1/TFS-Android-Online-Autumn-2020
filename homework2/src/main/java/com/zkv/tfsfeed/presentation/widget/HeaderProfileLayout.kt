@@ -24,99 +24,123 @@ class HeaderProfileLayout @JvmOverloads constructor(
         var width = 0
         var height = 0
 
-        measureChildWithMargins(profile_avatar_iv,
+        measureChildWithMargins(
+            profile_avatar_iv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_avatar_iv.measuredHeight + profile_avatar_iv.marginTop
 
-        measureChildWithMargins(profile_online_badge,
+        measureChildWithMargins(
+            profile_online_badge,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height = 0
         width += profile_avatar_iv.measuredWidth
 
         measureChildWithMargins(profile_name_tv, widthMeasureSpec, width, heightMeasureSpec, height)
         height += profile_name_tv.measuredHeight + profile_name_tv.marginTop
 
-        measureChildWithMargins(profile_domain_tv,
+        measureChildWithMargins(
+            profile_domain_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_domain_tv.measuredHeight
 
-        measureChildWithMargins(profile_domain_tv,
+        measureChildWithMargins(
+            profile_domain_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_domain_tv.measuredHeight
 
-        measureChildWithMargins(profile_last_seen_tv,
+        measureChildWithMargins(
+            profile_last_seen_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_last_seen_tv.measuredHeight
         width = 0
 
-        measureChildWithMargins(profile_about_tv,
+        measureChildWithMargins(
+            profile_about_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_about_tv.measuredHeight + profile_about_tv.marginTop
 
-        measureChildWithMargins(profile_followers_count_tv,
+        measureChildWithMargins(
+            profile_followers_count_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_followers_count_tv.measuredHeight + profile_followers_count_tv.marginTop
 
         measureChildWithMargins(profile_bday_tv, widthMeasureSpec, width, heightMeasureSpec, height)
         height += profile_bday_tv.measuredHeight + profile_bday_tv.marginTop
 
-        measureChildWithMargins(profile_home_town_tv,
+        measureChildWithMargins(
+            profile_home_town_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_home_town_tv.measuredHeight + profile_home_town_tv.marginTop
 
         measureChildWithMargins(profile_city_tv, widthMeasureSpec, width, heightMeasureSpec, height)
         height += profile_city_tv.measuredHeight + profile_city_tv.marginTop
 
-        measureChildWithMargins(profile_career_tv,
+        measureChildWithMargins(
+            profile_career_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_career_tv.measuredHeight + profile_career_tv.marginTop
 
-        measureChildWithMargins(profile_education_tv,
+        measureChildWithMargins(
+            profile_education_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_education_tv.measuredHeight + profile_education_tv.marginTop
 
-        measureChildWithMargins(profile_relation_tv,
+        measureChildWithMargins(
+            profile_relation_tv,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_relation_tv.measuredHeight + profile_relation_tv.marginTop
 
-        measureChildWithMargins(profile_create_post,
+        measureChildWithMargins(
+            profile_create_post,
             widthMeasureSpec,
             width,
             heightMeasureSpec,
-            height)
+            height
+        )
         height += profile_create_post.measuredHeight + profile_create_post.marginTop
 
         setMeasuredDimension(resolveSize(width, widthMeasureSpec), height)
@@ -147,7 +171,8 @@ class HeaderProfileLayout @JvmOverloads constructor(
             currentStart + profile_name_tv.marginStart,
             currentTop + profile_name_tv.marginTop,
             currentStart + profile_name_tv.measuredWidth + profile_name_tv.marginStart,
-            currentTop + profile_name_tv.measuredHeight + profile_name_tv.marginTop)
+            currentTop + profile_name_tv.measuredHeight + profile_name_tv.marginTop
+        )
         currentTop += profile_name_tv.measuredHeight + profile_name_tv.marginTop
 
         profile_domain_tv.layout(

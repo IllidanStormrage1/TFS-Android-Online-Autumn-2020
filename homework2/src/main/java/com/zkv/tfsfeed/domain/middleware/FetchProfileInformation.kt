@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class FetchProfileInformation @Inject constructor(private val mediatorRepository: MediatorRepository) :
-        (Boolean) -> Single<Profile> {
+    (Boolean) -> Single<Profile> {
 
     override fun invoke(isRefresh: Boolean): Single<Profile> =
         mediatorRepository.fetchProfileInformation(isRefresh)

@@ -23,7 +23,8 @@ class PostsAdapter(
     private inline val onClickHandler: ItemHandler = null,
     private inline val onShareHandler: ItemHandler = null,
 ) : RecyclerView.Adapter<SocialPostViewHolder>(),
-    MainItemTouchHelper.ItemTouchHelperAdapter, DividerItemDecoration.DividerAdapterCallback {
+    MainItemTouchHelper.ItemTouchHelperAdapter,
+    DividerItemDecoration.DividerAdapterCallback {
 
     private val differ = AsyncListDiffer(this, DiffCallback())
     private val currentList: List<NewsItem> get() = differ.currentList

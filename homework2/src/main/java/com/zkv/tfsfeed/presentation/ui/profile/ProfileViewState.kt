@@ -18,11 +18,13 @@ sealed class ProfileViewState(
     class EmptyLoading : ProfileViewState(showEmptyLoading = true)
 
     class Loaded(profile: Profile, news: List<NewsItem>, isEmpty: Boolean) :
-        ProfileViewState(profile = profile,
+        ProfileViewState(
+            profile = profile,
             news = news.toMutableList(),
             showLoading = false,
             showEmptyLoading = false,
-            showEmptyError = false)
+            showEmptyError = false
+        )
 
     class Error(news: List<NewsItem>, message: String?) :
         ProfileViewState(
@@ -31,6 +33,8 @@ sealed class ProfileViewState(
             errorMessage = message,
         )
 
-    class EmptyError(message: String?) : ProfileViewState(showEmptyError = true,
-        errorMessage = message)
+    class EmptyError(message: String?) : ProfileViewState(
+        showEmptyError = true,
+        errorMessage = message
+    )
 }

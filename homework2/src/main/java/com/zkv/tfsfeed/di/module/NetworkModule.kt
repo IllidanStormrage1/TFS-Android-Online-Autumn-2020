@@ -27,9 +27,11 @@ object NetworkModule {
     @Singleton
     fun provideHttpClient(networkInterceptor: NetworkInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BASIC
-            })
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BASIC
+                }
+            )
             .addInterceptor(networkInterceptor)
             .build()
 

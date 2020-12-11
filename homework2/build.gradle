@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-android-extensions'
+    id 'org.jlleitschuh.gradle.ktlint'
 }
 
 android {
@@ -16,11 +17,11 @@ android {
         versionCode rootProject.versionCode
         versionName rootProject.applicationVersion
 
-        buildConfigField "String", "API_BASE_URL", "\"https://api.vk.com/method/\""
-        buildConfigField "String", "PREF_FILE_NAME", "\"pref_name\""
-        buildConfigField "String", "ENC_PREF_FILE_NAME", "\"enc_pref_name\""
-        buildConfigField "String", "DATABASE_NAME", "\"newsdatabase\""
-        buildConfigField "String", "API_VERSION", "\"5.124\""
+        buildConfigField 'String', 'API_BASE_URL', '"https://api.vk.com/method/"'
+        buildConfigField 'String', 'PREF_FILE_NAME', '"pref_name"'
+        buildConfigField 'String', 'ENC_PREF_FILE_NAME', '"enc_pref_name"'
+        buildConfigField 'String', 'DATABASE_NAME', '"newsdatabase"'
+        buildConfigField 'String', 'API_VERSION', '"5.124"'
     }
 
     buildTypes {
@@ -53,11 +54,9 @@ androidExtensions {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "com.github.moxy-community:moxy-androidx:$moxyVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     kapt "com.github.moxy-community:moxy-compiler:$moxyVersion"
     implementation "com.github.moxy-community:moxy-ktx:$moxyVersion"
 

@@ -6,6 +6,7 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
 import com.zkv.tfsfeed.data.api.AccessTokenHelper
 import com.zkv.tfsfeed.di.component.AppComponent
+import com.zkv.tfsfeed.di.component.DaggerAppComponent
 import io.reactivex.plugins.RxJavaPlugins
 import javax.inject.Inject
 
@@ -27,15 +28,17 @@ class App : Application() {
     }
 
     private fun initDI() {
-        appComponent = AppComponent.create(this)
+        appComponent = DaggerAppComponent.factory().create(this)
         appComponent.inject(this)
     }
 
     private fun initExpiredTokenHandler() {
-        VK.addTokenExpiredHandler(handler = object : VKTokenExpiredHandler {
-            override fun onTokenExpired() {
-                accessTokenHelper.clearToken()
+        VK.addTokenExpiredHandler(
+            handler = object : VKTokenExpiredHandler {
+                override fun onTokenExpired() {
+                    accessTokenHelper.clearToken()
+                }
             }
-        })
+        )
     }
 }

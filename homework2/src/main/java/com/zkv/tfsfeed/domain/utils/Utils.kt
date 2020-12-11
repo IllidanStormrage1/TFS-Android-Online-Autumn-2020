@@ -12,14 +12,19 @@ private const val COUNT_SUFFIX = "%.1f%c"
 private const val SUFFIX_STRING = "KMGTPE"
 
 fun dateStringFromTimeInMillis(timeInMillis: Long): String =
-    SimpleDateFormat(DATE_FORMAT,
-        ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)).format(
-        timeInMillis)
+    SimpleDateFormat(
+        DATE_FORMAT,
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)
+    ).format(
+        timeInMillis
+    )
 
 fun prepareDateString(timeInMilliseconds: Long): String =
-    DateUtils.getRelativeTimeSpanString(timeInMilliseconds,
+    DateUtils.getRelativeTimeSpanString(
+        timeInMilliseconds,
         System.currentTimeMillis(),
-        DateUtils.DAY_IN_MILLIS).toString()
+        DateUtils.DAY_IN_MILLIS
+    ).toString()
 
 fun getTimeSpan(timeInMilliseconds: Long) =
     DateUtils.getRelativeTimeSpanString(timeInMilliseconds).toString()
@@ -33,7 +38,9 @@ val Int.currencyCountWithSuffix: String
     get() {
         if (this < 1000) return this.toString()
         val exp = (ln(this.toDouble()) / ln(1000.0)).toInt()
-        return String.format(COUNT_SUFFIX,
+        return String.format(
+            COUNT_SUFFIX,
             this / 1000.0.pow(exp.toDouble()),
-            SUFFIX_STRING[exp - 1])
+            SUFFIX_STRING[exp - 1]
+        )
     }

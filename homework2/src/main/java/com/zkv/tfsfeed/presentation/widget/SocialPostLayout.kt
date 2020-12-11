@@ -4,7 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
 import androidx.core.content.withStyledAttributes
-import androidx.core.view.*
+import androidx.core.view.isVisible
+import androidx.core.view.marginEnd
+import androidx.core.view.marginLeft
+import androidx.core.view.marginStart
+import androidx.core.view.marginTop
 import com.zkv.tfsfeed.R
 import kotlinx.android.synthetic.main.merge_item_post.view.*
 
@@ -127,7 +131,6 @@ class SocialPostLayout @JvmOverloads constructor(
             )
             currentTop += content_iv.measuredHeight + content_iv.marginTop
         }
-
 
         like_btn.layout(
             currentStart + like_btn.marginStart,

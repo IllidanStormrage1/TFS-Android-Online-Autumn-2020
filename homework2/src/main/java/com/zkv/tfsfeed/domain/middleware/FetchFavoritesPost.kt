@@ -5,7 +5,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class FetchFavoritesPost @Inject constructor(private val fetchNewsFeed: FetchNewsFeed) :
-        (Boolean) -> Single<List<NewsItem>> {
+    (Boolean) -> Single<List<NewsItem>> {
 
     override fun invoke(isRefresh: Boolean): Single<List<NewsItem>> =
         fetchNewsFeed(isRefresh)

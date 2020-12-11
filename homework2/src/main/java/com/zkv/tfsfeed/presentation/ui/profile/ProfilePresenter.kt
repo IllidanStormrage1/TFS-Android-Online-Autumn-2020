@@ -1,7 +1,11 @@
 package com.zkv.tfsfeed.presentation.ui.profile
 
 import com.zkv.tfsfeed.data.api.NetworkHelper
-import com.zkv.tfsfeed.domain.middleware.*
+import com.zkv.tfsfeed.domain.middleware.CreatePost
+import com.zkv.tfsfeed.domain.middleware.FetchProfileInformation
+import com.zkv.tfsfeed.domain.middleware.FetchUserNewsFeed
+import com.zkv.tfsfeed.domain.middleware.LikePost
+import com.zkv.tfsfeed.domain.middleware.RemoveUserPost
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.Profile
 import com.zkv.tfsfeed.presentation.base.BasePresenter
@@ -34,7 +38,8 @@ class ProfilePresenter @Inject constructor(
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
                 { pair -> updateState { stateMachine.onLoaded(pair.first, pair.second) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } }
+            )
     }
 
     fun onDeletePost(postId: Int, ownerId: Int) {
@@ -42,7 +47,8 @@ class ProfilePresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { updateState { stateMachine.removeItem(postId) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } }
+            )
     }
 
     fun onLike(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {

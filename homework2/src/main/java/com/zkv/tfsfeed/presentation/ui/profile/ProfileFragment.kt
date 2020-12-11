@@ -49,7 +49,8 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
             onLikeHandler = presenter::onLike,
             onIgnoreHandler = presenter::onDeletePost,
             onClickHandler = activityCallback::navigateToDetail,
-            onShareHandler = activityCallback::shareNewsItem)
+            onShareHandler = activityCallback::shareNewsItem
+        )
         val adapter = ConcatAdapter(headerAdapter, postsAdapter)
         initViewState(adapter)
         setFragmentResultListener()
@@ -65,8 +66,10 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
             postsAdapter.submitList(news)
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(requireActivity().supportFragmentManager,
-                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
+                    .showIfNotVisible(
+                        requireActivity().supportFragmentManager,
+                        ErrorDialogFragment.ERROR_MESSAGE_KEY
+                    )
         }
     }
 
@@ -86,8 +89,10 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
     }
 
     private fun setFragmentResultListener() {
-        requireActivity().supportFragmentManager.setFragmentResultListener(CreatorPostFragment.RESULT_REQUEST_KEY,
-            viewLifecycleOwner) { key: String, bundle: Bundle ->
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            CreatorPostFragment.RESULT_REQUEST_KEY,
+            viewLifecycleOwner
+        ) { key: String, bundle: Bundle ->
             presenter.createPostAndRefresh(bundle.getString(key, null))
         }
     }

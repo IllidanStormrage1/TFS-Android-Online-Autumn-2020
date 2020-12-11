@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class LikePost @Inject constructor(private val mediatorRepository: MediatorRepository) :
-        (Int, Int?, String, Int, Int) -> Completable {
+    (Int, Int?, String, Int, Int) -> Completable {
 
     override fun invoke(
         itemId: Int,

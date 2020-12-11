@@ -43,10 +43,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
     override fun navigateToDetail(item: NewsItem) {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
-            .setCustomAnimations(R.anim.slide_in_left,
+            .setCustomAnimations(
+                R.anim.slide_in_left,
                 R.anim.slide_in_right,
                 R.anim.slide_in_left,
-                R.anim.slide_in_right)
+                R.anim.slide_in_right
+            )
             .add(android.R.id.content, DetailFragment.newInstance(item))
             .addToBackStack(null)
             .commit()
@@ -55,10 +57,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
     override fun navigateToCreatorPost() {
         supportFragmentManager.beginTransaction()
             .setReorderingAllowed(true)
-            .setCustomAnimations(R.anim.slide_in_top,
+            .setCustomAnimations(
+                R.anim.slide_in_top,
                 R.anim.slide_in_bottom,
                 R.anim.slide_in_top,
-                R.anim.slide_in_bottom)
+                R.anim.slide_in_bottom
+            )
             .add(android.R.id.content, CreatorPostFragment.newInstance())
             .addToBackStack(null)
             .commit()
@@ -67,23 +71,33 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
     override fun shareNewsItem(item: NewsItem) {
         if (item.contentUrl != null)
             loadImage(item.contentUrl) {
-                showIntentChooser(createShareIntent(item.text, FileProvider.getUriForFile(this,
-                    AUTHORITY_PROVIDER,
-                    it)))
+                showIntentChooser(
+                    createShareIntent(
+                        item.text,
+                        FileProvider.getUriForFile(
+                            this,
+                            AUTHORITY_PROVIDER,
+                            it
+                        )
+                    )
+                )
             }
         else
             showIntentChooser(createShareIntent(item.text))
     }
 
     private fun initViewState() {
-        val fragments = listOf(NewsFragment.newInstance(),
+        val fragments = listOf(
+            NewsFragment.newInstance(),
             FavoritesFragment.newInstance(),
-            ProfileFragment.newInstance())
+            ProfileFragment.newInstance()
+        )
         initViewPager(fragments)
         initBottomNavigation()
         networkCallback = registerNetworkCallback(
             onAvailable = { runOnUiThread { label_connection_error.isVisible = false } },
-            onLost = { runOnUiThread { label_connection_error.isVisible = true } })
+            onLost = { runOnUiThread { label_connection_error.isVisible = true } }
+        )
     }
 
     private fun initViewPager(fragments: List<Fragment>) {

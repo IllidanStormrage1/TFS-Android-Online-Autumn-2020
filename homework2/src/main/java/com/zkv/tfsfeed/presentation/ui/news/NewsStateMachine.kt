@@ -2,7 +2,11 @@ package com.zkv.tfsfeed.presentation.ui.news
 
 import com.zkv.tfsfeed.data.api.SimpleErrorHandler
 import com.zkv.tfsfeed.domain.model.NewsItem
-import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.*
+import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.EmptyError
+import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.EmptyLoading
+import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.Error
+import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.Loaded
+import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.Loading
 
 class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) {
 

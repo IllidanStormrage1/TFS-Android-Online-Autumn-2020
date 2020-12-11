@@ -18,9 +18,14 @@ class ImageTypeFileProvider : FileProvider() {
             val parcelFileDescriptor = openFile(uri, MODE_READ) ?: return type
             type = parcelFileDescriptor.use { parcelFileDesc ->
                 FileInputStream(
-                    parcelFileDesc.fileDescriptor).use { fileInputStr ->
-                    getTypeFromImageType(mImageHeaderParser.getType(
-                        fileInputStr), type)
+                    parcelFileDesc.fileDescriptor
+                ).use { fileInputStr ->
+                    getTypeFromImageType(
+                        mImageHeaderParser.getType(
+                            fileInputStr
+                        ),
+                        type
+                    )
                 }
             }
         } catch (exception: Exception) {

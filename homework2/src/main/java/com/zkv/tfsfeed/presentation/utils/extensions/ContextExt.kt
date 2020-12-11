@@ -40,9 +40,11 @@ fun Activity.downloadImageWithExternalStorage(bitmap: Bitmap) {
             MediaStore.Images.Media.insertImage(contentResolver, bitmap, "", "")
             makeToast(R.string.toast_successfully_download)
         } else {
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(
+                this,
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                0)
+                0
+            )
         }
     } catch (e: Exception) {
         makeToast(R.string.toast_failed_load)
@@ -69,25 +71,27 @@ fun Context.loadImage(url: String, onSuccess: (file: File) -> Unit) {
     Glide.with(this)
         .asFile()
         .load(url)
-        .addListener(object : RequestListener<File> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<File>?,
-                isFirstResource: Boolean,
-            ) = false
+        .addListener(
+            object : RequestListener<File> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<File>?,
+                    isFirstResource: Boolean,
+                ) = false
 
-            override fun onResourceReady(
-                resource: File,
-                model: Any?,
-                target: Target<File>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean,
-            ): Boolean {
-                onSuccess(resource)
-                return true
+                override fun onResourceReady(
+                    resource: File,
+                    model: Any?,
+                    target: Target<File>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean,
+                ): Boolean {
+                    onSuccess(resource)
+                    return true
+                }
             }
-        })
+        )
         .submit()
 }
 
@@ -116,13 +120,16 @@ fun Context.registerNetworkCallback(
     (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).registerNetworkCallback(
         NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build(), callback)
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build(),
+        callback
+    )
     return callback
 }
 
 fun Context.unregisterNetworkCallback(networkCallback: ConnectivityManager.NetworkCallback) {
     (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).unregisterNetworkCallback(
-        networkCallback)
+        networkCallback
+    )
 }
 
 @Suppress("DEPRECATION")

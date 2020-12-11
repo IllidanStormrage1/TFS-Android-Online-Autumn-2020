@@ -2,7 +2,11 @@ package com.zkv.tfsfeed.data.dto.news.wall
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
-import com.zkv.tfsfeed.data.dto.news.*
+import com.zkv.tfsfeed.data.dto.news.Attachment
+import com.zkv.tfsfeed.data.dto.news.Comments
+import com.zkv.tfsfeed.data.dto.news.Likes
+import com.zkv.tfsfeed.data.dto.news.Reposts
+import com.zkv.tfsfeed.data.dto.news.Views
 
 @Keep
 class WallItem(

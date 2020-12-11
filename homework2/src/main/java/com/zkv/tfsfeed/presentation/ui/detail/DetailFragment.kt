@@ -16,7 +16,13 @@ import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.detail.list.CommentsAdapter
 import com.zkv.tfsfeed.presentation.ui.detail.list.HeaderPostAdapter
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
-import com.zkv.tfsfeed.presentation.utils.extensions.*
+import com.zkv.tfsfeed.presentation.utils.extensions.downloadImageWithExternalStorage
+import com.zkv.tfsfeed.presentation.utils.extensions.downloadImageWithMediaStore
+import com.zkv.tfsfeed.presentation.utils.extensions.hideKeyboardFrom
+import com.zkv.tfsfeed.presentation.utils.extensions.isQHigher
+import com.zkv.tfsfeed.presentation.utils.extensions.setOnDebounceClickListener
+import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
+import com.zkv.tfsfeed.presentation.utils.extensions.withArgs
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.merge_input_comment.*
 import moxy.MvpAppCompatFragment
@@ -46,7 +52,8 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
         postsAdapter = HeaderPostAdapter(
             shareClickHandler = activityCallback::shareNewsItem,
-            downloadClickHandler = this::downloadImage)
+            downloadClickHandler = this::downloadImage
+        )
         requireArguments().getParcelable<NewsItem>(KEY_ITEM)?.let {
             postsAdapter.submit(it)
             newsItem = it
@@ -69,8 +76,10 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
             commentsAdapter.submitList(comments)
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(requireActivity().supportFragmentManager,
-                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
+                    .showIfNotVisible(
+                        requireActivity().supportFragmentManager,
+                        ErrorDialogFragment.ERROR_MESSAGE_KEY
+                    )
         }
     }
 
@@ -84,15 +93,19 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
             setProgressViewOffset(true, -100, 100)
             setOnRefreshListener { presenter.getComments(newsItem.id, newsItem.sourceId) }
         }
-        detail_comment_et.addTextChangedListener(onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
-            detail_send_iv.isEnabled = !charSequence.isNullOrBlank()
-        })
+        detail_comment_et.addTextChangedListener(
+            onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
+                detail_send_iv.isEnabled = !charSequence.isNullOrBlank()
+            }
+        )
         detail_send_iv.run {
             isEnabled = false
             setOnDebounceClickListener {
-                presenter.createCommentAndRefresh(newsItem.id,
+                presenter.createCommentAndRefresh(
+                    newsItem.id,
                     newsItem.sourceId,
-                    detail_comment_et.text.toString())
+                    detail_comment_et.text.toString()
+                )
                 close()
             }
         }

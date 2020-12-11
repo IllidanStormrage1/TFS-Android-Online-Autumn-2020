@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class FetchComments @Inject constructor(private val mediatorRepository: MediatorRepository) :
-        (Int, Int?) -> Single<List<Comment>> {
+    (Int, Int?) -> Single<List<Comment>> {
 
     override fun invoke(postId: Int, ownerId: Int?): Single<List<Comment>> =
         mediatorRepository.fetchComments(postId, ownerId)

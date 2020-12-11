@@ -26,21 +26,9 @@ interface AppComponent {
     fun inject(profileFragment: ProfileFragment)
     fun inject(detailFragment: DetailFragment)
 
-    @Component.Builder
-    interface Builder {
+    @Component.Factory
+    interface Factory {
 
-        @BindsInstance
-        fun setContext(context: Context): Builder
-
-        fun build(): AppComponent
-    }
-
-    companion object {
-
-        fun create(context: Context): AppComponent =
-            with(DaggerAppComponent.builder()) {
-                setContext(context)
-                build()
-            }
+        fun create(@BindsInstance context: Context): AppComponent
     }
 }

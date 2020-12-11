@@ -19,7 +19,8 @@ class DetailPresenter @Inject constructor(
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
                 { items -> updateState { stateMachine.onLoaded(items) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } }
+            )
     }
 
     fun createCommentAndRefresh(postId: Int, ownerId: Int?, message: String) {

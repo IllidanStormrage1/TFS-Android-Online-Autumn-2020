@@ -2,12 +2,8 @@ package com.zkv.tfsfeed.data.api
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import javax.inject.Inject
-import javax.inject.Named
 
-class AccessTokenHelper @Inject constructor(
-    @Named("encrypted") private val sharedPreferences: SharedPreferences,
-) {
+class AccessTokenHelper(private val sharedPreferences: SharedPreferences) {
 
     val accessToken: String by lazy(LazyThreadSafetyMode.NONE) { retrieveToken() }
 

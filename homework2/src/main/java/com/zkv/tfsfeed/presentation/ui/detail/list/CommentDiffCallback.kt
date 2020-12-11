@@ -14,15 +14,23 @@ class CommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
 
     override fun getChangePayload(oldItem: Comment, newItem: Comment): Any {
         val diffBundle = Bundle()
-        if (oldItem.likesCount != newItem.likesCount) diffBundle.putInt(KEY_LIKES_COUNT,
-            newItem.likesCount)
+        if (oldItem.likesCount != newItem.likesCount) diffBundle.putInt(
+            KEY_LIKES_COUNT,
+            newItem.likesCount
+        )
         if (oldItem.text != newItem.text) diffBundle.putString(KEY_TEXT, newItem.text)
-        if (oldItem.nickname != newItem.nickname) diffBundle.putString(KEY_NICKNAME,
-            newItem.nickname)
-        if (oldItem.avatarUrl != newItem.avatarUrl) diffBundle.putString(KEY_AVATAR_URL,
-            newItem.avatarUrl)
-        if (oldItem.contentUrl != newItem.contentUrl) diffBundle.putString(KEY_CONTENT_URL,
-            newItem.contentUrl)
+        if (oldItem.nickname != newItem.nickname) diffBundle.putString(
+            KEY_NICKNAME,
+            newItem.nickname
+        )
+        if (oldItem.avatarUrl != newItem.avatarUrl) diffBundle.putString(
+            KEY_AVATAR_URL,
+            newItem.avatarUrl
+        )
+        if (oldItem.contentUrl != newItem.contentUrl) diffBundle.putString(
+            KEY_CONTENT_URL,
+            newItem.contentUrl
+        )
         return diffBundle
     }
 

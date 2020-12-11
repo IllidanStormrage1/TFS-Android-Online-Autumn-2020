@@ -29,15 +29,19 @@ class CreatorPostFragment : Fragment(R.layout.fragment_create_post) {
         creator_close_iv.setOnClickListener { close() }
         create_post_et.run {
             requireActivity().openKeyboardTo(this)
-            addTextChangedListener(onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
-                creator_send_iv.isEnabled = !charSequence.isNullOrBlank()
-            })
+            addTextChangedListener(
+                onTextChanged = { charSequence: CharSequence?, _: Int, _: Int, _: Int ->
+                    creator_send_iv.isEnabled = !charSequence.isNullOrBlank()
+                }
+            )
         }
     }
 
     private fun setFragmentResult() {
-        requireActivity().supportFragmentManager.setFragmentResult(RESULT_REQUEST_KEY,
-            bundleOf(BUNDLE_KEY to create_post_et.text.toString()))
+        requireActivity().supportFragmentManager.setFragmentResult(
+            RESULT_REQUEST_KEY,
+            bundleOf(BUNDLE_KEY to create_post_et.text.toString())
+        )
     }
 
     private fun close() {

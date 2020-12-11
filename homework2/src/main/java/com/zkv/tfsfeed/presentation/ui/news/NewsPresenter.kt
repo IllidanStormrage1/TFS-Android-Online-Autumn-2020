@@ -30,7 +30,8 @@ class NewsPresenter @Inject constructor(
             .doOnSubscribe { updateState { stateMachine.onLoading() } }
             .subscribe(
                 { pair -> updateState { stateMachine.onLoaded(pair.first, pair.second) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } }
+            )
     }
 
     fun onLike(itemId: Int, sourceId: Int, type: String, canLike: Int, likesCount: Int) {
@@ -46,7 +47,8 @@ class NewsPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { updateState { stateMachine.removeItem(itemId) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } })
+                { throwable -> updateState { stateMachine.onError(throwable) } }
+            )
     }
 
     private inline fun updateState(stateAction: (NewsStateMachine) -> Unit) {

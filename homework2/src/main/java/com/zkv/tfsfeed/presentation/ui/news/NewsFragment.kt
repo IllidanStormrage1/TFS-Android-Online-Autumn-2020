@@ -45,7 +45,8 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
             onIgnoreHandler = presenter::ignoreItem,
             onLikeHandler = presenter::onLike,
             onClickHandler = activityCallback::navigateToDetail,
-            onShareHandler = activityCallback::shareNewsItem)
+            onShareHandler = activityCallback::shareNewsItem
+        )
         initViewState(adapter)
     }
 
@@ -60,8 +61,10 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
             adapter.submitList(news)
             if (showError)
                 ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(requireActivity().supportFragmentManager,
-                        ErrorDialogFragment.ERROR_MESSAGE_KEY)
+                    .showIfNotVisible(
+                        requireActivity().supportFragmentManager,
+                        ErrorDialogFragment.ERROR_MESSAGE_KEY
+                    )
         }
     }
 
@@ -74,7 +77,8 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
                     headerTextSize = resources.getDimension(R.dimen.header_text_size),
                     textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
                     callback = adapter
-                ))
+                )
+            )
         }
         news_posts_srl.run {
             setOnRefreshListener { loadData() }

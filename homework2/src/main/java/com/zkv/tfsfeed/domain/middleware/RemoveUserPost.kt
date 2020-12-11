@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class RemoveUserPost @Inject constructor(private val mediatorRepository: MediatorRepository) :
-        (Int) -> Completable {
+    (Int) -> Completable {
 
     override fun invoke(postId: Int): Completable = mediatorRepository.removeUserWallPost(postId)
         .subscribeOn(Schedulers.io())

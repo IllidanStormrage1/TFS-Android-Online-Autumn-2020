@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class IgnorePost @Inject constructor(private val mediatorRepository: MediatorRepository) :
-        (Int, Int, String) -> Completable {
+    (Int, Int, String) -> Completable {
 
     override fun invoke(itemId: Int, ownerId: Int, type: String): Completable =
         mediatorRepository.removeNewsFeedPost(itemId, ownerId, type)

@@ -10,25 +10,23 @@ import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.Profile
 import io.reactivex.Maybe
 import io.reactivex.Single
-import javax.inject.Inject
-import javax.inject.Named
 
-class LocalRepositoryImpl @Inject constructor(
+class LocalRepositoryImpl(
     private val newsFeedDao: NewsFeedDao,
     private val userProfileDao: UserProfileDao,
     private val userWallDao: UserWallDao,
-    @Named("default") private val preferences: SharedPreferences,
+    private val preferences: SharedPreferences,
 ) {
 
     fun fetchNewsFeedPosts(): Single<List<NewsItem>> = newsFeedDao.getAllNewsFeed()
         .toObservable()
-        .flatMapIterable { news -> news }
+        .flatMapIterable { it }
         .map(EntityConverter::NewsItem)
         .toList()
 
     fun savedUserWallPosts(): Single<List<NewsItem>> = userWallDao.getAllUserWallNews()
         .toObservable()
-        .flatMapIterable { news -> news }
+        .flatMapIterable { it }
         .map(EntityConverter::NewsItem)
         .toList()
 

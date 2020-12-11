@@ -36,12 +36,16 @@ class SocialPostViewHolder(override val containerView: View) :
                 share_btn.text = ""
             views_tv.text = viewsCount
             content_iv.isVisible = contentUrl != null
-            content_iv.loadFromUrl(contentUrl,
+            content_iv.loadFromUrl(
+                contentUrl,
                 R.drawable.bg_placeholder,
-                RequestOptions().centerCrop())
-            avatar_iv.loadFromUrl(avatarUrl,
+                RequestOptions().centerCrop()
+            )
+            avatar_iv.loadFromUrl(
+                avatarUrl,
                 R.drawable.bg_placeholder,
-                RequestOptions().centerCrop())
+                RequestOptions().centerCrop()
+            )
             if (canLike == 0)
                 like_btn.setIconResource(R.drawable.ic_heart_selected)
             else
@@ -52,22 +56,26 @@ class SocialPostViewHolder(override val containerView: View) :
     fun update(diffBundle: Bundle) {
         diffBundle.keySet().forEach {
             when (it) {
-                DiffCallback.KEY_LIKES_COUNT -> itemView.like_btn.text =
-                    if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
+                DiffCallback.KEY_LIKES_COUNT ->
+                    itemView.like_btn.text =
+                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
                 DiffCallback.KEY_CAN_LIKE -> {
                     if (diffBundle.getInt(it) == 0)
                         itemView.like_btn.setIconResource(R.drawable.ic_heart_selected)
                     else
                         itemView.like_btn.setIconResource(R.drawable.ic_heart)
                 }
-                DiffCallback.KEY_COMMENTS_COUNT -> itemView.comment_btn.text =
-                    if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
-                DiffCallback.KEY_REPOSTS_COUNT -> itemView.share_btn.text =
-                    if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
+                DiffCallback.KEY_COMMENTS_COUNT ->
+                    itemView.comment_btn.text =
+                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
+                DiffCallback.KEY_REPOSTS_COUNT ->
+                    itemView.share_btn.text =
+                        if (diffBundle.getInt(it) != 0) diffBundle.getInt(it).toString() else ""
                 DiffCallback.KEY_VIEWS_COUNT -> itemView.views_tv.text = diffBundle.getString(it)
                 DiffCallback.KEY_TEXT -> itemView.content_tv.text = diffBundle.getString(it)
-                DiffCallback.KEY_COMMENTS_ENABLED -> itemView.comment_btn.isEnabled =
-                    diffBundle.getBoolean(it)
+                DiffCallback.KEY_COMMENTS_ENABLED ->
+                    itemView.comment_btn.isEnabled =
+                        diffBundle.getBoolean(it)
             }
         }
     }

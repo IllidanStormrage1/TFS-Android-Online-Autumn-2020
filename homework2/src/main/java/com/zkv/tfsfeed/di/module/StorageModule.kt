@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.zkv.tfsfeed.BuildConfig.*
+import com.zkv.tfsfeed.BuildConfig.DATABASE_NAME
+import com.zkv.tfsfeed.BuildConfig.ENC_PREF_FILE_NAME
+import com.zkv.tfsfeed.BuildConfig.PREF_FILE_NAME
 import com.zkv.tfsfeed.data.database.NewsFeedDatabase
 import com.zkv.tfsfeed.data.database.dao.NewsFeedDao
 import com.zkv.tfsfeed.data.database.dao.UserProfileDao
@@ -44,7 +46,8 @@ object StorageModule {
             ENC_PREF_FILE_NAME,
             masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM)
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
 
     @Provides
     @JvmStatic

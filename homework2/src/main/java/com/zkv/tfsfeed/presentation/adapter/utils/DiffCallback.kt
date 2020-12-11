@@ -12,18 +12,28 @@ class DiffCallback : DiffUtil.ItemCallback<NewsItem>() {
 
     override fun getChangePayload(oldItem: NewsItem, newItem: NewsItem): Any {
         val diffBundle = Bundle()
-        if (oldItem.likesCount != newItem.likesCount) diffBundle.putInt(KEY_LIKES_COUNT,
-            newItem.likesCount)
+        if (oldItem.likesCount != newItem.likesCount) diffBundle.putInt(
+            KEY_LIKES_COUNT,
+            newItem.likesCount
+        )
         if (oldItem.canLike != newItem.canLike) diffBundle.putInt(KEY_CAN_LIKE, newItem.canLike)
-        if (oldItem.commentsCount != newItem.commentsCount) diffBundle.putInt(KEY_COMMENTS_COUNT,
-            newItem.commentsCount)
-        if (oldItem.repostsCount != newItem.repostsCount) diffBundle.putInt(KEY_REPOSTS_COUNT,
-            newItem.repostsCount)
-        if (oldItem.viewsCount != newItem.viewsCount) diffBundle.putString(KEY_VIEWS_COUNT,
-            newItem.viewsCount)
+        if (oldItem.commentsCount != newItem.commentsCount) diffBundle.putInt(
+            KEY_COMMENTS_COUNT,
+            newItem.commentsCount
+        )
+        if (oldItem.repostsCount != newItem.repostsCount) diffBundle.putInt(
+            KEY_REPOSTS_COUNT,
+            newItem.repostsCount
+        )
+        if (oldItem.viewsCount != newItem.viewsCount) diffBundle.putString(
+            KEY_VIEWS_COUNT,
+            newItem.viewsCount
+        )
         if (oldItem.text != newItem.text) diffBundle.putString(KEY_TEXT, newItem.text)
-        if (oldItem.canPost != newItem.canPost) diffBundle.putBoolean(KEY_COMMENTS_ENABLED,
-            newItem.canPost)
+        if (oldItem.canPost != newItem.canPost) diffBundle.putBoolean(
+            KEY_COMMENTS_ENABLED,
+            newItem.canPost
+        )
         return diffBundle
     }
 
