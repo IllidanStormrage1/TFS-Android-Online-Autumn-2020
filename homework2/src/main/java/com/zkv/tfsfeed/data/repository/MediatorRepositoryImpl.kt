@@ -29,7 +29,7 @@ class MediatorRepositoryImpl @Inject constructor(
             .doOnSuccess(localeRepository::rewriteUserWallTable)
     } else {
         localeRepository.savedUserWallPosts()
-            .flatMap { if (it.isEmpty()) fetchUserWall(true) else Single.just(it) }
+            .flatMap { if (it.isEmpty() && isRefresh) fetchUserWall(true) else Single.just(it) }
     }
 
     override fun fetchProfileInformation(isRefresh: Boolean): Single<Profile> = if (isRefresh) {

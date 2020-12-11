@@ -1,28 +1,23 @@
 package com.zkv.tfsfeed.presentation.ui.detail
 
 import com.zkv.tfsfeed.data.api.SimpleErrorHandler
-import com.zkv.tfsfeed.domain.model.Comment
+import com.zkv.tfsfeed.presentation.base.BaseViewStateMachine
 
-class DetailStateMachine(private val simpleErrorHandler: SimpleErrorHandler) {
+class DetailStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
+    BaseViewStateMachine<DetailViewState, Action>() {
 
-    var state: DetailViewState = DetailViewState.InitialState
-        private set
+    override var state: DetailViewState = DetailViewState()
 
-    fun onLoading(): DetailViewState {
-        state = when (state) {
-            is DetailViewState.Loading -> state
-            else -> DetailViewState.Loading(state.comments)
+    override fun handleUpdate(action: Action): DetailViewState {
+        state = when (action) {
+            is Action.Loading -> state.copy(showLoading = true)
+            is Action.Loaded -> state.copy(comments = action.payload, showLoading = false)
+            is Action.Error -> state.copy(
+                errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
+                showLoading = false,
+                showError = true,
+            )
         }
-        return state
-    }
-
-    fun onLoaded(news: List<Comment>): DetailViewState {
-        state = DetailViewState.Loaded(news)
-        return state
-    }
-
-    fun onError(throwable: Throwable): DetailViewState {
-        state = DetailViewState.Error(state.comments, simpleErrorHandler.getErrorMessage(throwable))
         return state
     }
 }

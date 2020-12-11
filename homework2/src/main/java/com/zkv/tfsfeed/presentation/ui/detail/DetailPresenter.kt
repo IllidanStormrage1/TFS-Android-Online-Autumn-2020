@@ -16,10 +16,10 @@ class DetailPresenter @Inject constructor(
     fun getComments(postId: Int, ownerId: Int?) {
         compositeDisposable += fetchComments(postId, ownerId)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(
-                { items -> updateState { stateMachine.onLoaded(items) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }
+                { items -> updateState(Action.Loaded(items)) },
+                { throwable -> updateState(Action.Error(throwable)) }
             )
     }
 
@@ -27,14 +27,13 @@ class DetailPresenter @Inject constructor(
         compositeDisposable += createComment(ownerId, postId, message)
             .andThen { getComments(postId, ownerId) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
-                updateState { stateMachine.onError(throwable) }
+                updateState(Action.Error(throwable))
             }
     }
 
-    private inline fun updateState(stateAction: (DetailStateMachine) -> Unit) {
-        stateAction(stateMachine)
-        viewState.render(stateMachine.state)
+    private fun updateState(stateAction: Action) {
+        viewState.render(stateMachine.handleUpdate(stateAction))
     }
 }

@@ -2,6 +2,7 @@ package com.zkv.tfsfeed.presentation.ui.favorites
 
 import com.zkv.tfsfeed.domain.middleware.FetchFavoritesPost
 import com.zkv.tfsfeed.presentation.base.BasePresenter
+import com.zkv.tfsfeed.presentation.ui.news.Action
 import com.zkv.tfsfeed.presentation.ui.news.NewsStateMachine
 import io.reactivex.android.schedulers.AndroidSchedulers
 import moxy.InjectViewState
@@ -20,15 +21,14 @@ class FavoritesPresenter @Inject constructor(
     fun loadData(isRefresh: Boolean) {
         compositeDisposable += fetchFavoritesPost(isRefresh)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(
-                { list -> updateState { stateMachine.onLoaded(list, false) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }
+                { list -> updateState(Action.Loaded(list)) },
+                { throwable -> updateState(Action.Error(throwable)) }
             )
     }
 
-    private inline fun updateState(stateAction: (NewsStateMachine) -> Unit) {
-        stateAction.invoke(stateMachine)
-        viewState.render(stateMachine.state)
+    private fun updateState(stateAction: Action) {
+        viewState.render(stateMachine.handleUpdate(stateAction))
     }
 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class SimpleErrorHandler @Inject constructor(private val context: Context) {
 
-    fun getErrorMessage(throwable: Throwable): String = when (throwable) {
+    fun getErrorMessage(throwable: Throwable?): String = when (throwable) {
         is UnknownHostException -> context.resources.getString(R.string.message_unknown_host_exception)
         else -> context.resources.getString(R.string.message_error_default)
     }

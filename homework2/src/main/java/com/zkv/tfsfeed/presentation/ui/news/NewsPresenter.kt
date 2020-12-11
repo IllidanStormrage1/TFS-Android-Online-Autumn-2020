@@ -27,10 +27,10 @@ class NewsPresenter @Inject constructor(
         compositeDisposable += fetchNewsFeed(isRefresh)
             .flatMap { items -> checkRelevanceNews().map { items to it } }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(
-                { pair -> updateState { stateMachine.onLoaded(pair.first, pair.second) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }
+                { pair -> updateState(Action.Loaded(pair.first)) },
+                { throwable -> updateState(Action.Error(throwable)) }
             )
     }
 
@@ -38,7 +38,7 @@ class NewsPresenter @Inject constructor(
         compositeDisposable += likePost(itemId, sourceId, type, canLike, likesCount)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
-                updateState { stateMachine.onError(throwable) }
+                updateState(Action.Error(throwable))
             }
     }
 
@@ -46,13 +46,12 @@ class NewsPresenter @Inject constructor(
         compositeDisposable += ignorePost(itemId, sourceId, "wall")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { updateState { stateMachine.removeItem(itemId) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }
+                { updateState(Action.Remove(itemId)) },
+                { throwable -> updateState(Action.Error(throwable)) }
             )
     }
 
-    private inline fun updateState(stateAction: (NewsStateMachine) -> Unit) {
-        stateAction(stateMachine)
-        viewState.render(stateMachine.state)
+    private fun updateState(stateAction: Action) {
+        viewState.render(stateMachine.handleUpdate(stateAction))
     }
 }

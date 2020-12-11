@@ -1,44 +1,43 @@
 package com.zkv.tfsfeed.presentation.ui.news
 
 import com.zkv.tfsfeed.data.api.SimpleErrorHandler
-import com.zkv.tfsfeed.domain.model.NewsItem
-import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.EmptyError
-import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.EmptyLoading
-import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.Error
-import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.Loaded
-import com.zkv.tfsfeed.presentation.ui.news.NewsViewState.Loading
+import com.zkv.tfsfeed.presentation.base.BaseViewStateMachine
 
-class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) {
+class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
+    BaseViewStateMachine<NewsViewState, Action>() {
 
-    var state: NewsViewState = EmptyLoading()
-        private set
+    override var state: NewsViewState = NewsViewState()
 
-    fun onLoading(): NewsViewState {
-        state = when (state) {
-            is EmptyLoading, is Loading -> state
-            else ->
-                if (state.news.isNotEmpty())
-                    Loading(state.news)
-                else
-                    EmptyLoading()
+    override fun handleUpdate(action: Action): NewsViewState {
+        state = when (action) {
+            is Action.Loading -> state.copy(
+                showError = false,
+                showEmptyLoaded = false,
+                showEmptyError = false,
+                showLoading = state.news.isNotEmpty(),
+                showEmptyLoading = state.news.isEmpty(),
+            )
+            is Action.Loaded -> state.copy(
+                news = action.payload,
+                showEmptyLoaded = action.payload.isEmpty(),
+                showEmptyLoading = false,
+                showLoading = false
+            )
+            is Action.Error -> state.copy(
+                showEmptyLoading = false,
+                showLoading = false,
+                showEmptyLoaded = false,
+                showEmptyError = state.news.isEmpty(),
+                showError = state.news.isNotEmpty(),
+                errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
+            )
+            is Action.Remove -> {
+                val newList = state.news.toMutableList().also {
+                    it.remove(state.news.find { item -> item.id == action.id })
+                }
+                state.copy(news = newList)
+            }
         }
         return state
-    }
-
-    fun onLoaded(news: List<NewsItem>, fresh: Boolean): NewsViewState {
-        state = Loaded(news.toList(), news.isEmpty(), fresh)
-        return state
-    }
-
-    fun onError(throwable: Throwable): NewsViewState {
-        state = if (state.news.isNotEmpty())
-            Error(state.news, simpleErrorHandler.getErrorMessage(throwable))
-        else
-            EmptyError(simpleErrorHandler.getErrorMessage(throwable))
-        return state
-    }
-
-    fun removeItem(itemId: Int) {
-        state.news.remove(state.news.find { it.id == itemId })
     }
 }

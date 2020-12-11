@@ -35,10 +35,10 @@ class ProfilePresenter @Inject constructor(
                 profile to list
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(
-                { pair -> updateState { stateMachine.onLoaded(pair.first, pair.second) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }
+                { pair -> updateState(Action.Loaded(pair.first, pair.second)) },
+                { throwable -> updateState(Action.Error(throwable)) }
             )
     }
 
@@ -46,8 +46,8 @@ class ProfilePresenter @Inject constructor(
         compositeDisposable += removeUserPost(postId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { updateState { stateMachine.removeItem(postId) } },
-                { throwable -> updateState { stateMachine.onError(throwable) } }
+                { updateState(Action.Remove(postId)) },
+                { throwable -> updateState(Action.Error(throwable)) }
             )
     }
 
@@ -55,22 +55,21 @@ class ProfilePresenter @Inject constructor(
         compositeDisposable += likePost(itemId, null, type, canLike, likesCount)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
-                updateState { stateMachine.onError(throwable) }
+                updateState(Action.Error(throwable))
             }
     }
 
     fun createPostAndRefresh(message: String) {
         compositeDisposable += createPost(message)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { updateState { stateMachine.onLoading() } }
+            .doOnSubscribe { updateState(Action.Loading) }
             .doOnComplete { getProfileInfo(true) }
             .subscribe(Functions.EMPTY_ACTION) { throwable ->
-                updateState { stateMachine.onError(throwable) }
+                updateState(Action.Error(throwable))
             }
     }
 
-    private inline fun updateState(stateAction: (ProfileStateMachine) -> Unit) {
-        stateAction(stateMachine)
-        viewState.render(stateMachine.state)
+    private fun updateState(stateAction: Action) {
+        viewState.render(stateMachine.handleUpdate(stateAction))
     }
 }

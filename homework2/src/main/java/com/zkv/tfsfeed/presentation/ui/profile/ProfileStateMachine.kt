@@ -1,40 +1,39 @@
 package com.zkv.tfsfeed.presentation.ui.profile
 
 import com.zkv.tfsfeed.data.api.SimpleErrorHandler
-import com.zkv.tfsfeed.domain.model.NewsItem
-import com.zkv.tfsfeed.domain.model.Profile
+import com.zkv.tfsfeed.presentation.base.BaseViewStateMachine
 
-class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) {
+class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
+    BaseViewStateMachine<ProfileViewState, Action>() {
 
-    var state: ProfileViewState = ProfileViewState.EmptyLoading()
-        private set
+    override var state: ProfileViewState = ProfileViewState()
 
-    fun onLoading(): ProfileViewState {
-        state = when (state) {
-            is ProfileViewState.EmptyLoading, is ProfileViewState.Loading -> state
-            else ->
-                if (state.news.isNotEmpty() || state.profile != null)
-                    ProfileViewState.Loading(state.news)
-                else
-                    ProfileViewState.EmptyLoading()
+    override fun handleUpdate(action: Action): ProfileViewState {
+        state = when (action) {
+            is Action.Loading -> state.copy(
+                showLoading = true,
+                showError = false,
+                showEmptyError = false,
+            )
+            is Action.Loaded -> state.copy(
+                news = action.payload,
+                profile = action.profile,
+                showLoading = false,
+            )
+            is Action.Error -> state.copy(
+                showEmptyError = state.news.isEmpty() && state.profile == null,
+                showLoading = false,
+                showEmptyLoading = false,
+                showError = state.profile != null,
+                errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
+            )
+            is Action.Remove -> {
+                val newList = state.news.toMutableList().also {
+                    it.remove(state.news.find { item -> item.id == action.id })
+                }
+                state.copy(news = newList)
+            }
         }
         return state
-    }
-
-    fun onLoaded(profile: Profile, news: List<NewsItem>): ProfileViewState {
-        state = ProfileViewState.Loaded(profile, news, false)
-        return state
-    }
-
-    fun onError(throwable: Throwable): ProfileViewState {
-        state = if (state.news.isNotEmpty())
-            ProfileViewState.Error(state.news, simpleErrorHandler.getErrorMessage(throwable))
-        else
-            ProfileViewState.EmptyError(simpleErrorHandler.getErrorMessage(throwable))
-        return state
-    }
-
-    fun removeItem(itemId: Int) {
-        state.news.remove(state.news.find { it.id == itemId })
     }
 }
