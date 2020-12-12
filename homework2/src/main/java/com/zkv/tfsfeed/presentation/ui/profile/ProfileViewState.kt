@@ -25,4 +25,3 @@ sealed class Action(
     class Error(throwable: Throwable?) : Action(throwable = throwable)
     class Remove(id: Int) : Action(id = id)
 }
-

@@ -70,6 +70,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
     private fun initViewState(adapter: PostsAdapter) {
         news_posts_rv.run {
+            setHasFixedSize(true)
             this.adapter = adapter
             addItemDecoration(
                 DividerItemDecoration(

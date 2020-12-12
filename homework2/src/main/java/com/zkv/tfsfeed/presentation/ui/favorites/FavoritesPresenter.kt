@@ -23,7 +23,7 @@ class FavoritesPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(
-                { list -> updateState(Action.Loaded(list)) },
+                { list -> updateState(Action.Loaded(list, false)) },
                 { throwable -> updateState(Action.Error(throwable)) }
             )
     }

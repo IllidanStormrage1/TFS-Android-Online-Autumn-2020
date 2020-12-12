@@ -10,16 +10,17 @@ data class NewsViewState(
     val showEmptyError: Boolean = false,
     val errorMessage: String? = null,
     val showEmptyLoaded: Boolean = false,
-    var freshItemsAvailable: Boolean = false,
+    val freshItemsAvailable: Boolean = false,
 )
 
 sealed class Action(
     val payload: List<NewsItem> = emptyList(),
     val throwable: Throwable? = null,
     val id: Int? = null,
+    val freshItemsAvailable: Boolean = false
 ) {
     object Loading : Action()
-    class Loaded(payload: List<NewsItem>) : Action(payload = payload)
+    class Loaded(payload: List<NewsItem>, freshItemsAvailable: Boolean) : Action(payload = payload, freshItemsAvailable = freshItemsAvailable)
     class Error(throwable: Throwable?) : Action(throwable = throwable)
     class Remove(id: Int) : Action(id = id)
 }

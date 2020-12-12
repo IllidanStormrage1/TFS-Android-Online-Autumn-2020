@@ -75,6 +75,7 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
 
     private fun initViewState(adapter: ConcatAdapter) {
         profile_posts_rv.run {
+            setHasFixedSize(true)
             addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.default_margin)))
             this.adapter = adapter
         }

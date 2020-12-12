@@ -16,12 +16,14 @@ class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
                 showEmptyError = false,
                 showLoading = state.news.isNotEmpty(),
                 showEmptyLoading = state.news.isEmpty(),
+                freshItemsAvailable = false,
             )
             is Action.Loaded -> state.copy(
                 news = action.payload,
                 showEmptyLoaded = action.payload.isEmpty(),
                 showEmptyLoading = false,
-                showLoading = false
+                showLoading = false,
+                freshItemsAvailable = action.freshItemsAvailable,
             )
             is Action.Error -> state.copy(
                 showEmptyLoading = false,

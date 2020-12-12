@@ -85,6 +85,7 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
 
     private fun initViewState(adapter: ConcatAdapter) {
         detail_posts_rv.run {
+            setHasFixedSize(true)
             addItemDecoration(SpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.default_margin)))
             this.adapter = adapter
         }

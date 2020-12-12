@@ -70,6 +70,7 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
 
     private fun initViewState(adapter: PostsAdapter) {
         news_posts_rv.run {
+            setHasFixedSize(true)
             this.adapter = adapter
             addItemDecoration(
                 DividerItemDecoration(

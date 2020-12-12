@@ -29,7 +29,7 @@ class NewsPresenter @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { updateState(Action.Loading) }
             .subscribe(
-                { pair -> updateState(Action.Loaded(pair.first)) },
+                { pair -> updateState(Action.Loaded(pair.first, pair.second)) },
                 { throwable -> updateState(Action.Error(throwable)) }
             )
     }
