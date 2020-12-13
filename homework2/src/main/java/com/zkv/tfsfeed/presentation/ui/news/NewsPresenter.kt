@@ -19,6 +19,10 @@ class NewsPresenter @Inject constructor(
     private val stateMachine: NewsStateMachine,
 ) : BasePresenter<NewsView>() {
 
+    init {
+        stateMachine.eventHandler = viewState::renderEvent
+    }
+
     override fun onFirstViewAttach() {
         loadData(isRefresh = false)
     }

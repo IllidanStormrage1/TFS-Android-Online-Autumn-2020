@@ -6,21 +6,19 @@ data class NewsViewState(
     val news: List<NewsItem> = listOf(),
     val showLoading: Boolean = false,
     val showEmptyLoading: Boolean = false,
-    val showError: Boolean = false,
     val showEmptyError: Boolean = false,
     val errorMessage: String? = null,
     val showEmptyLoaded: Boolean = false,
     val freshItemsAvailable: Boolean = false,
 )
 
-sealed class Action(
-    val payload: List<NewsItem> = emptyList(),
-    val throwable: Throwable? = null,
-    val id: Int? = null,
-    val freshItemsAvailable: Boolean = false
-) {
+sealed class Action {
     object Loading : Action()
-    class Loaded(payload: List<NewsItem>, freshItemsAvailable: Boolean) : Action(payload = payload, freshItemsAvailable = freshItemsAvailable)
-    class Error(throwable: Throwable?) : Action(throwable = throwable)
-    class Remove(id: Int) : Action(id = id)
+    class Loaded(val payload: List<NewsItem>, val freshItemsAvailable: Boolean) : Action()
+    class Error(val throwable: Throwable?) : Action()
+    class Remove(val id: Int) : Action()
+}
+
+sealed class Event {
+    class ShowErrorDialog(val errorMessage: String) : Event()
 }

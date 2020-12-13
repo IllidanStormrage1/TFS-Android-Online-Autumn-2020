@@ -4,14 +4,13 @@ import com.zkv.tfsfeed.data.api.SimpleErrorHandler
 import com.zkv.tfsfeed.presentation.base.BaseViewStateMachine
 
 class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
-    BaseViewStateMachine<NewsViewState, Action>() {
+    BaseViewStateMachine<NewsViewState, Action, Event>() {
 
     override var state: NewsViewState = NewsViewState()
 
     override fun handleUpdate(action: Action): NewsViewState {
         state = when (action) {
             is Action.Loading -> state.copy(
-                showError = false,
                 showEmptyLoaded = false,
                 showEmptyError = false,
                 showLoading = state.news.isNotEmpty(),
@@ -25,14 +24,17 @@ class NewsStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
                 showLoading = false,
                 freshItemsAvailable = action.freshItemsAvailable,
             )
-            is Action.Error -> state.copy(
-                showEmptyLoading = false,
-                showLoading = false,
-                showEmptyLoaded = false,
-                showEmptyError = state.news.isEmpty(),
-                showError = state.news.isNotEmpty(),
-                errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
-            )
+            is Action.Error -> {
+                if (state.news.isNotEmpty())
+                    eventHandler?.invoke(Event.ShowErrorDialog(simpleErrorHandler.getErrorMessage(action.throwable)))
+                state.copy(
+                    showEmptyLoading = false,
+                    showLoading = false,
+                    showEmptyLoaded = false,
+                    showEmptyError = state.news.isEmpty(),
+                    errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
+                )
+            }
             is Action.Remove -> {
                 val newList = state.news.toMutableList().also {
                     it.remove(state.news.find { item -> item.id == action.id })

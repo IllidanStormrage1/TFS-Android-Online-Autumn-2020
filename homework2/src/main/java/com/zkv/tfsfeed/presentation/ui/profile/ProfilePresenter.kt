@@ -25,6 +25,10 @@ class ProfilePresenter @Inject constructor(
     private val networkHelper: NetworkHelper,
 ) : BasePresenter<ProfileView>() {
 
+    init {
+        stateMachine.eventHandler = viewState::renderEvent
+    }
+
     override fun onFirstViewAttach() {
         getProfileInfo(isRefresh = networkHelper.isConnected)
     }

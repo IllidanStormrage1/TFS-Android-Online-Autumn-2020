@@ -14,6 +14,10 @@ class FavoritesPresenter @Inject constructor(
     private val stateMachine: NewsStateMachine,
 ) : BasePresenter<FavoritesView>() {
 
+    init {
+        stateMachine.eventHandler = viewState::renderEvent
+    }
+
     override fun onFirstViewAttach() {
         loadData(isRefresh = false)
     }

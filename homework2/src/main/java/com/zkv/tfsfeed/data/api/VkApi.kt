@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 interface VkApi {
 
-    // / ========== NewsFeed ========== ///
+    //  ========== NewsFeed ==========  //
     @GET("newsfeed.get")
     fun getNewsFeed(
         @Query("filters") filter: String = "post,photo",
@@ -27,7 +27,7 @@ interface VkApi {
         @Query("type") type: String,
     ): Completable
 
-    // / ========== Likes ========== ///
+    //  ========== Likes ==========  //
     @GET("likes.add")
     fun addLikes(
         @Query("item_id") itemId: Int,
@@ -42,14 +42,14 @@ interface VkApi {
         @Query("type") type: String,
     ): Completable
 
-    // / ========== Users ========== ///
+    //  ========== Users ==========  //
     @GET("users.get")
     fun getUser(
         @Query("user_ids") userId: Int? = null,
         @Query("fields") fields: String = USERS_GET_FIELDS,
     ): Single<BaseProfileResponse>
 
-    // / ========== Wall ========== ///
+    //  ========== Wall ==========  //
     @GET("wall.get")
     fun getUserWall(
         @Query("owner_id") ownerId: Int? = null,
@@ -83,7 +83,7 @@ interface VkApi {
         @Query("message") message: String,
     ): Completable
 
-    // / ========== Groups ========== ///
+    //  ========== Groups ==========  //
     @GET("groups.getById")
     fun getGroupDescription(
         @Query("group_id") groupId: Int,

@@ -8,20 +8,17 @@ data class ProfileViewState(
     val news: List<NewsItem> = listOf(),
     val showLoading: Boolean = false,
     val showEmptyLoading: Boolean = false,
-    val showError: Boolean = false,
     val showEmptyError: Boolean = false,
     val errorMessage: String? = null,
 )
 
-sealed class Action(
-    val payload: List<NewsItem> = emptyList(),
-    val profile: Profile? = null,
-    val throwable: Throwable? = null,
-    val id: Int? = null,
-) {
+sealed class Action {
     object Loading : Action()
-    class Loaded(profile: Profile, payload: List<NewsItem>) :
-        Action(profile = profile, payload = payload)
-    class Error(throwable: Throwable?) : Action(throwable = throwable)
-    class Remove(id: Int) : Action(id = id)
+    class Loaded(val profile: Profile, val payload: List<NewsItem>) : Action()
+    class Error(val throwable: Throwable?) : Action()
+    class Remove(val id: Int) : Action()
+}
+
+sealed class Event {
+    class ShowErrorDialog(val errorMessage: String) : Event()
 }

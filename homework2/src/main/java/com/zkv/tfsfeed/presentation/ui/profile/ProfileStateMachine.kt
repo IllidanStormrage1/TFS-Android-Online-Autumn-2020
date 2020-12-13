@@ -4,7 +4,7 @@ import com.zkv.tfsfeed.data.api.SimpleErrorHandler
 import com.zkv.tfsfeed.presentation.base.BaseViewStateMachine
 
 class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
-    BaseViewStateMachine<ProfileViewState, Action>() {
+    BaseViewStateMachine<ProfileViewState, Action, Event>() {
 
     override var state: ProfileViewState = ProfileViewState()
 
@@ -13,7 +13,6 @@ class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
             is Action.Loading -> state.copy(
                 showEmptyLoading = state.news.isEmpty() && state.profile == null,
                 showLoading = state.news.isNotEmpty() || state.profile != null,
-                showError = false,
                 showEmptyError = false,
             )
             is Action.Loaded -> state.copy(
@@ -22,13 +21,16 @@ class ProfileStateMachine(private val simpleErrorHandler: SimpleErrorHandler) :
                 showLoading = false,
                 showEmptyLoading = false,
             )
-            is Action.Error -> state.copy(
-                showEmptyError = state.news.isEmpty() && state.profile == null,
-                showLoading = false,
-                showEmptyLoading = false,
-                showError = state.profile != null,
-                errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
-            )
+            is Action.Error -> {
+                if (state.news.isNotEmpty())
+                    eventHandler?.invoke(Event.ShowErrorDialog(simpleErrorHandler.getErrorMessage(action.throwable)))
+                state.copy(
+                    showEmptyError = state.news.isEmpty() && state.profile == null,
+                    showLoading = false,
+                    showEmptyLoading = false,
+                    errorMessage = simpleErrorHandler.getErrorMessage(action.throwable),
+                )
+            }
             is Action.Remove -> {
                 val newList = state.news.toMutableList().also {
                     it.remove(state.news.find { item -> item.id == action.id })

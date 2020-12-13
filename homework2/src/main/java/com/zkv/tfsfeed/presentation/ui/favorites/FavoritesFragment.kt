@@ -11,8 +11,8 @@ import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
+import com.zkv.tfsfeed.presentation.ui.news.Event
 import com.zkv.tfsfeed.presentation.ui.news.NewsViewState
-import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.plc_empty_list.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
@@ -59,9 +59,14 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
             placeholder_empty_error_tv.isVisible = showEmptyError
             empty_placeholder_list_tv.isVisible = showEmptyLoaded
             adapter.submitList(news)
-            if (showError)
-                ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(
+        }
+    }
+
+    override fun renderEvent(event: Event) {
+        when (event) {
+            is Event.ShowErrorDialog ->
+                ErrorDialogFragment.newInstance(event.errorMessage)
+                    .show(
                         requireActivity().supportFragmentManager,
                         ErrorDialogFragment.ERROR_MESSAGE_KEY
                     )

@@ -13,6 +13,10 @@ class DetailPresenter @Inject constructor(
     private val stateMachine: DetailStateMachine,
 ) : BasePresenter<DetailView>() {
 
+    init {
+        stateMachine.eventHandler = viewState::renderEvent
+    }
+
     fun getComments(postId: Int, ownerId: Int?) {
         compositeDisposable += fetchComments(postId, ownerId)
             .observeOn(AndroidSchedulers.mainThread())

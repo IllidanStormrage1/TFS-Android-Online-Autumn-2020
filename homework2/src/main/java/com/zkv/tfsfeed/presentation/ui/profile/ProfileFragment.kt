@@ -16,7 +16,6 @@ import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.profile.header.HeaderAdapter
-import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
 import kotlinx.android.synthetic.main.plc_shimmer_list.*
@@ -64,9 +63,14 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
             placeholder_empty_error_tv.text = errorMessage
             profile?.let(headerAdapter::submit)
             postsAdapter.submitList(news)
-            if (showError)
-                ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(
+        }
+    }
+
+    override fun renderEvent(event: Event) {
+        when (event) {
+            is Event.ShowErrorDialog ->
+                ErrorDialogFragment.newInstance(event.errorMessage)
+                    .show(
                         requireActivity().supportFragmentManager,
                         ErrorDialogFragment.ERROR_MESSAGE_KEY
                     )

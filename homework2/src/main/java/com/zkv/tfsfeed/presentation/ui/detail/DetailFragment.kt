@@ -21,7 +21,6 @@ import com.zkv.tfsfeed.presentation.utils.extensions.downloadImageWithMediaStore
 import com.zkv.tfsfeed.presentation.utils.extensions.hideKeyboardFrom
 import com.zkv.tfsfeed.presentation.utils.extensions.isQHigher
 import com.zkv.tfsfeed.presentation.utils.extensions.setOnDebounceClickListener
-import com.zkv.tfsfeed.presentation.utils.extensions.showIfNotVisible
 import com.zkv.tfsfeed.presentation.utils.extensions.withArgs
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.merge_input_comment.*
@@ -74,9 +73,14 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
         with(state) {
             detail_posts_srl.isRefreshing = showLoading
             commentsAdapter.submitList(comments)
-            if (showError)
-                ErrorDialogFragment.newInstance(errorMessage)
-                    .showIfNotVisible(
+        }
+    }
+
+    override fun renderEvent(event: Event) {
+        when (event) {
+            is Event.ShowErrorDialog ->
+                ErrorDialogFragment.newInstance(event.errorMessage)
+                    .show(
                         requireActivity().supportFragmentManager,
                         ErrorDialogFragment.ERROR_MESSAGE_KEY
                     )

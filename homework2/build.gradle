@@ -16,6 +16,7 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         versionCode rootProject.versionCode
         versionName rootProject.applicationVersion
+        resConfigs "en", "ru"
 
         buildConfigField 'String', 'API_BASE_URL', '"https://api.vk.com/method/"'
         buildConfigField 'String', 'PREF_FILE_NAME', '"pref_name"'
