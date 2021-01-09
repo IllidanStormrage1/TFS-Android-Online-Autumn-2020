@@ -15,6 +15,6 @@ abstract class BasePresenter<View : MvpView> : MvpPresenter<View>() {
     }
 
     operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
-        compositeDisposable.add(disposable)
+        add(disposable)
     }
 }

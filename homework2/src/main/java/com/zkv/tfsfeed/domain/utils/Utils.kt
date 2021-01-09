@@ -4,20 +4,17 @@ import android.content.res.Resources
 import android.text.format.DateUtils
 import androidx.core.os.ConfigurationCompat
 import java.text.SimpleDateFormat
-import kotlin.math.ln
-import kotlin.math.pow
+import kotlin.math.*
 
 private const val DATE_FORMAT = "d MMMM H:mm"
 private const val COUNT_SUFFIX = "%.1f%c"
-private const val SUFFIX_STRING = "KMGTPE"
+private const val SUFFIX_STRING = "KMB"
 
 fun dateStringFromTimeInMillis(timeInMillis: Long): String =
     SimpleDateFormat(
         DATE_FORMAT,
         ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0)
-    ).format(
-        timeInMillis
-    )
+    ).format(timeInMillis)
 
 fun prepareDateString(timeInMilliseconds: Long): String =
     DateUtils.getRelativeTimeSpanString(
@@ -36,11 +33,11 @@ fun <T> MutableCollection<T>.clearAndAddAll(collection: Collection<T>) {
 
 val Int.currencyCountWithSuffix: String
     get() {
-        if (this < 1000) return this.toString()
-        val exp = (ln(this.toDouble()) / ln(1000.0)).toInt()
+        if (abs(this) < 1000) return toString()
+        val exp = round(ln(toDouble()) / ln(1000.0))
         return String.format(
             COUNT_SUFFIX,
-            this / 1000.0.pow(exp.toDouble()),
-            SUFFIX_STRING[exp - 1]
+            this / 1000.0.pow(exp),
+            SUFFIX_STRING[exp.toInt() - 1]
         )
     }
