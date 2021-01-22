@@ -16,6 +16,7 @@ import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.profile.header.HeaderAdapter
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
 import kotlinx.android.synthetic.main.plc_shimmer_list.*
@@ -51,6 +52,8 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
             onShareHandler = activityCallback::shareNewsItem
         )
         val adapter = ConcatAdapter(headerAdapter, postsAdapter)
+        news_shimmer.applySystemWindowInsetsToPadding(top = true)
+
         initViewState(adapter)
         setFragmentResultListener()
     }

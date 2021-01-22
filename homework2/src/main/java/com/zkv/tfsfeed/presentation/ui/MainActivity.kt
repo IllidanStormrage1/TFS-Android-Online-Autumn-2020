@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.*
 import android.net.*
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -20,7 +21,9 @@ import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
 import com.zkv.tfsfeed.presentation.utils.extensions.loadImage
 import com.zkv.tfsfeed.presentation.utils.extensions.registerNetworkCallback
 import com.zkv.tfsfeed.presentation.utils.extensions.unregisterNetworkCallback
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.merge_item_post.*
 import kotlinx.android.synthetic.main.partial_label_connection_error.*
 
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+        initInsets()
         initViewState()
     }
 
@@ -84,6 +88,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
             }
         else
             showIntentChooser(createShareIntent(item.text))
+    }
+
+    private fun initInsets() {
+        main_navigation.applySystemWindowInsetsToPadding(bottom = true)
+        main_view_pager.applySystemWindowInsetsToPadding(bottom = true)
+        label_connection_error.applySystemWindowInsetsToPadding(top = true)
     }
 
     private fun initViewState() {

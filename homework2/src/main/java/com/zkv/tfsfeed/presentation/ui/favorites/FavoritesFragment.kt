@@ -13,6 +13,8 @@ import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.news.Event
 import com.zkv.tfsfeed.presentation.ui.news.NewsViewState
+import com.zkv.tfsfeed.presentation.utils.extensions.isLaunched
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.plc_empty_list.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
@@ -44,6 +46,7 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
             onClickHandler = activityCallback::navigateToDetail,
             onShareHandler = activityCallback::shareNewsItem
         )
+        initInsets()
         initViewState(adapter)
     }
 
@@ -55,7 +58,7 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
     override fun render(state: NewsViewState) {
         with(state) {
             news_posts_srl.isRefreshing = showLoading
-            news_shimmer.isVisible = showEmptyLoading
+            news_shimmer.isLaunched = showEmptyLoading
             placeholder_empty_error_tv.isVisible = showEmptyError
             empty_placeholder_list_tv.isVisible = showEmptyLoaded
             adapter.submitList(news)
@@ -71,6 +74,11 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
                         ErrorDialogFragment.ERROR_MESSAGE_KEY
                     )
         }
+    }
+
+    private fun initInsets() {
+        news_shimmer.applySystemWindowInsetsToPadding(top = true)
+        news_posts_rv.applySystemWindowInsetsToPadding(top = true)
     }
 
     private fun initViewState(adapter: PostsAdapter) {

@@ -22,7 +22,7 @@ class HeaderProfileLayout @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         var width = 0
-        var height = 0
+        var height = paddingTop + marginTop
 
         measureChildWithMargins(
             profile_avatar_iv,
@@ -40,7 +40,7 @@ class HeaderProfileLayout @JvmOverloads constructor(
             heightMeasureSpec,
             height
         )
-        height = 0
+        height = paddingTop + marginTop
         width += profile_avatar_iv.measuredWidth
 
         measureChildWithMargins(profile_name_tv, widthMeasureSpec, width, heightMeasureSpec, height)
@@ -165,7 +165,7 @@ class HeaderProfileLayout @JvmOverloads constructor(
             currentStart + profile_online_badge.measuredWidth - profile_avatar_iv.marginStart,
             currentTop + profile_online_badge.measuredHeight,
         )
-        currentTop = 0
+        currentTop = paddingTop + marginTop
 
         profile_name_tv.layout(
             currentStart + profile_name_tv.marginStart,
@@ -193,7 +193,7 @@ class HeaderProfileLayout @JvmOverloads constructor(
 
         currentTop = (profile_avatar_iv.measuredHeight + profile_avatar_iv.marginTop).coerceAtLeast(
             profile_name_tv.measuredHeight + profile_name_tv.marginTop + profile_domain_tv.measuredHeight + profile_last_seen_tv.measuredHeight
-        )
+        ) + paddingTop + marginTop
         currentStart = 0
 
         profile_about_tv.layout(

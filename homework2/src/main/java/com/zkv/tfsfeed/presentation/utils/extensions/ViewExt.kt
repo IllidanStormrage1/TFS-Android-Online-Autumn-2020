@@ -9,10 +9,12 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.zkv.tfsfeed.presentation.utils.DebounceClickListener
 
 fun ImageView.loadFromUrl(
@@ -49,3 +51,15 @@ fun TextView.setPluralText(@PluralsRes resourceId: Int, value: Int) {
 fun View.setOnDebounceClickListener(time: Long = 1000L, onClick: (View?) -> Unit) {
     setOnClickListener(DebounceClickListener(time, onClick))
 }
+
+var ShimmerFrameLayout.isLaunched: Boolean
+    get() = isShimmerStarted && isVisible
+    set(value) {
+        isVisible = if (value) {
+            startShimmer()
+            true
+        } else {
+            stopShimmer()
+            false
+        }
+    }

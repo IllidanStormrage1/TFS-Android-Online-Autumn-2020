@@ -9,6 +9,7 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.utils.extensions.hideKeyboardFrom
 import com.zkv.tfsfeed.presentation.utils.extensions.openKeyboardTo
 import com.zkv.tfsfeed.presentation.utils.extensions.setOnDebounceClickListener
+import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.fragment_create_post.*
 
 class CreatorPostFragment : Fragment(R.layout.fragment_create_post) {
@@ -16,6 +17,11 @@ class CreatorPostFragment : Fragment(R.layout.fragment_create_post) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewState()
+        initInsets()
+    }
+
+    private fun initInsets() {
+        requireView().applySystemWindowInsetsToPadding(top = true)
     }
 
     private fun initViewState() {

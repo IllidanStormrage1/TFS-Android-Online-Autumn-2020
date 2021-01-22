@@ -30,10 +30,11 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.zkv.tfsfeed.presentation.widget.CommentInputLayout
+        android:id="@+id/detail_comment_il"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@android:color/white"
-        android:elevation="8dp" />
+        android:elevation="12dp" />
 
 </FrameLayout>

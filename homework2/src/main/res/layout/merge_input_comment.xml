@@ -6,19 +6,20 @@
     <EditText
         android:id="@+id/detail_comment_et"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="?actionBarSize"
         android:layout_marginStart="@dimen/default_margin"
         android:background="@null"
+        android:gravity="center_vertical"
         android:hint="@string/label_comment"
         android:importantForAutofill="no"
         android:inputType="textMultiLine" />
 
     <ImageView
         android:id="@+id/detail_send_iv"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_width="?actionBarSize"
+        android:layout_height="?actionBarSize"
         android:contentDescription="@string/content_description"
+        android:scaleType="center"
         android:src="@drawable/ic_send" />
 
 </merge>

@@ -4,7 +4,10 @@ import android.content.res.Resources
 import android.text.format.DateUtils
 import androidx.core.os.ConfigurationCompat
 import java.text.SimpleDateFormat
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.ln
+import kotlin.math.pow
+import kotlin.math.round
 
 private const val DATE_FORMAT = "d MMMM H:mm"
 private const val COUNT_SUFFIX = "%.1f%c"

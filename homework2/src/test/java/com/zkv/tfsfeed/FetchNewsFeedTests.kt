@@ -24,7 +24,7 @@ class FetchNewsFeedTests {
     @Mock
     lateinit var remoteRepositoryImpl: RemoteRepositoryImpl
 
-    lateinit var mediatorRepository: MediatorRepository
+    private lateinit var mediatorRepository: MediatorRepository
     lateinit var fetchNewsFeed: FetchNewsFeed
 
     @Before
