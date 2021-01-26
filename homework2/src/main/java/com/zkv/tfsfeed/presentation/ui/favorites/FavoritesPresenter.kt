@@ -1,7 +1,9 @@
 package com.zkv.tfsfeed.presentation.ui.favorites
 
 import com.zkv.tfsfeed.domain.middleware.FetchFavoritesPost
+import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.base.BasePresenter
+import com.zkv.tfsfeed.presentation.navigation.NewsNavigator
 import com.zkv.tfsfeed.presentation.ui.news.Action
 import com.zkv.tfsfeed.presentation.ui.news.NewsStateMachine
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -12,6 +14,7 @@ import javax.inject.Inject
 class FavoritesPresenter @Inject constructor(
     private val fetchFavoritesPost: FetchFavoritesPost,
     private val stateMachine: NewsStateMachine,
+    private val newsNavigator: NewsNavigator
 ) : BasePresenter<FavoritesView>() {
 
     init {
@@ -20,6 +23,10 @@ class FavoritesPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         loadData(isRefresh = false)
+    }
+
+    fun navigateToDetail(item: NewsItem) {
+        newsNavigator.navigateToDetail(item)
     }
 
     fun loadData(isRefresh: Boolean) {

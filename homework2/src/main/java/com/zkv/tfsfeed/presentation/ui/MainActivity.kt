@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.Intent.*
 import android.net.*
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
@@ -12,29 +11,33 @@ import androidx.fragment.app.Fragment
 import com.zkv.tfsfeed.BuildConfig
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
+import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.MainViewPagerAdapter
-import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
-import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
+import com.zkv.tfsfeed.presentation.navigation.NewsNavigator
+import com.zkv.tfsfeed.presentation.navigation.NewsRouter
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
 import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
 import com.zkv.tfsfeed.presentation.utils.extensions.loadImage
 import com.zkv.tfsfeed.presentation.utils.extensions.registerNetworkCallback
 import com.zkv.tfsfeed.presentation.utils.extensions.unregisterNetworkCallback
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.merge_item_post.*
 import kotlinx.android.synthetic.main.partial_label_connection_error.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCallback {
 
+    @Inject
+    lateinit var newsNavigator: NewsNavigator
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as App).appComponent.inject(this)
+        newsNavigator.setNewsRouter(NewsRouter(supportFragmentManager))
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        initInsets()
         initViewState()
     }
 
@@ -42,34 +45,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
         super.onDestroy()
         networkCallback?.let(::unregisterNetworkCallback)
         networkCallback = null
-    }
-
-    override fun navigateToDetail(item: NewsItem) {
-        supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .setCustomAnimations(
-                R.anim.slide_in_left,
-                R.anim.slide_in_right,
-                R.anim.slide_in_left,
-                R.anim.slide_in_right
-            )
-            .add(android.R.id.content, DetailFragment.newInstance(item))
-            .addToBackStack(null)
-            .commit()
-    }
-
-    override fun navigateToCreatorPost() {
-        supportFragmentManager.beginTransaction()
-            .setReorderingAllowed(true)
-            .setCustomAnimations(
-                R.anim.slide_in_top,
-                R.anim.slide_in_bottom,
-                R.anim.slide_in_top,
-                R.anim.slide_in_bottom
-            )
-            .add(android.R.id.content, CreatorPostFragment.newInstance())
-            .addToBackStack(null)
-            .commit()
+        newsNavigator.removeRouter()
     }
 
     override fun shareNewsItem(item: NewsItem) {
@@ -88,12 +64,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), MainActivityCall
             }
         else
             showIntentChooser(createShareIntent(item.text))
-    }
-
-    private fun initInsets() {
-        main_navigation.applySystemWindowInsetsToPadding(bottom = true)
-        main_view_pager.applySystemWindowInsetsToPadding(bottom = true)
-        label_connection_error.applySystemWindowInsetsToPadding(top = true)
     }
 
     private fun initViewState() {

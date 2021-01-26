@@ -7,7 +7,6 @@ import com.zkv.tfsfeed.domain.model.Profile
 import com.zkv.tfsfeed.presentation.utils.extensions.loadFromUrl
 import com.zkv.tfsfeed.presentation.utils.extensions.setPluralText
 import com.zkv.tfsfeed.presentation.utils.extensions.setText
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_header_profile.*
 
@@ -17,7 +16,6 @@ class HeaderViewHolder(override val containerView: View) :
 
     fun bind(item: Profile) {
         item.run {
-            itemView.applySystemWindowInsetsToPadding(top = true)
             profile_avatar_iv.loadFromUrl(avatarUrl, R.drawable.bg_circle_placeholder)
             if (about.isNotBlank())
                 profile_about_tv.setText(R.string.label_about, about)

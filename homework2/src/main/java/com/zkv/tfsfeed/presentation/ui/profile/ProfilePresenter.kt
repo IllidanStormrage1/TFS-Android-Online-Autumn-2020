@@ -1,14 +1,12 @@
 package com.zkv.tfsfeed.presentation.ui.profile
 
 import com.zkv.tfsfeed.data.api.NetworkHelper
-import com.zkv.tfsfeed.domain.middleware.CreatePost
-import com.zkv.tfsfeed.domain.middleware.FetchProfileInformation
-import com.zkv.tfsfeed.domain.middleware.FetchUserNewsFeed
-import com.zkv.tfsfeed.domain.middleware.LikePost
-import com.zkv.tfsfeed.domain.middleware.RemoveUserPost
+import com.zkv.tfsfeed.domain.middleware.*
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.domain.model.Profile
 import com.zkv.tfsfeed.presentation.base.BasePresenter
+import com.zkv.tfsfeed.presentation.navigation.NewsNavigator
+import com.zkv.tfsfeed.presentation.navigation.ProfileNavigator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.functions.Functions
 import moxy.InjectViewState
@@ -23,6 +21,8 @@ class ProfilePresenter @Inject constructor(
     private val stateMachine: ProfileStateMachine,
     private val createPost: CreatePost,
     private val networkHelper: NetworkHelper,
+    private val newsNavigator: NewsNavigator,
+    private val profileNavigator: ProfileNavigator
 ) : BasePresenter<ProfileView>() {
 
     init {
@@ -31,6 +31,14 @@ class ProfilePresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         getProfileInfo(isRefresh = networkHelper.isConnected)
+    }
+
+    fun navigateToDetail(item: NewsItem) {
+        newsNavigator.navigateToDetail(item)
+    }
+
+    fun navigateToCreatorPost() {
+        profileNavigator.navigateToCreatorPost()
     }
 
     fun getProfileInfo(isRefresh: Boolean) {

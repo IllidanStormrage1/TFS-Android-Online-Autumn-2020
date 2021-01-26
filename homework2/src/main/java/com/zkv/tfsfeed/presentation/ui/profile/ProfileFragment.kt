@@ -12,11 +12,12 @@ import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.MainItemTouchHelper
 import com.zkv.tfsfeed.presentation.adapter.utils.SpacingItemDecoration
+import com.zkv.tfsfeed.presentation.navigation.ProfileNavigator
+import com.zkv.tfsfeed.presentation.navigation.ProfileRouter
 import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.creator.CreatorPostFragment
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.ui.profile.header.HeaderAdapter
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.plc_error_list_tv.*
 import kotlinx.android.synthetic.main.plc_shimmer_list.*
@@ -31,31 +32,38 @@ class ProfileFragment : MvpAppCompatFragment(R.layout.fragment_profile), Profile
     lateinit var presenterProvider: Provider<ProfilePresenter>
     private val presenter by moxyPresenter { presenterProvider.get() }
 
+    @Inject
+    lateinit var profileNavigator: ProfileNavigator
+
     private val activityCallback get() = requireActivity() as MainActivityCallback
 
     private lateinit var headerAdapter: HeaderAdapter
     private lateinit var postsAdapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        (requireActivity().application as App).appComponent.inject(this)
+        profileNavigator.setProfileRouter(ProfileRouter(requireActivity().supportFragmentManager))
         super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
-        headerAdapter = HeaderAdapter(clicksHandler = activityCallback::navigateToCreatorPost)
+        headerAdapter = HeaderAdapter(clicksHandler = presenter::navigateToCreatorPost)
         postsAdapter = PostsAdapter(
             onLikeHandler = presenter::onLike,
             onIgnoreHandler = presenter::onDeletePost,
-            onClickHandler = activityCallback::navigateToDetail,
+            onClickHandler = presenter::navigateToDetail,
             onShareHandler = activityCallback::shareNewsItem
         )
         val adapter = ConcatAdapter(headerAdapter, postsAdapter)
-        news_shimmer.applySystemWindowInsetsToPadding(top = true)
-
         initViewState(adapter)
         setFragmentResultListener()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        profileNavigator.removeRouter()
     }
 
     override fun render(state: ProfileViewState) {

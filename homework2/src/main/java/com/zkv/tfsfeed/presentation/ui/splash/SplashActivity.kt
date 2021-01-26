@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
     lateinit var accessTokenHelper: AccessTokenHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(View(this))
 

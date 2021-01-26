@@ -70,7 +70,6 @@ dependencies {
 
     implementation "com.google.android.material:material:$materialVersion"
     implementation "com.facebook.shimmer:shimmer:$shimmerVersion"
-    implementation "dev.chrisbanes.insetter:insetter:$insetterVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
 

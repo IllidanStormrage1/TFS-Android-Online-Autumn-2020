@@ -15,10 +15,8 @@ class App : Application() {
     @Inject
     lateinit var accessTokenHelper: AccessTokenHelper
 
-    companion object {
-        lateinit var appComponent: AppComponent
-            private set
-    }
+    lateinit var appComponent: AppComponent
+        private set
 
     override fun onCreate() {
         super.onCreate()

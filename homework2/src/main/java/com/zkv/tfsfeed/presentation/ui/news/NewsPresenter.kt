@@ -4,7 +4,9 @@ import com.zkv.tfsfeed.domain.middleware.CheckRelevanceNews
 import com.zkv.tfsfeed.domain.middleware.FetchNewsFeed
 import com.zkv.tfsfeed.domain.middleware.IgnorePost
 import com.zkv.tfsfeed.domain.middleware.LikePost
+import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.base.BasePresenter
+import com.zkv.tfsfeed.presentation.navigation.NewsNavigator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.internal.functions.Functions
 import moxy.InjectViewState
@@ -17,6 +19,7 @@ class NewsPresenter @Inject constructor(
     private val fetchNewsFeed: FetchNewsFeed,
     private val checkRelevanceNews: CheckRelevanceNews,
     private val stateMachine: NewsStateMachine,
+    private val newsNavigator: NewsNavigator
 ) : BasePresenter<NewsView>() {
 
     init {
@@ -25,6 +28,10 @@ class NewsPresenter @Inject constructor(
 
     override fun onFirstViewAttach() {
         loadData(isRefresh = false)
+    }
+
+    fun navigateToDetail(item: NewsItem) {
+        newsNavigator.navigateToDetail(item)
     }
 
     fun loadData(isRefresh: Boolean) {

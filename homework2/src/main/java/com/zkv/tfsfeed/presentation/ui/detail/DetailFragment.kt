@@ -17,7 +17,6 @@ import com.zkv.tfsfeed.presentation.ui.detail.list.CommentsAdapter
 import com.zkv.tfsfeed.presentation.ui.detail.list.HeaderPostAdapter
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
 import com.zkv.tfsfeed.presentation.utils.extensions.*
-import dev.chrisbanes.insetter.applySystemWindowInsetsToPadding
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.merge_input_comment.*
 import moxy.MvpAppCompatFragment
@@ -38,7 +37,7 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
     private lateinit var newsItem: NewsItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
+        (requireActivity().application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -49,7 +48,6 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
             shareClickHandler = activityCallback::shareNewsItem,
             downloadClickHandler = this::downloadImage
         )
-        initInsets()
         requireArguments().getParcelable<NewsItem>(KEY_ITEM)?.let {
             postsAdapter.submit(it)
             newsItem = it
@@ -82,11 +80,6 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
                         ErrorDialogFragment.ERROR_MESSAGE_KEY
                     )
         }
-    }
-
-    private fun initInsets() {
-        detail_posts_rv.applySystemWindowInsetsToPadding(bottom = true, top = true)
-        detail_comment_il.applySystemWindowInsetsToPadding(bottom = true)
     }
 
     private fun initViewState(adapter: ConcatAdapter) {

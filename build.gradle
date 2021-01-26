@@ -58,7 +58,6 @@ ext {
     moxyVersion = '2.2.0'
     timberVersion = '4.7.1'
     vkSdkVersion = '2.4.0'
-    insetterVersion = '0.4.0'
 
     junitVersion = '4.13.1'
     mockitoVersion = '3.7.0'
