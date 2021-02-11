@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.utils.extensions.loadFromUrl
+import com.zkv.tfsfeed.presentation.utils.extensions.setPrecomputedText
 import com.zkv.tfsfeed.presentation.widget.SocialPostLayout
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_post.*
@@ -27,7 +28,7 @@ class HeaderPostViewHolder(override val containerView: View) :
             content_tv.linksClickable = true
             group_name_tv.text = displayName
             post_creation_date_tv.text = date
-            content_tv.text = text
+            content_tv.setPrecomputedText(text)
             like_btn.text = likesCount.toString()
             comment_btn.text = commentsCount.toString()
             share_btn.text = repostsCount.toString()

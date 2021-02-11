@@ -9,6 +9,7 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.adapter.utils.DiffCallback
 import com.zkv.tfsfeed.presentation.utils.extensions.loadFromUrl
+import com.zkv.tfsfeed.presentation.utils.extensions.setPrecomputedText
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_item_post.*
 import kotlinx.android.synthetic.main.merge_item_post.view.*
@@ -20,7 +21,7 @@ class SocialPostViewHolder(override val containerView: View) :
         item.run {
             group_name_tv.text = displayName
             post_creation_date_tv.text = date
-            content_tv.text = text
+            content_tv.setPrecomputedText(text)
             comment_btn.isEnabled = canPost
             if (likesCount != 0)
                 like_btn.text = likesCount.toString()

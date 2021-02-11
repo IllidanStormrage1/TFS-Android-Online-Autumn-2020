@@ -8,6 +8,7 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.Comment
 import com.zkv.tfsfeed.presentation.ui.detail.list.CommentDiffCallback
 import com.zkv.tfsfeed.presentation.utils.extensions.loadFromUrl
+import com.zkv.tfsfeed.presentation.utils.extensions.setPrecomputedText
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.merge_comment.*
 import kotlinx.android.synthetic.main.merge_comment.view.*
@@ -19,7 +20,7 @@ class CommentViewHolder(override val containerView: View) :
     fun bind(item: Comment) {
         with(item) {
             comment_text_tv.isVisible = text.isNotBlank()
-            comment_text_tv.text = text
+            comment_text_tv.setPrecomputedText(text)
             comment_content_iv.isVisible = contentUrl != null
             comment_content_iv.loadFromUrl(contentUrl, R.drawable.bg_placeholder)
             comment_avatar_iv.loadFromUrl(avatarUrl, R.drawable.bg_circle_placeholder)

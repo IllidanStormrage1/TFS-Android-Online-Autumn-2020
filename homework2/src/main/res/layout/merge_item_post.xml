@@ -38,7 +38,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         tools:text="23 сен в 18:08" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/content_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
