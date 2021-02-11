@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.google.android.material.transition.MaterialFadeThrough
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
@@ -41,6 +42,7 @@ class FavoritesFragment : MvpAppCompatFragment(R.layout.fragment_news), Favorite
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireView() as ViewGroup).layoutTransition.setAnimateParentHierarchy(false)
+        exitTransition = MaterialFadeThrough()
         adapter = PostsAdapter(
             onClickHandler = presenter::navigateToDetail,
             onShareHandler = activityCallback::shareNewsItem

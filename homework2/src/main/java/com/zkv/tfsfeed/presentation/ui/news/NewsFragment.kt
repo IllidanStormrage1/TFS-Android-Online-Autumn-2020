@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.transition.MaterialFadeThrough
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
@@ -35,6 +36,7 @@ class NewsFragment : MvpAppCompatFragment(R.layout.fragment_news), NewsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (requireActivity().application as App).appComponent.inject(this)
+        exitTransition = MaterialFadeThrough()
         super.onCreate(savedInstanceState)
     }
 

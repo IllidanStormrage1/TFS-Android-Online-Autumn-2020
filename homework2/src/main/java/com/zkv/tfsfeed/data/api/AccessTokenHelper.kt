@@ -7,7 +7,7 @@ class AccessTokenHelper(private val sharedPreferences: SharedPreferences) {
 
     val accessToken: String by lazy(LazyThreadSafetyMode.NONE) { retrieveToken() }
 
-    fun isTokenExpired() = accessToken == TOKEN_HAS_EXPIRED
+    val isTokenExpired get() = accessToken == TOKEN_HAS_EXPIRED
 
     fun saveToken(token: String) {
         sharedPreferences.edit { putString(TOKEN_KEY, token) }

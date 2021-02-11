@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(View(this))
 
-        if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired())
+        if (!VK.isLoggedIn() || accessTokenHelper.isTokenExpired)
             VK.login(this, listOf(VKScope.WALL, VKScope.FRIENDS, VKScope.OFFLINE))
         else
             navigateToMainActivity()

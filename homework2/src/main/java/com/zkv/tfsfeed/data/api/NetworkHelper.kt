@@ -6,5 +6,5 @@ import javax.inject.Inject
 
 class NetworkHelper @Inject constructor(context: Context) {
 
-    val isConnected: Boolean = context.isConnected()
+    val isConnected = context.isConnected()
 }

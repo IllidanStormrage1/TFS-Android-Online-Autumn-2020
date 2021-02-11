@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ConcatAdapter
+import com.google.android.material.transition.MaterialFadeThrough
 import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.App
@@ -38,6 +39,7 @@ class DetailFragment : MvpAppCompatFragment(R.layout.fragment_detail), DetailVie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (requireActivity().application as App).appComponent.inject(this)
+        enterTransition = MaterialFadeThrough()
         super.onCreate(savedInstanceState)
     }
 
