@@ -10,8 +10,8 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.PostsAdapter
 import com.zkv.tfsfeed.presentation.adapter.utils.DividerItemDecoration
-import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
+import com.zkv.tfsfeed.presentation.ui.main.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.news.Event
 import com.zkv.tfsfeed.presentation.ui.news.NewsViewState
 import com.zkv.tfsfeed.presentation.utils.extensions.isLaunched

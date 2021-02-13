@@ -3,9 +3,9 @@ package com.zkv.tfsfeed.di.component
 import android.content.Context
 import com.zkv.tfsfeed.di.module.*
 import com.zkv.tfsfeed.presentation.App
-import com.zkv.tfsfeed.presentation.ui.MainActivity
 import com.zkv.tfsfeed.presentation.ui.detail.DetailFragment
 import com.zkv.tfsfeed.presentation.ui.favorites.FavoritesFragment
+import com.zkv.tfsfeed.presentation.ui.main.MainActivity
 import com.zkv.tfsfeed.presentation.ui.news.NewsFragment
 import com.zkv.tfsfeed.presentation.ui.profile.ProfileFragment
 import com.zkv.tfsfeed.presentation.ui.splash.SplashActivity

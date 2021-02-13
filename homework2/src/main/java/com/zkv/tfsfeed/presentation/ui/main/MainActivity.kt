@@ -1,4 +1,4 @@
-package com.zkv.tfsfeed.presentation.ui
+package com.zkv.tfsfeed.presentation.ui.main
 
 import android.content.Intent
 import android.content.Intent.*

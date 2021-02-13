@@ -13,10 +13,10 @@ import com.zkv.tfsfeed.R
 import com.zkv.tfsfeed.domain.model.NewsItem
 import com.zkv.tfsfeed.presentation.App
 import com.zkv.tfsfeed.presentation.adapter.utils.SpacingItemDecoration
-import com.zkv.tfsfeed.presentation.ui.MainActivityCallback
 import com.zkv.tfsfeed.presentation.ui.detail.list.CommentsAdapter
 import com.zkv.tfsfeed.presentation.ui.detail.list.HeaderPostAdapter
 import com.zkv.tfsfeed.presentation.ui.dialog.ErrorDialogFragment
+import com.zkv.tfsfeed.presentation.ui.main.MainActivityCallback
 import com.zkv.tfsfeed.presentation.utils.extensions.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.merge_input_comment.*

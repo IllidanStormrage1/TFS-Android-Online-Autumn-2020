@@ -10,7 +10,7 @@ import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
 import com.zkv.tfsfeed.data.api.AccessTokenHelper
 import com.zkv.tfsfeed.presentation.App
-import com.zkv.tfsfeed.presentation.ui.MainActivity
+import com.zkv.tfsfeed.presentation.ui.main.MainActivity
 import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity() {
